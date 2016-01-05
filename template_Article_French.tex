@@ -1,0 +1,116 @@
+\documentclass[french]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[a4paper]{geometry}
+\usepackage{babel}
+\begin{document}
+\section*{Abstract}
+\section{Introduction}
+Nécessité d'un outil de conception spatiale généralisé
+
+Présentation d'un modèle adapté pour l'exécution, intégré avec les développements précédents
+
+Problème de l'écriture et des outils graphiques
+
+Problème de la visualisation de l'écoulement du temps en 2D (animation).
+
+\subsection{Existant}
+
+COSM
+
+Blender
+
+IanniX
+
+Trajectoires
+
+Dans jeux vidéos, etc.
+
+\section{Modèle}
+Approche paramétrique, non focalisée sur le son.
+
+Notion de zones : modèle générique, puis spécialisations.
+
+Pas de curseur de temps : le temps est un paramètre OSC explicite.
+
+Fonctionne pour > 3 dimension avec notion de viewport.
+-> voxelisation
+
+Donner l'écriture de trajectoires simples (sin, etc).
+
+y = sin(x)
+
+et x <- t
+
+ou
+
+x = cos(t)
+y = sin(t)
+
+Écriture de la masse spatiale avec des aires / volumes ?
+
+Utilisation d'un arbre OSC.
+
+Zones, puis calculs sur ces zones. 
+
+Possibilité d'écrire de tels calculs (mappings) en JavaScript.
+
+Example : calcul de collision; calcul de distances.
+
+Rendre apparents les calculs ?
+
+Les trajectoires sont définies à côté et font un mapping du temps vers l'espace.
+\section{Implémentation}
+
+Sémantique d'exécution : résultats obtenus au tick d'après.
+
+Discuter les multiples sémantiques possibles : mise à jour en temps réel, ou bien "State".
+
+La sémantique des processus i-score est par "State" agissant à l'exécution.
+
+Cependant, si on a envie de voir le rendu en temps réel à l'écriture, 
+il faut que l'outil lui-même s'expose de manière permanente via OSC 
+et soit à l'écoute des données de l'arbre.
+
+
+Dans un tick, on calcule d'abord les valeurs actuelles des zones.
+
+Puis on exécute les computations qui écrivent dans l'arbre.
+
+Si plusieurs processus on utilise la sémantique d'i-score (les processus sont empilés).
+
+Nécessité d'un graphe d'exécution pour l'ordre ?
+
+Affichage : pour l'instant simple. 
+
+Par la suite, utiliser VTK ?
+
+Ne spécifier qu'une équation (ex : x==0 pour une ligne) ?
+
+Afficher le résultat d'un solving.
+
+(ex. : $y < 1 + x^2$ and $y > -1 -x^2$ : si on a un curseur x, y, pour vérifier la collision on remplace juste les variables et on vérifie que ce soit vrai.)
+
+TODO faire un identifiant "any" pour la collision de pointeur vers tout
+
+nécessité de trouver une bibliothèque pour l'affichage rapide
+ 
+ Animation : la durée d'une boite correspond à la durée d'une spline d'animation ?
+\section{Example : sonopluie}
+Utilisation de OpenAL
+
+Description du scénario : 
+
+On a plusieurs sources sonores dans un espace.
+Plusieurs personnes se déplacent et sont géolocalisées.
+Lorsqu'elles se rapprochent d'une source, elles l'entendent plus fort.
+
+\section{Example : robots}
+Avec logiciel de simulation à côté (simule pannes, etc.).
+
+On conçoit une chorégraphie de robots et drones.
+
+Ils ont chacun une trajectoire qui peut évoluer dans le temps, en fonction de ce qu'il se passe.
+\section{Conclusion}
+\end{document}
