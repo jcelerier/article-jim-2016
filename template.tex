@@ -14,7 +14,7 @@
 \usepackage[T1]{fontenc}
 %\usepackage{pxfonts}
 \usepackage{graphicx}
-
+\usepackage{acronym}
 % Title.
 % ------
 \title{Presentation des textes pour les JIM}
@@ -61,15 +61,44 @@ Problème de la visualisation de l'écoulement du temps en 2D (animation).
 
 \subsection{Existant}
 
-COSM
 
-IanniX
+Une présentation de l'état actuel de l'écriture spatiale en musique est donnée dans~\cite{fober_les_2015}. Notamment, la question de la notation dans le cadre de partitions impliquant des éléments spatiaux est abordé. % CITER PARTITIONS GRAPHIQUES.
+Ces partitions peuvent être spatiales uniquement dans leur représentation, mais peuvent aussi indiquer des manières d'interpréter dans l'espace, notamment à l'aide de symboles spécialisés~\cite{ellberger_spatialization_2014}. Une taxinomie des possibilités de création dans l'espace en musiques électro-acoustiques est présentée par Bertrand Merlier dans~\cite{merlier_vocabulaire_2006}. Elle est étendue dans l'ouvrage \textit{Vocabulaire de l'espace en musique électro-acoustique\cite{merlier_vocabulaire_2006_book}}.
 
-Blender
+Des outils logiciels existent pour ces partitions -- ils sont souvent spécialisés. Par exemple, la bibliothèque \ac{ENP}\cite{kuuskankare_expressive_2006} permet de concevoir des partitions graphiques telles qu'en fig.~\ref{fig.specola} à l'aide d'un éditeur lui aussi graphique et d'un langage basé sur LISP.
 
-Trajectoires
 
-Dans jeux vidéos, etc.
+Une des problématiques actuelles pour la représentation de l'écriture musicale est celle du geste, et de son lien avec la partition : comment notamment annoter le geste du musicien avec précision ? Et, inversement, comment à partir d'un geste créer un son correspondant ? Ces questions sont abordées dans la description de Soundstudio 4D\cite{sheridan_soundstudio_2004}, dans le cadre d'un système de conception de trajectoires pour spatialisation à l'aide d'interactions en trois dimensions.
+
+Une autre question est l'association entre l'aspect graphique et le résultat. Ainsi, des outils tels que HoloEdit et HoloSpat permettent de travailler avec des trajectoires, mais sont extrêmement spécialisés pour des objets audio. C'est notamment du à la nécessité de composer en ayant conscience à chaque instant des fortes contraintes techniques du moyen de restitution de l'?uvre. Il serait intéressant d'utiliser ces trajectoires pour contrôler non pas des sources sonores mais des éléments dans des espaces de paramètres quelconques.
+
+Le logiciel IanniX\cite{jacquemin_iannix_2012} (fig.~\ref{fig.iannix}) dispose aussi de nombreuses possibilités d'écriture spatiale : les partitions sont des ensembles d'éléments graphiques définis paramétriquement ou bien à l'aide d'un langage de programmation dédié, que des curseurs vont parcourir. L'information de position de chaque curseur est envoyée en OSC, ce qui permet l'intégration à d'autres logiciels.
+
+Une méthode d'écriture de la spatialisation par contraintes est proposée par Olivier Delerue avec le système MusicScpace\cite{delerue_spatialisation_2004}. Cela permet une approche déclarative à l'écriture de partition, en spécifiant des contraintes telles que <<~deux objets ne doivent jamais être à plus de deux mètres l'un de l'autre~>> ou bien <<~l'angle entre deux objets et l'auditeur doit être supérieur à 90 degrés~>>. Les objets peuvent être notamment des sources sonores. Une édition graphique de ces contraintes est proposée, et elles sont représentées en termes de cercles et de segments reliant les objets qu'elles contraignent.
+
+Des données spatiales peuvent aussi être utilisées directement pour créer des mappings sonores. C'est le cas notamment de la bibliothèque Topos\cite{naveda_topos_2014}, qui permet de capter le mouvement de danseurs et d'en extraire des informations pouvant être utiles pour la conception de pièces de musique interactives. Une fois que le mouvement du danseur est capturé via un périphérique externe, il devient possible d'extraire des informations telles que le volume occupé par le danseur, sa vitesse, ou bien diverses mesures relatives à l'évolution de deux ou quatres points dans le temps, comme l'instabilité ou les collisions entre différentes parties du corps. Ces données peuvent ensuite être réutilisées dans Pure Data pour de la génération de musique.
+
+Enfin, il convient de noter la richesse pour ce qui est des modes d'entrée et d'interaction. Par exemple, il existe plusieurs possibilités de composition musicale à l'aide de tables interactives comme la Reactable\cite{kaltenbranner_reactable:_2006} et différentes approches dérivées qui peuvent être spécifiquement axées sur la spatialisation du son\cite{sasamoto_controlling_2013}.
+
+Un modèle plus complet d'espace en trois dimensions est fourni par COSM\cite{wakefield_cosm:_2011}.
+Implémenté dans Max/MSP, il offre une grande richesse d'écriture.
+En plus de lieux et de trajectoires, il est possible d'écrire l'interaction dans une certaine mesure, 
+ainsi que la communication entre différents agents.
+Une nouveauté est la possibilité de travailler avec des champs définis mathématiquements. 
+Ces champs peuvent varier dans le temps et être sonifiés par la suite.
+
+Une approche de contrôle spatial est possible via le logiciel Blender, qui sert à l'origine à réaliser des images et films de synthèse.
+Blender peut être contrôlé via une API Python et il est notamment possible de déplacer des éléments et tester pour des collisions
+ou d'autres propriétés géométriques. Néanmoins, cela se fait à la vitesse de son moteur d'exécution qui est fixée à 60 Hz.
+Les messages reçus entre deux trames sont accumulés.
+
+Enfin, le monde des jeux vidéos dispose aussi d'outils adaptés à l'écriture spatiale : 
+la bibliothèque OpenAL a été développée à l'origine pour offrir aux jeux une couche d'abstraction
+permettant de bénéficier de spatialisation simplement en donnant une position et une orientation
+à des sources sonores ponctuelles. Cette position et orientation peuvent évoluer dans le temps.
+Par la suite les implémentations sont libres d'utiliser les méthodes qu'elles souhaitent pour 
+réaliser la spatialisation : cela peut aller d'un simple panning gauche-droite à l'utilisation 
+de HRTFs, comme le fait la bibliothèque OpenAL-soft. 
 
 \section{Examples}
 \subsection{Example : sonopluie}
@@ -92,6 +121,8 @@ Avec logiciel de simulation à côté (simule pannes, etc.).
 On conçoit une chorégraphie de robots et drones.
 
 Ils ont chacun une trajectoire qui peut évoluer dans le temps, en fonction de ce qu'il se passe.
+
+Les drones portent des hauts-parleurs tandis que les robots font du rythme en tapant des pieds.
 \section{Modèle}
 \subsection{Conception}
 On veut : 
@@ -114,7 +145,11 @@ Le plus simple pour mappings (du temps ou autre) : les représenter à part.
 \subsection{Description}
 Approche paramétrique, non focalisée sur le son.
 
-On définit des zones par un ensemble d'équations que l'on peut paramétriser.
+On définit des zones par un ensemble d'équations que l'on peut paramétriser - chaque équation est une contrainte.
+
+
+
+Problème : représentation du domaine de paramétrisation - ce qu'on ne fait pas ici.
 
 Chaque équation possède des variables.
 
@@ -125,18 +160,17 @@ Notion de zones : modèle générique, puis spécialisations.
 Pas de curseur de temps : si on désire manipuler du temps, on peut le faire directement par OSC car c'est un paramètre explicite.
 
 Fonctionne pour > 3 dimension avec notion de viewport.
--> rendu par voxelisation ? ou méthode d'approximation de polygones / surfaces ? 
+-> rendu par voxelisation ? ou méthode d'approximation de polygones / surfaces ?
+La voxelisation prend beaucoup de temps; ainsi on ne l'exécute pas en temps réel. 
 
 Donner l'écriture de trajectoires simples (sin, etc).
 
-y = sin(x)
-
-et x <- t
+$y = sin(x)$ et $x <- t$
 
 ou
 
-x = cos(t)
-y = sin(t)
+$x = cos(t)$
+$y = sin(t)$
 
 Écriture de la masse spatiale avec des aires / volumes ?
 
@@ -152,10 +186,11 @@ Rendre apparents les calculs ?
 
 Les trajectoires sont définies à côté et font un mapping du temps vers l'espace.
 
-Problème avec GiNaC : pas de multi-thread.
+Problème avec GiNaC : pas de multi-thread. Autres bibliothèques envisagées : Symbolic C++, Sage, GNU Octave ?
 
 \section{Implémentation}
 
+\subsection{Sémantique d'exécution}
 Sémantique d'exécution : résultats obtenus au tick d'après.
 
 Discuter les multiples sémantiques possibles : mise à jour en temps réel, ou bien "State".
@@ -203,20 +238,26 @@ L'édition va modifier pour les formes connues des paramètres définis.
 
 Les opérations de base sont déplacement, translation, rotation.
 
+On applique les transformations à l'objet : 
 
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.3]{images/spline.png}
+	\caption{Une spline 3D dans i-score. On affiche la courbe dans le panneau inférieur}
+\end{figure}
+\begin{itemize}
+	\item La translation est triviale.
+	\item Rotation par un angle thêta dans le plan:
+	\[
+	\begin{cases}
+     x' = x \cos \theta - y \sin \theta \\   
+     y' = x \sin \theta + y \cos \theta 
+	 \end{cases}
+    \]
+    Une formule générale de la rotation en n-dimension est donnée dans \cite{aguilera2004general}.
+    \item Mise à l'échelle : pas de formule générale; on fait un rendu et on met à l'échelle par la suite ? 
+\end{itemize}
 \section{Conclusion}
-
-\begin{thebibliography}{2}
-
-\bibitem {Author:00} Author, E.
-''Titre du papier'',
-{\it Proceedings of the International Symposium on Music Information
-Retrieval}, Plymouth, USA, 2000.
-
-\bibitem{Someone:02} Untel, A.
-{\it  Titre du livre}.
-L'Armada, Paris, 2005.
-
-\end{thebibliography}
-
+\bibliographystyle{plain}
+\bibliography{document} % or
 \end{document}
