@@ -13,7 +13,7 @@ de la robotique
 des outils de spectacle
 
 Présentation d'un modèle adapté pour l'exécution, intégré avec les développements précédents
-
+-> quelle interaction de l'espace et du temps ?
 Problème de l'écriture et des outils graphiques
 
 Problème de la visualisation de l'écoulement du temps en 2D (animation).
@@ -22,9 +22,9 @@ Problème de la visualisation de l'écoulement du temps en 2D (animation).
 
 COSM
 
-Blender
-
 IanniX
+
+Blender
 
 Trajectoires
 
@@ -36,23 +36,32 @@ On veut :
 - une intégration avec l'écosystème existant.
 - Décrire finement des évolutions dans le temps (ou en fonction d'autres paramètres).
 - pouvoir écrire des scènes 2D, 3D basiques potentiellement en utilisant des guides (GMaps, image).
+- animer soit via le temps soit via d'autres paramètres (mapping).
 
-
-Choix du modèle : 
-RCC-8 envisagé mais n'est adapté principalement que pour de la reconnaissance.
+\paragraph{Choix du modèle}
+- RCC-8 envisagé mais n'est adapté principalement que pour de la reconnaissance.
 Ici on veut faire de l'écriture.
+
+- Fournir la possibilité d'écrire directement des zones en code : 
+via extension, permet moins de possibilitées d'analyse par la suite.
 
 Le plus simple pour mappings (du temps ou autre) : les représenter à part.
 
 \subsection{Description}
 Approche paramétrique, non focalisée sur le son.
 
+On définit des zones par un ensemble d'équations que l'on peut paramétriser.
+
+Chaque équation possède des variables.
+
+Pour chaque variable, on choisit si elle correspond à une dimension de l'espace, à un paramètre fixe, ou à une adresse externe.
+
 Notion de zones : modèle générique, puis spécialisations.
 
-Pas de curseur de temps : le temps est un paramètre OSC explicite.
+Pas de curseur de temps : si on désire manipuler du temps, on peut le faire directement par OSC car c'est un paramètre explicite.
 
 Fonctionne pour > 3 dimension avec notion de viewport.
--> voxelisation
+-> rendu par voxelisation ? ou méthode d'approximation de polygones / surfaces ? 
 
 Donner l'écriture de trajectoires simples (sin, etc).
 
@@ -139,6 +148,10 @@ On a plusieurs sources sonores dans un espace.
 Plusieurs personnes se déplacent et sont géolocalisées.
 Lorsqu'elles se rapprochent d'une source, elles l'entendent plus fort.
 
+On désire utiliser i-score pour l'écriture de tels scénarios.
+Par la suite, il faut scénariser : par exemple, 
+une fois qu'une zone a été passée on veut activer d'autres zones pour 
+faire un parcours et non une simple balade.
 \section{Example : robots}
 Avec logiciel de simulation à côté (simule pannes, etc.).
 
