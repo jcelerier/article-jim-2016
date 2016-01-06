@@ -1,12 +1,3 @@
-% -----------------------------------------------
-% Template for JIM
-%     jim.sty -> style file
-% By Eloi Batlle (eloi@iua.upf.es), changes for 
-% ICMC by Bram de Jong (bdejong@iua.upf.es)
-% changes for JIM 2007 by Dominique Fober (fober@grame.fr)
-% changes for JIM 2009 by Olivier Tache (olivier.tache@imag.fr)
-% -----------------------------------------------
-
 \documentclass{article}
 \usepackage{jim,amsmath}
 \usepackage[latin1]{inputenc}
@@ -15,33 +6,16 @@
 %\usepackage{pxfonts}
 \usepackage{graphicx}
 \usepackage{acronym}
-% Title.
-% ------
-\title{Presentation des textes pour les JIM}
 
-% Single \textsc{address}
-% To use with only one author or several with the same address
-% ---------------
-%\oneauthor
-%  {Author} {School \\ Department}
+\title{Outils d'écriture spatiale dans i-score}
 
-% Two addresses
-% --------------
-%\twoauthors
-%  {First author} {School \\ Department}
-%  {Second author} {Company \\ Address}
-
-% Three addresses
-% --------------
 \threeauthors
-  {Auteur 1} {Organisme \\ Adresse électronique}
-  {Auteur 2} {Organisme \\ Adresse électronique}
-  {Auteur 3} {Organisme \\ Adresse électronique}
+  {Jean-Michaël Celerier} {Organisme \\ Adresse électronique}
+  {Myriam Desainte-Catherine} {Organisme \\ Adresse électronique}
+  {Jean-Michel Couturier} {Organisme \\ Adresse électronique}
 
 \begin{document}
-%
 \maketitle
-%
 
 \begin{abstract}
     Le résumé doit être placé en haut de la colonne gauche et doit contenir entre 150 et 200 mots.
@@ -55,7 +29,10 @@ des outils de spectacle
 
 Présentation d'un modèle adapté pour l'exécution, intégré avec les développements précédents
 -> quelle interaction de l'espace et du temps ?
-Problème de l'écriture et des outils graphiques
+
+On cherche donc à offrir une intégration entre du temps et des structures spatiales.
+
+Problème de l'écriture et des outils graphiques.
 
 Problème de la visualisation de l'écoulement du temps en 2D (animation).
 
@@ -123,6 +100,7 @@ On conçoit une chorégraphie de robots et drones.
 Ils ont chacun une trajectoire qui peut évoluer dans le temps, en fonction de ce qu'il se passe.
 
 Les drones portent des hauts-parleurs tandis que les robots font du rythme en tapant des pieds.
+
 \section{Modèle}
 \subsection{Conception}
 On veut : 
@@ -134,66 +112,132 @@ On veut :
 \end{itemize}
 
 \subsubsection{Choix du modèle}
-RCC8 envisagé mais n'est adapté principalement que pour de la reconnaissance.
-Ici on veut faire de l'écriture.
+Plusieurs modèles ont été envisagés pour écrire des scénarios spatiaux.
+Une première approche s'est portée sur les méthodes de description qualitative de l'espace, telles que RCC-8. 
+Cependant de telles méthodes ne s'avèrent pas efficaces si on désire décrire des dispositions précises, 
+avec des métriques sur les objets que l'on veut manipuler. 
+Par exemple, on peut préciser "A est à l'extérieur de B et lui est tangent, et A et B sont contenus dans C".
+Mais il est plus commode d'écrire "A est un cercle de $1u$ centré en $(3, 3)$ dans une pièce de $5u$, et un pointeur B est situé en $(2, 3)$" ou $u$ est une unité de distance; on peut par la suite obtenir les relations RCC à partir des distances métriques tandis que l'inverse n'est pas possible.
 
-Fournir la possibilité d'écrire directement des zones en code : 
-via extension, permet moins de possibilitées d'analyse par la suite.
+Une seconde méthode, permettant un maximum de flexibilité, a été étudiée : 
+demander à l'utilisateur de remplir la fonction caractéristique d'une zone en code.
+Par la suite, on peut tester pour chaque point de l'espace son appartenance à la zone, 
+en ayant la possibilité de faire des approximations. 
+Cela permet notamment d'implémenter des objets spatiaux qui sont difficilement possibles 
+à réaliser uniquement de manière mathématique, avec notamment des objets dont la définition contient des boucles ou des conditionnelles.
+En revanche, on perd des possibilités d'analyse par la suite : on n'a en effet pas de forme générale des zones ainsi créées et on ne peut au mieux qu'effectuer des tests entre zones.
+Enfin, les performances ne sont pas adaptées à des évolutions rapides en temps réel; 
+cela peut marcher en dimension 1 et pour des fonctions avec un nombre relativement important de points à calculer, mais est très lent en dimension 2 et impensable en dimension 3.
 
-Le plus simple pour mappings (du temps ou autre) : les représenter à part.
+Une troisième question qui se pose est celle de l'interaction entre les zones et le temps.
+En effet, dans des logiciels comme IanniX, on dispose de courbes paramétrisées par des paramètres externes (souvent le temps). 
+Cette approche permet d'avoir dans une seule vue toute l'information possible. 
+Cependant, ici nous pouvons avoir plus d'une dimension de paramétrisation.
+La question de l'affichage d'une variation au cours du temps se pose alors. 
+On peut penser à afficher un dégradé \cite{casas_4d_2013}
+qui serait complètement opaque pour le t donné, et serait de plus en plus transparent lorsque l'on s'en éloigne.
+Ou bien uniquement afficher la trajectoire du centre de l'objet au cours du temps, mais cela nécessite de pouvoir la calculer. 
+Ce n'est pas dans le cas d'une zone définie avec des contraintes très faibles. 
+Par exemple, pour une zone définie par $x < 0$, un demi-plan, on ne peut le définir.
+
+Une autre possibilité est d'avoir des boites séparées pour définir les animations.
+Cela permet plus de clarté, et permet aussi d'associer une seule trajectoire à 
+plusieurs objets plus facilement : 
+la trajectoire va écrire sur l'adresse \verb|/trajectoire/position| que 
+les zones spatiales iront chercher à chaque tick d'horloge; elles peuvent par la suite 
+utiliser les coordonnées ainsi obtenues comme bon leur semble.
+
+Nous offrons dans le logiciel les deux possibilités, mais l'affichage dans le premier cas n'est pas implémenté (le temps sera ceci dit pris en compte lors de l'exécution).
 
 \subsection{Description}
 Approche paramétrique, non focalisée sur le son.
 
+
 On définit des zones par un ensemble d'équations que l'on peut paramétriser - chaque équation est une contrainte.
 
+Processus d'espace : possède un viewport.
+Un viewport possède des dimensions. Ces dimensions peuvent être spatiales, et il peut y avoir une dimension temporelle.
+% Problème : représentation du domaine de paramétrisation - ce qu'on ne fait pas ici.
+
+La dimension temporelle est en fait une dimension de mapping pour l'exécution : (citer article OSSIA) 
+la fonction d'exécution de i-score prend le temps en entrée, et sort un état.
+Cependant on pourrait imaginer que cette fonction prendrait d'autres valeurs en argument, on aurait ainsi un mapping simple à plusieurs dimensions.
+On affecte chacune de ces dimensions à un espace graphique : x, y, (par la suite z), potentiellement animation ainsi que des bornes potentielles.
+
+Dans ce viewport, on définit des zones par un ensemble d'équations.
+Par exemple, $x < y; x + y <= 2 + a$ forme une zone.
+On associe chaque variable de la zone soit à des composants de l'espace défini, soit à des paramètres.
+Un paramètre peut avoir une valeur par défaut, ainsi qu'une adresse présente dans l'arbre de paramètres i-score.
+
+Le logiciel fournit aussi des zones par défaut, pour lesquelles un rendu plus propre peut être offert, en utilisant les primitives du moteur de rendu graphique (Qt). 
+Les zones possibles sont cercle, pointeur. % TODO les autres
+Sinon, le rendu est actuellement fait par pixellisation / voxelisation. %TODO  parler d'autres méthodes
+Comme cette opération est couteuse, dans ce cas les zones n'évoluent pas en temps réel avec le changement des paramètres et s'affichent avec leur valeur par défaut.
+
+Enfin, on peut définir des calculs de relations entre les différentes zones.
+Par exemple, on peut obtenir l'information de collision entre zones.
+Pour le cas du pointeur on va simplement évaluer les valeurs actuelles des informations de dimension par rapport aux autres zones, ce qui est une opération très rapide.
+De même pour les zones de types connus.
+Là encore, une opération entre deux zones génériques sera couteuse en temps de calcul.
+Cette information peut ensuite être exposée dans l'arbre i-score, puis être réutilisée 
+par la suite pour concevoir d'autres zones.
+
+i-score étant un environnement ouvert, il est aussi possible de sortir des contraintes du langage mathématique pour les calculs.
+En effet, un processus Javascript est offert : il permet de réaliser des opérations complexes à chaque tick d'horloge.
+
+De la même manière, on peut utiliser les automations à une, deux, ou trois dimensions pour modifier les zones lors de l'exécution.
 
 
-Problème : représentation du domaine de paramétrisation - ce qu'on ne fait pas ici.
+% donner example danseurs.
 
-Chaque équation possède des variables.
+%Fonctionne pour > 3 dimension avec notion de viewport.
+%-> rendu par voxelisation ? ou méthode d'approximation de polygones / surfaces ?
+%La voxelisation prend beaucoup de temps; ainsi on ne l'exécute pas en temps réel. 
 
-Pour chaque variable, on choisit si elle correspond à une dimension de l'espace, à un paramètre fixe, ou à une adresse externe.
+%Donner l'écriture de trajectoires simples (sin, etc).
 
-Notion de zones : modèle générique, puis spécialisations.
+%$y = sin(x)$ et $x <- t$
 
-Pas de curseur de temps : si on désire manipuler du temps, on peut le faire directement par OSC car c'est un paramètre explicite.
+%ou
 
-Fonctionne pour > 3 dimension avec notion de viewport.
--> rendu par voxelisation ? ou méthode d'approximation de polygones / surfaces ?
-La voxelisation prend beaucoup de temps; ainsi on ne l'exécute pas en temps réel. 
+%$x = cos(t)$
+%$y = sin(t)$
 
-Donner l'écriture de trajectoires simples (sin, etc).
+%Écriture de la masse spatiale avec des aires / volumes ?
 
-$y = sin(x)$ et $x <- t$
+%Utilisation d'un arbre OSC.
 
-ou
+%Zones, puis calculs sur ces zones. 
 
-$x = cos(t)$
-$y = sin(t)$
+%Possibilité d'écrire de tels calculs (mappings) en JavaScript.
 
-Écriture de la masse spatiale avec des aires / volumes ?
+%Example : calcul de collision; calcul de distances.
 
-Utilisation d'un arbre OSC.
+%Rendre apparents les calculs ?
 
-Zones, puis calculs sur ces zones. 
+%Les trajectoires sont définies à côté et font un mapping du temps vers l'espace.
 
-Possibilité d'écrire de tels calculs (mappings) en JavaScript.
-
-Example : calcul de collision; calcul de distances.
-
-Rendre apparents les calculs ?
-
-Les trajectoires sont définies à côté et font un mapping du temps vers l'espace.
-
-Problème avec GiNaC : pas de multi-thread. Autres bibliothèques envisagées : Symbolic C++, Sage, GNU Octave ?
+%
 
 \section{Implémentation}
+L'interprétation des équations se fait par le CAS GiNaC %CITE.
+Problème avec GiNaC : pas de multi-thread. Autres bibliothèques envisagées : Symbolic C++, Sage, GNU Octave ?
+Par la suite, utiliser VTK ? -> vtkfunctionparser
+
 
 \subsection{Sémantique d'exécution}
 Sémantique d'exécution : résultats obtenus au tick d'après.
-
+Si plusieurs processus on utilise la sémantique d'i-score (les processus sont empilés).
 Discuter les multiples sémantiques possibles : mise à jour en temps réel, ou bien "State".
+
+Dans un tick, on calcule d'abord les valeurs actuelles des zones.
+
+Puis on exécute les computations qui écrivent dans l'arbre.
+
+Nécessité d'un graphe d'exécution pour l'ordre ?
+-> modèle de flot en perspective pour la suite.
+
+\subsubsection{Processus spatial}
 
 Dans le premier cas : 
 Le logiciel i-score expose son arbre et les processus spatiaux sont des parties 
@@ -208,31 +252,41 @@ Cependant, si on a envie de voir le rendu en temps réel à l'écriture,
 il faut que l'outil lui-même s'expose de manière permanente via OSC 
 et soit à l'écoute des données de l'arbre.
 
+Ce problème se pose à moindre échelle pour les automations : 
+par exemple, les automations ont une adresse de sortie qui leur est affectée.
+Cependant, on pourrait aussi vouloir avoir une approche ou 
+l'on dispoe d'une automation, et ou plusieurs autres processus vont 
+lire la valeur actuelle de l'automation.
 
-Dans un tick, on calcule d'abord les valeurs actuelles des zones.
 
-Puis on exécute les computations qui écrivent dans l'arbre.
+\subsubsection{Automations multi-dimensionnelles}
 
-Si plusieurs processus on utilise la sémantique d'i-score (les processus sont empilés).
+Animation : la durée d'une boite correspond à la durée d'une spline d'animation.
+Les splines sont paramétrées entre 0 et 1.
 
-Nécessité d'un graphe d'exécution pour l'ordre ?
+Ainsi, puisque les boites d'i-score ont une durées déterminées, cette durée 
+est mappée directement à la valeur de la spline.
 
-Affichage : pour l'instant simple. 
 
-Par la suite, utiliser VTK ?
+Il reste à choisir pour l'automation si on veut qu'elle envoie : 
+- un tuple à une adresse donnée.
+- chaque composante sur une adresse distincte.
 
-Ne spécifier qu'une équation (ex : x==0 pour une ligne) ?
+%Affichage : pour l'instant simple. 
 
-Afficher le résultat d'un solving.
+%Ne spécifier qu'une équation (ex : x==0 pour une ligne) ?
 
-(ex. : $y < 1 + x^2$ and $y > -1 -x^2$ : si on a un curseur x, y, pour vérifier la collision on remplace juste les variables et on vérifie que ce soit vrai.)
+%Afficher le résultat d'un solving.
 
-TODO faire un identifiant "any" pour la collision de pointeur vers tout
+%(ex. : $y < 1 + x^2$ and $y > -1 -x^2$ : si on a un curseur x, y, pour vérifier la collision on remplace juste les variables et on vérifie que ce soit vrai.)
+
+%TODO faire un identifiant "any" pour la collision de pointeur vers tout
+
+
+
+\subsection{Rendu}
 
 nécessité de trouver une bibliothèque pour l'affichage rapide
-
-Animation : la durée d'une boite correspond à la durée d'une spline d'animation ?
-
 \subsection{Édition}
 L'édition va modifier pour les formes connues des paramètres définis.
 
@@ -258,6 +312,8 @@ On applique les transformations à l'objet :
     \item Mise à l'échelle : pas de formule générale; on fait un rendu et on met à l'échelle par la suite ? 
 \end{itemize}
 \section{Conclusion}
+Perspectives : gestion d'espaces de données, comme couleurs, etc.
+
 \bibliographystyle{plain}
 \bibliography{document} % or
 \end{document}
