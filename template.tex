@@ -258,13 +258,24 @@ De la même manière, on peut utiliser les automations à une, deux, ou trois dimen
 
 \section{Implémentation}
 Une tentative d'implémentation a été réalisée à l'aide du CAS \textbf{GiNaC}~\cite{bauer2002introduction}.
-Cependant, cela ne s'est pas révél adapté : en effet la bibliothèque n'est pas thread-safe ce qui empêche de réaliser des calculs déportés sur un autre thread.
+Cependant, cela ne s'est pas révélé être adapté : en effet la bibliothèque n'est pas thread-safe ce qui empêche de réaliser des calculs déportés sur un autre thread.
 L'implémentation actuelle est donc basée sur le parseur de fonctions mathématiques de la bibliothèque \textbf{vtk}~\cite{schroeder2004visualization}.
-D'autres alternatives sont Symbolic C++, Sage, GNU Octave.
-
+D'autres alternatives ont été envisagées : Symbolic C++, Sage, GNU Octave.
 
 
 \subsection{Sémantique d'exécution}
+La sémantique générale d'exécution d'i-score est donnée dans \cite{celerier_ossia:_2015}.
+Nous rappelons simplement qu'i-score permet d'ordonnancer temporellement des processus qui peuvent être définis dans des plug-ins.
+Lors de la lecture, une horloge globale va demander récursivement à tous les processus du scénario qui sont en cours d'exécution quel est leur état actuel. 
+Un état est un ensemble de messages qui peuvent être envoyés par réseau, comme une cue.
+L'exécution du processus spatial se déroule de la manière suivante : 
+\begin{itemize}
+    \item Pour chaque zone dont un des paramètres est défini par une adresse externe, récupérer la valeur actuelle de cette adresse.
+    \item Pour chaque calcul entre éléments de la zone, mettre à jour les calculs.
+\end{itemize}
+
+Ainsi, s'il y a rétroaction, elle se fait au tick d'après.
+
 Sémantique d'exécution : résultats obtenus au tick d'après.
 Si plusieurs processus on utilise la sémantique d'i-score (les processus sont empilés).
 Discuter les multiples sémantiques possibles : mise à jour en temps réel, ou bien "State".
