@@ -6,6 +6,7 @@
 %\usepackage{pxfonts}
 \usepackage{graphicx}
 \usepackage{acronym}
+\usepackage{siunitx}
 
 \title{Outils d'écriture spatiale dans i-score}
 
@@ -22,22 +23,32 @@
 \end{abstract}
 
 \section{Introduction}
-Nécessité d'un outil de conception spatiale généralisé répondant aux besoins de la muséographie
-de la musique spatiale
-de la robotique
-des outils de spectacle
+Les pratiques multimédia incluent par définition des composantes spatiales.
+Celles-ci peuvent se manifester dès qu'un des types de donnée manipulé possède plus d'une dimension.
+La simple présence de multiples paramètres dans une création multimédia permet d'avoir une notion d'espace dans lequel on mappe 
+un paramètre à un autre.
 
-Présentation d'un modèle adapté pour l'exécution, intégré avec les développements précédents
--> quelle interaction de l'espace et du temps ?
+La plupart des outils permettant un travail spatial sont soit spécifiques à la création de 
+trajectoires pour des sons, dans un cadre musical, soient orientées vers la création de jeu vidéo 
+ou de formes spécifiques de médias.
 
-On cherche donc à offrir une intégration entre du temps et des structures spatiales.
+Nous cherchons ici des méthodes génériques, permettant de manipuler tout type de données spatiales 
+pour ensuite pouvoir les appliquer aux cas particuliers de la création musicale notamment dans un cadre interactif.
 
-Problème de l'écriture et des outils graphiques.
+Sera exposé un état de l'art des outils de création spatiale, puis nous présenterons deux modèles, 
+l'un géométrique et l'autre paramétrique, qui permettent de réaliser dans un cadre musical de nouveaux types de compositions, 
+notamment liées aux relations que l'on peut avoir entre plusieurs zones définies géométriquement.
 
-Problème de la visualisation de l'écoulement du temps en 2D (animation).
+Ce modèle, intégré au séquenceur i-score, sera appliqué à deux études de cas : une chorégraphie de robots, 
+et une application de réalité augmentée audio.
+
+Nous discuterons ensuite des évolutions possibles qui sont liées à un typage plus fort des données
+avec lesquelles on travaille : notamment les modes d'édition et de représentation qui peuvent être appliqués,
+ainsi que de la quesiton de la relation au temps d'objets spatiaux en deux dimensions ou plus.
+
 
 \subsection{Existant}
-
+% TODO un état de l'art plus complet est présent dans le rapport du projet OSSIA.
 
 Une présentation de l'état actuel de l'écriture spatiale en musique est donnée dans~\cite{fober_les_2015}. Notamment, la question de la notation dans le cadre de partitions impliquant des éléments spatiaux est abordé. % CITER PARTITIONS GRAPHIQUES.
 Ces partitions peuvent être spatiales uniquement dans leur représentation, mais peuvent aussi indiquer des manières d'interpréter dans l'espace, notamment à l'aide de symboles spécialisés~\cite{ellberger_spatialization_2014}. Une taxinomie des possibilités de création dans l'espace en musiques électro-acoustiques est présentée par Bertrand Merlier dans~\cite{merlier_vocabulaire_2006}. Elle est étendue dans l'ouvrage \textit{Vocabulaire de l'espace en musique électro-acoustique\cite{merlier_vocabulaire_2006_book}}.
@@ -79,7 +90,17 @@ de HRTFs, comme le fait la bibliothèque OpenAL-soft.
 
 \section{Examples}
 \subsection{Example : sonopluie}
-Utilisation de OpenAL
+Cette application interactive utilise de la géolocalisation par téléphone.
+Plusieurs sources sonores sont apposées dans un espace, dans lequel les participants
+se déplacent.
+Le système mesure la distance de chaque participant aux sources, et va jouer les sources
+sonores plus ou moins fort en fonction de cette distance.
+La spatialisation est réalisée par la bibliothèque OpenAL % TODO Cite
+
+Il manque un outil simple d'écriture pour disposer les zones dans l'espace.
+De plus, on désire offrir de l'interaction et de l'évolutivité dans les scénarios : 
+par exemple, après s'être approché d'un point donné, on voudrait pouvoir désactiver
+des points précédents et activer des points suivants. 
 
 Description du scénario : 
 
@@ -93,13 +114,24 @@ une fois qu'une zone a été passée on veut activer d'autres zones pour
 faire un parcours et non une simple balade.
 
 \subsection{Example : robots}
-Avec logiciel de simulation à côté (simule pannes, etc.).
+Ce projet consiste en la réalisation d'une chorégraphie de robots musicaux.
+On dispose d'une flotte de robots Metabot % TODO cite
+Ces robots se contrôlent en vitesse : on écrit sur le port série des 
+commandes telles que \verb|dx 30| pour indique une vitesse de $\SI{30}{\centi\meter\per\second}$.
+Un logiciel a été conçu pour faire un mapping d'un arbre Minuit vers le port série.
+En parallèle, un logiciel de simulation est développé à l'aide d'OpenFrameworks, qui expose le même arbre Minuit.
+Ce logiciel de simulation permet d'afficher les robots et de détecter les collisions, pour 
+empêcher qu'elles ne se produisent en pratique, avec des robots coûteux.
+On veut notamment utiliser le rythme de marche des robots pour produire de la musique.
+
+Chaque robot va posséder une trajectoire dans le plan..
+
 
 On conçoit une chorégraphie de robots et drones.
 
 Ils ont chacun une trajectoire qui peut évoluer dans le temps, en fonction de ce qu'il se passe.
 
-Les drones portent des hauts-parleurs tandis que les robots font du rythme en tapant des pieds.
+Les drones portent des hauts-parleurs tandis que les robotless font du rythme en tapant des pieds.
 
 \section{Modèle}
 \subsection{Conception}
@@ -147,7 +179,7 @@ la trajectoire va écrire sur l'adresse \verb|/trajectoire/position| que
 les zones spatiales iront chercher à chaque tick d'horloge; elles peuvent par la suite 
 utiliser les coordonnées ainsi obtenues comme bon leur semble.
 
-Nous offrons dans le logiciel les deux possibilités, mais l'affichage dans le premier cas n'est pas implémenté (le temps sera ceci dit pris en compte lors de l'exécution).
+Nous offrons dans le logiciel les deux possibilités, mais l'affiHello,chage dans le premier cas n'est pas implémenté (le temps sera ceci dit pris en compte lors de l'exécution).
 
 \subsection{Description}
 Approche paramétrique, non focalisée sur le son.
@@ -177,10 +209,15 @@ Comme cette opération est couteuse, dans ce cas les zones n'évoluent pas en temp
 Enfin, on peut définir des calculs de relations entre les différentes zones.
 Par exemple, on peut obtenir l'information de collision entre zones.
 Pour le cas du pointeur on va simplement évaluer les valeurs actuelles des informations de dimension par rapport aux autres zones, ce qui est une opération très rapide.
-De même pour les zones de types connus.
-Là encore, une opération entre deux zones génériques sera couteuse en temps de calcul.
+De même pour les zones de types connus : il est possible d'exhiber des calculs spécialisés pour chaque relation entre deux types de zones.
+Enfin, pour deux zones génériques, non typées, nous pouvons chercher pour l'existance de solutions au système composé de l'ensemble de leurs équations. 
+Ceci nécessite cependant un solveur capable de résoudre des systèmes d'inéquations.
+Un outil potentiel pour cette application est nlopt, qui permet de minimiser des systèmes non-linéaires.
+Il existe aussi des méthodes pour mesurer des distances entre deux zones quelconques. 
+Par exemple \cite{elber2008hausdorff}
+
 Cette information peut ensuite être exposée dans l'arbre i-score, puis être réutilisée 
-par la suite pour concevoir d'autres zones.
+par la suite pour concevoir d'autres zones, ou bien être par la suite utilisée dans d'autres logiciels.
 
 i-score étant un environnement ouvert, il est aussi possible de sortir des contraintes du langage mathématique pour les calculs.
 En effet, un processus Javascript est offert : il permet de réaliser des opérations complexes à chaque tick d'horloge.
@@ -220,9 +257,11 @@ De la même manière, on peut utiliser les automations à une, deux, ou trois dimen
 %
 
 \section{Implémentation}
-L'interprétation des équations se fait par le CAS GiNaC %CITE.
-Problème avec GiNaC : pas de multi-thread. Autres bibliothèques envisagées : Symbolic C++, Sage, GNU Octave ?
-Par la suite, utiliser VTK ? -> vtkfunctionparser
+Une tentative d'implémentation a été réalisée à l'aide du CAS \textbf{GiNaC}~\cite{bauer2002introduction}.
+Cependant, cela ne s'est pas révél adapté : en effet la bibliothèque n'est pas thread-safe ce qui empêche de réaliser des calculs déportés sur un autre thread.
+L'implémentation actuelle est donc basée sur le parseur de fonctions mathématiques de la bibliothèque \textbf{vtk}~\cite{schroeder2004visualization}.
+D'autres alternatives sont Symbolic C++, Sage, GNU Octave.
+
 
 
 \subsection{Sémantique d'exécution}
@@ -248,6 +287,10 @@ Dans le second cas, on suit la sémantique des processus i-score qui est par "Sta
 Cela pose le problème de la visualisation : on ne peut pas voir lorsqu'on édite un scénario l'effet
 des changements de paramètres.
 
+Ces deux cas sont mutuellement exclusifs.
+En effet, la valeur des paramètres de zones serait indéterminée si elle venait à être mise à jour 
+par le thread d'exécution, ainsi que par le thread de réception de messages.
+
 Cependant, si on a envie de voir le rendu en temps réel à l'écriture, 
 il faut que l'outil lui-même s'expose de manière permanente via OSC 
 et soit à l'écoute des données de l'arbre.
@@ -260,12 +303,21 @@ lire la valeur actuelle de l'automation.
 
 
 \subsubsection{Automations multi-dimensionnelles}
-
+Il y a plusieurs types d'automation dans i-score : 
+\begin{itemize}
+    \item Les automations à une dimension : une fonction de transfert du temps $t$ vers un paramètre $u$ : $f : t \in [0; 1] \rightarrow D(u)$ ou $D$ est le domaine de définition tel que décrit dans %CITE i-score 2014
+    \item Les mappings à une dimension : une fonction de transfert entre deux paramètres $u, v$ : $f : D(u) \rightarrow D(v)$.
+    Les automations et mapping à une dimension sont des fonctions définies par partie; chaque partie peut être une fonction vide, un segment de droite, ou bien la fonction $f : x \rightarrow x^k$. 
+    Des fonctions supplémentaires peuvent être rajoutées par le biais de plug-ins.
+    \item Les automations à plus d'une dimension : nous utilisons ici la bibliothèque \textbf{vtk} pour afficher et éditer une spline à l'écran. 
+    
+\end{itemize}
 Animation : la durée d'une boite correspond à la durée d'une spline d'animation.
 Les splines sont paramétrées entre 0 et 1.
 
 Ainsi, puisque les boites d'i-score ont une durées déterminées, cette durée 
 est mappée directement à la valeur de la spline.
+
 
 
 Il reste à choisir pour l'automation si on veut qu'elle envoie : 
@@ -285,8 +337,20 @@ Il reste à choisir pour l'automation si on veut qu'elle envoie :
 
 
 \subsection{Rendu}
+L'affichage se fait de manière spécialisée pour les types connus.
+Pour les types génériques, on réalise pour l'instant une pixelisation à partir 
+, en testant pour chaque point de la zone d'affichage.
 
-nécessité de trouver une bibliothèque pour l'affichage rapide
+Comme c'est une opération lourde, chaque zone de ce type effectue le rendu dans un thread séparé.
+Lorsqu'un calcul termine, les pixels calculés sont envoyés à la bibliothèque d'affichage.
+
+C'est notamment important si on désire avoir un rendu fluide à l'exécution.
+Le nombre d'images par seconde sera potentiellement faible, mais il n'y aura pas de blocage 
+de l'interface graphique pendant le rendu.
+
+D'autres méthodes sont à étudier, par exemple à l'aide de bibliothèques spécialisées comme ROOT de CERN ou CGAL qui permet de faire de la triangulation de Delaunay d'une fonction donnée.
+
+Mappings d'espaces de donnée ? Couleur, temps, etc.
 \subsection{Édition}
 L'édition va modifier pour les formes connues des paramètres définis.
 
@@ -313,6 +377,9 @@ On applique les transformations à l'objet :
 \end{itemize}
 \section{Conclusion}
 Perspectives : gestion d'espaces de données, comme couleurs, etc.
+Gestion des types à plus d'une dimension. 
+Il est nécessaire d'avoir une notion de paramètre de plus haut niveau.
+Pour ce faire, il serait possible d'étudier l'applicabilité de protocoles orientés objet, tels que D-Bus ou ZeroC ICE, pour exposer les objets i-score.
 
 \bibliographystyle{plain}
 \bibliography{document} % or
