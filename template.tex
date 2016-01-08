@@ -7,7 +7,7 @@
 \usepackage{graphicx}
 \usepackage{acronym}
 \usepackage{siunitx}
-
+\usepackage{hyperref}
 \title{Outils d'écriture spatiale dans i-score}
 
 \threeauthors
@@ -115,11 +115,16 @@ faire un parcours et non une simple balade.
 
 \subsection{Example : robots}
 Ce projet consiste en la réalisation d'une chorégraphie de robots musicaux.
-On dispose d'une flotte de robots Metabot % TODO cite
+On dispose d'une flotte de robots open-source Metabot\footnote{\url{http://metabot.fr/}}
 Ces robots se contrôlent en vitesse : on écrit sur le port série des 
 commandes telles que \verb|dx 30| pour indique une vitesse de $\SI{30}{\centi\meter\per\second}$.
 Un logiciel a été conçu pour faire un mapping d'un arbre Minuit vers le port série.
 En parallèle, un logiciel de simulation est développé à l'aide d'OpenFrameworks, qui expose le même arbre Minuit.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.45\textwidth]{images/robots.png}
+    \caption{Logiciel de simulation de metabots communiquant avec i-score}
+\end{figure}
 Ce logiciel de simulation permet d'afficher les robots et de détecter les collisions, pour 
 empêcher qu'elles ne se produisent en pratique, avec des robots coûteux.
 On veut notamment utiliser le rythme de marche des robots pour produire de la musique.
@@ -131,7 +136,7 @@ On conçoit une chorégraphie de robots et drones.
 
 Ils ont chacun une trajectoire qui peut évoluer dans le temps, en fonction de ce qu'il se passe.
 
-Les drones portent des hauts-parleurs tandis que les robotless font du rythme en tapant des pieds.
+Les drones portent des hauts-parleurs tandis que les robot battent un rythme en tapant des pieds.
 
 \section{Modèle}
 \subsection{Conception}
@@ -158,6 +163,7 @@ en ayant la possibilité de faire des approximations.
 Cela permet notamment d'implémenter des objets spatiaux qui sont difficilement possibles 
 à réaliser uniquement de manière mathématique, avec notamment des objets dont la définition contient des boucles ou des conditionnelles.
 En revanche, on perd des possibilités d'analyse par la suite : on n'a en effet pas de forme générale des zones ainsi créées et on ne peut au mieux qu'effectuer des tests entre zones.
+Il est cependant toujours possible de prendre un échantillon des points de la zone pour appliquer une méthode de maillage telles que la triangulation de Delaunay\cite{nonato2001novel} qui produit un objet sur lequel on peut réaliser quelques calculs.
 Enfin, les performances ne sont pas adaptées à des évolutions rapides en temps réel; 
 cela peut marcher en dimension 1 et pour des fonctions avec un nombre relativement important de points à calculer, mais est très lent en dimension 2 et impensable en dimension 3.
 
@@ -166,8 +172,7 @@ En effet, dans des logiciels comme IanniX, on dispose de courbes paramétrisées p
 Cette approche permet d'avoir dans une seule vue toute l'information possible. 
 Cependant, ici nous pouvons avoir plus d'une dimension de paramétrisation.
 La question de l'affichage d'une variation au cours du temps se pose alors. 
-On peut penser à afficher un dégradé \cite{casas_4d_2013}
-qui serait complètement opaque pour le t donné, et serait de plus en plus transparent lorsque l'on s'en éloigne.
+On peut penser à afficher un dégradé qui serait complètement opaque pour le t donné, et serait de plus en plus transparent lorsque l'on s'en éloigne; un exemple d'affichage d'animation d'objet 3D au cours du temps est par exemple donné dans~\cite{casas_4d_2013}.
 Ou bien uniquement afficher la trajectoire du centre de l'objet au cours du temps, mais cela nécessite de pouvoir la calculer. 
 Ce n'est pas dans le cas d'une zone définie avec des contraintes très faibles. 
 Par exemple, pour une zone définie par $x < 0$, un demi-plan, on ne peut le définir.
@@ -179,7 +184,7 @@ la trajectoire va écrire sur l'adresse \verb|/trajectoire/position| que
 les zones spatiales iront chercher à chaque tick d'horloge; elles peuvent par la suite 
 utiliser les coordonnées ainsi obtenues comme bon leur semble.
 
-Nous offrons dans le logiciel les deux possibilités, mais l'affiHello,chage dans le premier cas n'est pas implémenté (le temps sera ceci dit pris en compte lors de l'exécution).
+Nous offrons dans le logiciel les deux possibilités, mais l'affichage dans le premier cas n'est pas implémenté (le temps sera ceci dit pris en compte lors de l'exécution).
 
 \subsection{Description}
 Approche paramétrique, non focalisée sur le son.
@@ -262,56 +267,62 @@ Cependant, cela ne s'est pas révélé être adapté : en effet la bibliothèque n'est
 L'implémentation actuelle est donc basée sur le parseur de fonctions mathématiques de la bibliothèque \textbf{vtk}~\cite{schroeder2004visualization}.
 D'autres alternatives ont été envisagées : Symbolic C++, Sage, GNU Octave.
 
-
 \subsection{Sémantique d'exécution}
 La sémantique générale d'exécution d'i-score est donnée dans \cite{celerier_ossia:_2015}.
 Nous rappelons simplement qu'i-score permet d'ordonnancer temporellement des processus qui peuvent être définis dans des plug-ins.
 Lors de la lecture, une horloge globale va demander récursivement à tous les processus du scénario qui sont en cours d'exécution quel est leur état actuel. 
 Un état est un ensemble de messages qui peuvent être envoyés par réseau, comme une cue.
+
+\subsubsection{Processus spatial}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.30\textwidth]{images/arc1.png}
+    \caption{Processus spatial au début. La courbe d'automtion est mappée au paramètre $c$ de l'équation de la zone triangulaire.}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.30\textwidth]{images/arc2.png}
+    \caption{Processus spatial durant l'exécution. Il est possible de récupérer l'information de collision entre le disque et la zone pour déclencher des évènements ailleurs dans i-score.}
+\end{figure}
 L'exécution du processus spatial se déroule de la manière suivante : 
 \begin{itemize}
     \item Pour chaque zone dont un des paramètres est défini par une adresse externe, récupérer la valeur actuelle de cette adresse.
-    \item Pour chaque calcul entre éléments de la zone, mettre à jour les calculs.
+    \item Effectuer tous les calculs entre éléments de la zone puis les renvoyer dans l'état.
 \end{itemize}
 
 Ainsi, s'il y a rétroaction, elle se fait au tick d'après.
 
-Sémantique d'exécution : résultats obtenus au tick d'après.
-Si plusieurs processus on utilise la sémantique d'i-score (les processus sont empilés).
-Discuter les multiples sémantiques possibles : mise à jour en temps réel, ou bien "State".
+Une autre sémantique est possible : 
+i-score dispose d'un arbre de paramètres interne qu'il est aussi possible de manipuler.
+Les processus peuvent exposer des paramètres de contrôle à cet arbre, qui sont 
+disponibles à l'édition.
+i-score est donc introspectible depuis son interface graphique.
+Notamment, le processus spatial expose les valeurs des paramètres 
+présents pour chacune des zones.
+Par exemple, pour un disque d'équation $(x - x_0)^2 + (y - y_0) ^2 <= r_0$
+les paramètres $x_0, y_0, r_0$ sont exposés dans l'arbre interne.
+De même, les résultats des calculs définis sont exposés.
+Il est possible de configurer le processus pour que les calculs enregistrés soient 
+réalisés à la réception d'un message sur le n\oe ud correspondant, 
+et mis à jour dans leurs n\oe uds respectifs.
 
-Dans un tick, on calcule d'abord les valeurs actuelles des zones.
+La première sémantique permet d'avoir une visualisation à l'exécution, tandis que la seconde 
+permet d'avoir une visualisation à l'édition, en permettant le maintien des contraintes 
+décrites par l'auteur. 
 
-Puis on exécute les computations qui écrivent dans l'arbre.
+Cette question, qui est fondamentalement la différence entre un mode \textit{push} et un mode \textit{pull}, se pose aussi pour les autres objets d'i-score.
+Par exemple, le processus Automation contient une adresse à laquelle il écrit
+ses valeurs.
+Cependant, il est aussi possible de simplement laisser s'exécuter la courbe et 
+de permettre à d'autres outils d'aller chercher l'information à son adresse dans l'arbre interne.
 
-Nécessité d'un graphe d'exécution pour l'ordre ?
--> modèle de flot en perspective pour la suite.
-
-\subsubsection{Processus spatial}
-
-Dans le premier cas : 
-Le logiciel i-score expose son arbre et les processus spatiaux sont des parties 
-intégrantes de l'arbre; elles se mettent à jour de manière réactive lorsqu'un message est reçu
-et déclenchent une chaine d'évaluation qui va de calculs en calculs.
-
-Dans le second cas, on suit la sémantique des processus i-score qui est par "State" agissant à l'exécution.
-Cela pose le problème de la visualisation : on ne peut pas voir lorsqu'on édite un scénario l'effet
-des changements de paramètres.
-
-Ces deux cas sont mutuellement exclusifs.
-En effet, la valeur des paramètres de zones serait indéterminée si elle venait à être mise à jour 
-par le thread d'exécution, ainsi que par le thread de réception de messages.
-
-Cependant, si on a envie de voir le rendu en temps réel à l'écriture, 
-il faut que l'outil lui-même s'expose de manière permanente via OSC 
-et soit à l'écoute des données de l'arbre.
-
-Ce problème se pose à moindre échelle pour les automations : 
-par exemple, les automations ont une adresse de sortie qui leur est affectée.
-Cependant, on pourrait aussi vouloir avoir une approche ou 
-l'on dispoe d'une automation, et ou plusieurs autres processus vont 
-lire la valeur actuelle de l'automation.
-
+Cela pose la question, à plus long terme, d'un graphe de calculs si on désire avoir des rétroactions
+et des mappings complexes.
+Actuellement, il est possible de réaliser des calculs chaînés à la main, en créant des 
+adresses spécifiques et en ordonnant les processus : l'exécution de ces calculs est globale.
+Mais par la suite, un modèle de calcul plus complet sera nécessaire pour rendre manifeste les liens 
+qui peuvent exister entre différents processus.
 
 \subsubsection{Automations multi-dimensionnelles}
 Il y a plusieurs types d'automation dans i-score : 
@@ -392,6 +403,9 @@ Gestion des types à plus d'une dimension.
 Il est nécessaire d'avoir une notion de paramètre de plus haut niveau.
 Pour ce faire, il serait possible d'étudier l'applicabilité de protocoles orientés objet, tels que D-Bus ou ZeroC ICE, pour exposer les objets i-score.
 
+\section{Remerciements}
+ANR
+groupe metabots
 \bibliographystyle{plain}
 \bibliography{document} % or
 \end{document}
