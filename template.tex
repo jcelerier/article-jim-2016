@@ -7,9 +7,12 @@
 \usepackage{graphicx}
 \usepackage{acronym}
 \usepackage{siunitx}
+
 \usepackage{hyperref}
 \usepackage{microtype}
-\title{Outils d'écriture spatiale dans i-score}
+
+\title{Outils d'écriture spatiale pour les partitions interactives}
+
 
 \threeauthors
   {Jean-Michaël Celerier} {Blue Yeti , LaBRI\\ jcelerie@labri.fr}
@@ -24,22 +27,22 @@
 \end{abstract}
 
 \section{Introduction}
-Les pratiques multimédia incluent par définition des composantes spatiales.
+Les pratiques de création multimédia incluent par définition des composantes spatiales.
 Celles-ci peuvent se manifester dès qu'un des types de donnée manipulé possède plus d'une dimension.
-La simple présence de multiples paramètres dans une création multimédia permet d'avoir une notion d'espace dans lequel on mappe 
+La simple présence de multiples paramètres dans une création multimédia permet d'avoir une notion d'espace dans lequel on mappe
 un paramètre à un autre.
 
-La plupart des outils permettant un travail spatial sont soit spécifiques à la création de 
-trajectoires pour des sons, dans un cadre musical, soit orientés vers la création de jeu vidéo 
+La plupart des outils permettant un travail spatial sont soit spécifiques à la création de
+trajectoires pour des sons, dans un cadre musical, soit orientés vers la création de jeu vidéo
 ou de formes spécifiques de médias.
 
-Nous cherchons ici des méthodes génériques, permettant de manipuler tout type de données spatiales 
+Nous cherchons ici des méthodes génériques, permettant de manipuler tout type de données spatiales
 pour ensuite pouvoir les appliquer aux cas particuliers de la création de scénographies interactif avec des éléments musicaux.
 
-Sera exposé un état de l'art des outils de création spatiale, puis nous présenterons deux modèles, 
-l'un géométrique et l'autre paramétrique, qui permettent de réaliser dans un cadre musical de nouveaux types de compositions, 
+Sera exposé un état de l'art des outils de création spatiale, puis nous présenterons deux modèles,
+l'un géométrique et l'autre paramétrique, qui permettent de réaliser dans un cadre musical de nouveaux types de compositions,
 notamment liées aux relations que l'on peut avoir entre plusieurs zones définies géométriquement.
-Ces modèles, intégrés au séquenceur i-score, seront appliqués à deux études de cas : 
+Ces modèles, intégrés au séquenceur i-score, seront appliqués à deux études de cas :
 une chorégraphie de robots, et une application de réalité augmentée audio.
 
 Nous discuterons ensuite des évolutions possibles qui sont liées à un typage plus fort des données
@@ -48,11 +51,11 @@ ainsi que la la relation au temps d'objets spatiaux en deux dimensions ou plus.
 
 
 \subsection{Existant}
-Nous présentons ici plusieurs applications opérant principalement dans un domaine 
+Nous présentons ici plusieurs applications opérant principalement dans un domaine
 spatial, à but créatif.
 Un état de l'art plus complet est présent dans le compte-rendu du projet ANR OSSIA.
-Les thèmes abordés sont l'utilisation de contenus spatiaux en musique, 
-en scénographie, et en jeux vidéos, puis les différentes méthodes d'écriture et de 
+Les thèmes abordés sont l'utilisation de contenus spatiaux en musique,
+en scénographie, et en jeux vidéos, puis les différentes méthodes d'écriture et de
 représentation qui existent.
 
 
@@ -81,9 +84,9 @@ Enfin, il convient de noter la richesse pour ce qui est des modes d'entrée et d'
 
 Un modèle plus complet d'espace en trois dimensions est fourni par COSM\cite{wakefield_cosm:_2011}.
 Implémenté dans Max/MSP, il offre une grande richesse d'écriture.
-En plus de lieux et de trajectoires, il est possible d'écrire l'interaction dans une certaine mesure, 
+En plus de lieux et de trajectoires, il est possible d'écrire l'interaction dans une certaine mesure,
 ainsi que la communication entre différents agents.
-Une nouveauté est la possibilité de travailler avec des champs définis mathématiquements. 
+Une nouveauté est la possibilité de travailler avec des champs définis mathématiquements.
 Ces champs peuvent varier dans le temps et être sonifiés par la suite.
 \begin{figure}
     \centering
@@ -96,23 +99,23 @@ Blender peut être contrôlé via une API Python et il est notamment possible de dé
 ou d'autres propriétés géométriques. Néanmoins, cela se fait à la vitesse de son moteur d'exécution qui est fixée à 60 Hz.
 Les messages reçus entre deux trames sont accumulés.
 
-Enfin, le monde des jeux vidéos dispose aussi d'outils adaptés à l'écriture spatiale : 
+Enfin, le monde des jeux vidéos dispose aussi d'outils adaptés à l'écriture spatiale :
 la bibliothèque OpenAL a été développée à l'origine pour offrir aux jeux une couche d'abstraction
 permettant de bénéficier de spatialisation simplement en donnant une position et une orientation
 à des sources sonores ponctuelles. Cette position et orientation peuvent évoluer dans le temps.
-Par la suite les implémentations sont libres d'utiliser les méthodes qu'elles souhaitent pour 
-réaliser la spatialisation : cela peut aller d'un simple panning gauche-droite à l'utilisation 
-de HRTFs, comme le fait la bibliothèque OpenAL-soft. 
+Par la suite les implémentations sont libres d'utiliser les méthodes qu'elles souhaitent pour
+réaliser la spatialisation : cela peut aller d'un simple panning gauche-droite à l'utilisation
+de HRTFs, comme le fait la bibliothèque OpenAL-soft.
 
 \section{Cas d'utilisation}
-Afin d'avoir des possibilités de test de notre système, 
-nous présentons deux cas pratiques d'applications nécessitant 
+Afin d'avoir des possibilités de test de notre système,
+nous présentons deux cas pratiques d'applications nécessitant
 de l'écriture de contenus spatiaux.
 
 Dans les deux cas, on veut écrire une famille de scénarios interactifs
 qui manipulent des types d'objets fixés : des sources sonores virtuelles dans le premier cas
 et des robots dans le second cas.
- 
+
 \subsection{Example : sonopluie}
 Cette application interactive utilise de la géolocalisation par téléphone.
 Plusieurs sources sonores sont apposées dans un espace, dans lequel les participants
@@ -126,14 +129,14 @@ En effet, elle est supportée sur de nombreux appareils mobiles courants.
 
 Il manque un outil simple d'écriture pour disposer les zones dans l'espace,
 leur associer des sons et des comportements.
-Un des objectifs du projet est d'offrir de l'interaction et de l'évolutivité dans les scénarios : 
+Un des objectifs du projet est d'offrir de l'interaction et de l'évolutivité dans les scénarios :
 par exemple, après s'être approché d'un point donné, on voudrait pouvoir désactiver
-des points précédents et activer des points suivants, ou avoir des points qui se déplacent. 
+des points précédents et activer des points suivants, ou avoir des points qui se déplacent.
 
 \subsection{Example : robots}
 Ce projet consiste en la réalisation d'une chorégraphie de robots musicaux, puis de drones.
 On dispose d'une flotte de robots open-source Metabot\footnote{\url{http://metabot.fr/}}.
-Ces robots sont contrôlés en vitesse : on écrit sur le port série des 
+Ces robots sont contrôlés en vitesse : on écrit sur le port série des
 commandes telles que \verb|dx 30| pour indique une vitesse de $\SI{30}{\centi\meter\per\second}$.
 Un logiciel a été conçu pour faire un mapping d'un arbre Minuit vers le port série.
 En parallèle, un logiciel de simulation est développé à l'aide d'OpenFrameworks, qui expose le même arbre Minuit.
@@ -142,17 +145,22 @@ En parallèle, un logiciel de simulation est développé à l'aide d'OpenFrameworks,
     \includegraphics[width=0.45\textwidth]{images/robots.png}
     \caption{Logiciel de simulation de metabots communiquant avec i-score}
 \end{figure}
-Ce logiciel de simulation permet d'afficher les robots et de détecter les collisions, pour 
+Ce logiciel de simulation permet d'afficher les robots et de détecter les collisions, pour
 empêcher qu'elles ne se produisent en pratique, avec des robots coûteux.
 On veut notamment utiliser le rythme de marche des robots pour produire de la musique.
 
-Un des problèmes principaux est le contrôle en vitesse des robots : il faut 
+Chaque robot va posséder une trajectoire dans le plan.
+Cette trajectoire pourra potentiellement changer en fonction des choix du metteur en scène,
+ou bien du comportement des autres robots : par exemple, si un robot tombe en panne en face d'un autre,
+un changement de trajectoire doit être opéré (ou bien le robot doit s'arrêter).
+
+Un des problèmes principaux est le contrôle en vitesse des robots : il faut
 à partir d'une trajectoire décrivant une position, calculer la dérivée
 dans les deux ou trois directions pour l'envoyer aux robots.
 
 \section{Modèle}
 \subsection{Conception}
-On veut : 
+On veut :
 \begin{itemize}
 \item une intégration avec l'écosystème existant.
 \item Décrire finement des évolutions dans le temps (ou en fonction d'autres paramètres).
@@ -162,38 +170,38 @@ On veut :
 
 \subsubsection{Choix du modèle}
 Plusieurs modèles ont été envisagés pour écrire des scénarios spatiaux.
-Une première approche s'est portée sur les méthodes de description qualitative de l'espace, telles que RCC-8. 
-Cependant de telles méthodes ne s'avèrent pas efficaces si on désire décrire des dispositions précises, 
-avec des métriques sur les objets que l'on veut manipuler. 
+Une première approche s'est portée sur les méthodes de description qualitative de l'espace, telles que RCC-8.
+Cependant de telles méthodes ne s'avèrent pas efficaces si on désire décrire des dispositions précises,
+avec des métriques sur les objets que l'on veut manipuler.
 Par exemple, on peut préciser "A est à l'extérieur de B et lui est tangent, et A et B sont contenus dans C".
 Mais il est plus commode d'écrire "A est un cercle de $1u$ centré en $(3, 3)$ dans une pièce de $5u$, et un pointeur B est situé en $(2, 3)$" ou $u$ est une unité de distance; on peut par la suite obtenir les relations RCC à partir des distances métriques tandis que l'inverse n'est pas possible.
 
-Une seconde méthode, permettant un maximum de flexibilité, a été étudiée : 
+Une seconde méthode, permettant un maximum de flexibilité, a été étudiée :
 demander à l'utilisateur de remplir la fonction caractéristique d'une zone en code.
-Par la suite, on peut tester pour chaque point de l'espace son appartenance à la zone, 
-en ayant la possibilité de faire des approximations. 
-Cela permet notamment d'implémenter des objets spatiaux qui sont difficilement possibles 
+Par la suite, on peut tester pour chaque point de l'espace son appartenance à la zone,
+en ayant la possibilité de faire des approximations.
+Cela permet notamment d'implémenter des objets spatiaux qui sont difficilement possibles
 à réaliser uniquement de manière mathématique, avec notamment des objets dont la définition contient des boucles ou des conditionnelles.
 En revanche, on perd des possibilités d'analyse par la suite : on n'a en effet pas de forme générale des zones ainsi créées et on ne peut au mieux qu'effectuer des tests entre zones.
 Il est cependant toujours possible de prendre un échantillon des points de la zone pour appliquer une méthode de maillage telles que la triangulation de Delaunay\cite{nonato2001novel} qui produit un objet sur lequel on peut réaliser quelques calculs.
-Enfin, les performances ne sont pas adaptées à des évolutions rapides en temps réel; 
+Enfin, les performances ne sont pas adaptées à des évolutions rapides en temps réel;
 cela peut marcher en dimension 1 et pour des fonctions avec un nombre relativement important de points à calculer, mais est très lent en dimension 2 et impensable en dimension 3.
 
 Une troisième question qui se pose est celle de l'interaction entre les zones et le temps.
-En effet, dans des logiciels comme IanniX, on dispose de courbes paramétrisées par des paramètres externes (souvent le temps). 
-Cette approche permet d'avoir dans une seule vue toute l'information possible. 
+En effet, dans des logiciels comme IanniX, on dispose de courbes paramétrisées par des paramètres externes (souvent le temps).
+Cette approche permet d'avoir dans une seule vue toute l'information possible.
 Cependant, ici nous pouvons avoir plus d'une dimension de paramétrisation.
-La question de l'affichage d'une variation au cours du temps se pose alors. 
+La question de l'affichage d'une variation au cours du temps se pose alors.
 On peut penser à afficher un dégradé qui serait complètement opaque pour le t donné, et serait de plus en plus transparent lorsque l'on s'en éloigne; un exemple d'affichage d'animation d'objet 3D au cours du temps est par exemple donné dans~\cite{casas_4d_2013}.
-Ou bien uniquement afficher la trajectoire du centre de l'objet au cours du temps, mais cela nécessite de pouvoir la calculer. 
-Ce n'est pas dans le cas d'une zone définie avec des contraintes très faibles. 
+Ou bien uniquement afficher la trajectoire du centre de l'objet au cours du temps, mais cela nécessite de pouvoir la calculer.
+Ce n'est pas dans le cas d'une zone définie avec des contraintes très faibles.
 Par exemple, pour une zone définie par $x < 0$, un demi-plan, on ne peut le définir.
 
 Une autre possibilité est d'avoir des boites séparées pour définir les animations.
-Cela permet plus de clarté, et permet aussi d'associer une seule trajectoire à 
-plusieurs objets plus facilement : 
-la trajectoire va écrire sur l'adresse \verb|/trajectoire/position| que 
-les zones spatiales iront chercher à chaque tick d'horloge; elles peuvent par la suite 
+Cela permet plus de clarté, et permet aussi d'associer une seule trajectoire à
+plusieurs objets plus facilement :
+la trajectoire va écrire sur l'adresse \verb|/trajectoire/position| que
+les zones spatiales iront chercher à chaque tick d'horloge; elles peuvent par la suite
 utiliser les coordonnées ainsi obtenues comme bon leur semble.
 
 Nous offrons dans le logiciel les deux possibilités, mais l'affichage dans le premier cas n'est pas implémenté (le temps sera ceci dit pris en compte lors de l'exécution).
@@ -208,7 +216,7 @@ Processus d'espace : possède un viewport.
 Un viewport possède des dimensions. Ces dimensions peuvent être spatiales, et il peut y avoir une dimension temporelle.
 % Problème : représentation du domaine de paramétrisation - ce qu'on ne fait pas ici.
 
-La dimension temporelle est en fait une dimension de mapping pour l'exécution : (citer article OSSIA) 
+La dimension temporelle est en fait une dimension de mapping pour l'exécution : (citer article OSSIA)
 la fonction d'exécution de i-score prend le temps en entrée, et sort un état.
 Cependant on pourrait imaginer que cette fonction prendrait d'autres valeurs en argument, on aurait ainsi un mapping simple à plusieurs dimensions.
 On affecte chacune de ces dimensions à un espace graphique : x, y, (par la suite z), potentiellement animation ainsi que des bornes potentielles.
@@ -218,7 +226,7 @@ Par exemple, $x < y; x + y <= 2 + a$ forme une zone.
 On associe chaque variable de la zone soit à des composants de l'espace défini, soit à des paramètres.
 Un paramètre peut avoir une valeur par défaut, ainsi qu'une adresse présente dans l'arbre de paramètres i-score.
 
-Le logiciel fournit aussi des zones par défaut, pour lesquelles un rendu plus propre peut être offert, en utilisant les primitives du moteur de rendu graphique (Qt). 
+Le logiciel fournit aussi des zones par défaut, pour lesquelles un rendu plus propre peut être offert, en utilisant les primitives du moteur de rendu graphique (Qt).
 Les zones possibles sont cercle, pointeur. % TODO les autres
 Sinon, le rendu est actuellement fait par pixellisation / voxelisation. %TODO  parler d'autres méthodes
 Comme cette opération est couteuse, dans ce cas les zones n'évoluent pas en temps réel avec le changement des paramètres et s'affichent avec leur valeur par défaut.
@@ -227,13 +235,13 @@ Enfin, on peut définir des calculs de relations entre les différentes zones.
 Par exemple, on peut obtenir l'information de collision entre zones.
 Pour le cas du pointeur on va simplement évaluer les valeurs actuelles des informations de dimension par rapport aux autres zones, ce qui est une opération très rapide.
 De même pour les zones de types connus : il est possible d'exhiber des calculs spécialisés pour chaque relation entre deux types de zones.
-Enfin, pour deux zones génériques, non typées, nous pouvons chercher pour l'existance de solutions au système composé de l'ensemble de leurs équations. 
+Enfin, pour deux zones génériques, non typées, nous pouvons chercher pour l'existance de solutions au système composé de l'ensemble de leurs équations.
 Ceci nécessite cependant un solveur capable de résoudre des systèmes d'inéquations.
 Un outil potentiel pour cette application est nlopt, qui permet de minimiser des systèmes non-linéaires.
-Il existe aussi des méthodes pour mesurer des distances entre deux zones quelconques. 
+Il existe aussi des méthodes pour mesurer des distances entre deux zones quelconques.
 Par exemple \cite{elber2008hausdorff}
 
-Cette information peut ensuite être exposée dans l'arbre i-score, puis être réutilisée 
+Cette information peut ensuite être exposée dans l'arbre i-score, puis être réutilisée
 par la suite pour concevoir d'autres zones, ou bien être par la suite utilisée dans d'autres logiciels.
 
 i-score étant un environnement ouvert, il est aussi possible de sortir des contraintes du langage mathématique pour les calculs.
@@ -246,7 +254,7 @@ De la même manière, on peut utiliser les automations à une, deux, ou trois dimen
 
 %Fonctionne pour > 3 dimension avec notion de viewport.
 %-> rendu par voxelisation ? ou méthode d'approximation de polygones / surfaces ?
-%La voxelisation prend beaucoup de temps; ainsi on ne l'exécute pas en temps réel. 
+%La voxelisation prend beaucoup de temps; ainsi on ne l'exécute pas en temps réel.
 
 %Donner l'écriture de trajectoires simples (sin, etc).
 
@@ -261,7 +269,7 @@ De la même manière, on peut utiliser les automations à une, deux, ou trois dimen
 
 %Utilisation d'un arbre OSC.
 
-%Zones, puis calculs sur ces zones. 
+%Zones, puis calculs sur ces zones.
 
 %Possibilité d'écrire de tels calculs (mappings) en JavaScript.
 
@@ -282,7 +290,7 @@ D'autres alternatives ont été envisagées : Symbolic C++, Sage, GNU Octave.
 \subsection{Sémantique d'exécution}
 La sémantique générale d'exécution d'i-score est donnée dans \cite{celerier_ossia:_2015}.
 Nous rappelons simplement qu'i-score permet d'ordonnancer temporellement des processus qui peuvent être définis dans des plug-ins.
-Lors de la lecture, une horloge globale va demander récursivement à tous les processus du scénario qui sont en cours d'exécution quel est leur état actuel. 
+Lors de la lecture, une horloge globale va demander récursivement à tous les processus du scénario qui sont en cours d'exécution quel est leur état actuel.
 Un état est un ensemble de messages qui peuvent être envoyés par réseau, comme une cue.
 
 \subsubsection{Processus spatial}
@@ -297,7 +305,7 @@ Un état est un ensemble de messages qui peuvent être envoyés par réseau, comme u
     \includegraphics[width=0.30\textwidth]{images/arc2.png}
     \caption{Processus spatial durant l'exécution. Il est possible de récupérer l'information de collision entre le disque et la zone pour déclencher des évènements ailleurs dans i-score.}
 \end{figure}
-L'exécution du processus spatial se déroule de la manière suivante : 
+L'exécution du processus spatial se déroule de la manière suivante :
 \begin{itemize}
     \item Pour chaque zone dont un des paramètres est défini par une adresse externe, récupérer la valeur actuelle de cette adresse.
     \item Effectuer tous les calculs entre éléments de la zone puis les renvoyer dans l'état.
@@ -305,60 +313,60 @@ L'exécution du processus spatial se déroule de la manière suivante :
 
 Ainsi, s'il y a rétroaction, elle se fait au tick d'après.
 
-Une autre sémantique est possible : 
+Une autre sémantique est possible :
 i-score dispose d'un arbre de paramètres interne qu'il est aussi possible de manipuler.
-Les processus peuvent exposer des paramètres de contrôle à cet arbre, qui sont 
+Les processus peuvent exposer des paramètres de contrôle à cet arbre, qui sont
 disponibles à l'édition.
 i-score est donc introspectible depuis son interface graphique.
-Notamment, le processus spatial expose les valeurs des paramètres 
+Notamment, le processus spatial expose les valeurs des paramètres
 présents pour chacune des zones.
 Par exemple, pour un disque d'équation $(x - x_0)^2 + (y - y_0) ^2 <= r_0$
 les paramètres $x_0, y_0, r_0$ sont exposés dans l'arbre interne.
 De même, les résultats des calculs définis sont exposés.
-Il est possible de configurer le processus pour que les calculs enregistrés soient 
-réalisés à la réception d'un message sur le n\oe ud correspondant, 
+Il est possible de configurer le processus pour que les calculs enregistrés soient
+réalisés à la réception d'un message sur le n\oe ud correspondant,
 et mis à jour dans leurs n\oe uds respectifs.
 
-La première sémantique permet d'avoir une visualisation à l'exécution, tandis que la seconde 
-permet d'avoir une visualisation à l'édition, en permettant le maintien des contraintes 
-décrites par l'auteur. 
+La première sémantique permet d'avoir une visualisation à l'exécution, tandis que la seconde
+permet d'avoir une visualisation à l'édition, en permettant le maintien des contraintes
+décrites par l'auteur.
 
 Cette question, qui est fondamentalement la différence entre un mode \textit{push} et un mode \textit{pull}, se pose aussi pour les autres objets d'i-score.
 Par exemple, le processus Automation contient une adresse à laquelle il écrit
 ses valeurs.
-Cependant, il est aussi possible de simplement laisser s'exécuter la courbe et 
+Cependant, il est aussi possible de simplement laisser s'exécuter la courbe et
 de permettre à d'autres outils d'aller chercher l'information à son adresse dans l'arbre interne.
 
 Cela pose la question, à plus long terme, d'un graphe de calculs si on désire avoir des rétroactions
 et des mappings complexes.
-Actuellement, il est possible de réaliser des calculs chaînés à la main, en créant des 
+Actuellement, il est possible de réaliser des calculs chaînés à la main, en créant des
 adresses spécifiques et en ordonnant les processus : l'exécution de ces calculs est globale.
-Mais par la suite, un modèle de calcul plus complet sera nécessaire pour rendre manifeste les liens 
+Mais par la suite, un modèle de calcul plus complet sera nécessaire pour rendre manifeste les liens
 qui peuvent exister entre différents processus.
 
 \subsubsection{Automations multi-dimensionnelles}
-Il y a plusieurs types d'automation dans i-score : 
+Il y a plusieurs types d'automation dans i-score :
 \begin{itemize}
     \item Les automations à une dimension : une fonction de transfert du temps $t$ vers un paramètre $u$ : $f : t \in [0; 1] \rightarrow D(u)$ ou $D$ est le domaine de définition tel que décrit dans %CITE i-score 2014
     \item Les mappings à une dimension : une fonction de transfert entre deux paramètres $u, v$ : $f : D(u) \rightarrow D(v)$.
-    Les automations et mapping à une dimension sont des fonctions définies par partie; chaque partie peut être une fonction vide, un segment de droite, ou bien la fonction $f : x \rightarrow x^k$. 
+    Les automations et mapping à une dimension sont des fonctions définies par partie; chaque partie peut être une fonction vide, un segment de droite, ou bien la fonction $f : x \rightarrow x^k$.
     Des fonctions supplémentaires peuvent être rajoutées par le biais de plug-ins.
-    \item Les automations à plus d'une dimension : nous utilisons ici la bibliothèque \textbf{vtk} pour afficher et éditer une spline à l'écran. 
-    
+    \item Les automations à plus d'une dimension : nous utilisons ici la bibliothèque \textbf{vtk} pour afficher et éditer une spline à l'écran.
+
 \end{itemize}
 Animation : la durée d'une boite correspond à la durée d'une spline d'animation.
 Les splines sont paramétrées entre 0 et 1.
 
-Ainsi, puisque les boites d'i-score ont une durées déterminées, cette durée 
+Ainsi, puisque les boites d'i-score ont une durées déterminées, cette durée
 est mappée directement à la valeur de la spline.
 
 
 
-Il reste à choisir pour l'automation si on veut qu'elle envoie : 
+Il reste à choisir pour l'automation si on veut qu'elle envoie :
 - un tuple à une adresse donnée.
 - chaque composante sur une adresse distincte.
 
-%Affichage : pour l'instant simple. 
+%Affichage : pour l'instant simple.
 
 %Ne spécifier qu'une équation (ex : x==0 pour une ligne) ?
 
@@ -372,14 +380,14 @@ Il reste à choisir pour l'automation si on veut qu'elle envoie :
 
 \subsection{Rendu}
 L'affichage se fait de manière spécialisée pour les types connus.
-Pour les types génériques, on réalise pour l'instant une pixelisation à partir 
+Pour les types génériques, on réalise pour l'instant une pixelisation à partir
 , en testant pour chaque point de la zone d'affichage.
 
 Comme c'est une opération lourde, chaque zone de ce type effectue le rendu dans un thread séparé.
 Lorsqu'un calcul termine, les pixels calculés sont envoyés à la bibliothèque d'affichage.
 
 C'est notamment important si on désire avoir un rendu fluide à l'exécution.
-Le nombre d'images par seconde sera potentiellement faible, mais il n'y aura pas de blocage 
+Le nombre d'images par seconde sera potentiellement faible, mais il n'y aura pas de blocage
 de l'interface graphique pendant le rendu.
 
 D'autres méthodes sont à étudier, par exemple à l'aide de bibliothèques spécialisées comme ROOT de CERN ou CGAL qui permet de faire de la triangulation de Delaunay d'une fonction donnée.
@@ -390,7 +398,7 @@ L'édition va modifier pour les formes connues des paramètres définis.
 
 Les opérations de base sont déplacement, translation, rotation.
 
-On applique les transformations à l'objet : 
+On applique les transformations à l'objet :
 
 \begin{figure}
 	\centering
@@ -402,16 +410,16 @@ On applique les transformations à l'objet :
 	\item Rotation par un angle thêta dans le plan:
 	\[
 	\begin{cases}
-     x' = x \cos \theta - y \sin \theta \\   
-     y' = x \sin \theta + y \cos \theta 
+     x' = x \cos \theta - y \sin \theta \\
+     y' = x \sin \theta + y \cos \theta
 	 \end{cases}
     \]
     Une formule générale de la rotation en n-dimension est donnée dans \cite{aguilera2004general}.
-    \item Mise à l'échelle : pas de formule générale; on fait un rendu et on met à l'échelle par la suite ? 
+    \item Mise à l'échelle : pas de formule générale; on fait un rendu et on met à l'échelle par la suite ?
 \end{itemize}
 \section{Conclusion}
 Perspectives : gestion d'espaces de données, comme couleurs, etc.
-Gestion des types à plus d'une dimension. 
+Gestion des types à plus d'une dimension.
 Il est nécessaire d'avoir une notion de paramètre de plus haut niveau.
 Pour ce faire, il serait possible d'étudier l'applicabilité de protocoles orientés objet, tels que D-Bus ou ZeroC ICE, pour exposer les objets i-score.
 
