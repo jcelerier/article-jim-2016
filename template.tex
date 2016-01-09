@@ -8,12 +8,13 @@
 \usepackage{acronym}
 \usepackage{siunitx}
 \usepackage{hyperref}
+\usepackage{microtype}
 \title{Outils d'écriture spatiale dans i-score}
 
 \threeauthors
-  {Jean-Michaël Celerier} {Organisme \\ Adresse électronique}
-  {Myriam Desainte-Catherine} {Organisme \\ Adresse électronique}
-  {Jean-Michel Couturier} {Organisme \\ Adresse électronique}
+  {Jean-Michaël Celerier} {Blue Yeti , LaBRI\\ jcelerie@labri.fr}
+  {Myriam Desainte-Catherine} {LaBRI \\ myriam@labri.fr}
+  {Jean-Michel Couturier} {Blue Yeti \\ jmc@blueyeti.fr}
 
 \begin{document}
 \maketitle
@@ -103,7 +104,7 @@ Par la suite les implémentations sont libres d'utiliser les méthodes qu'elles so
 réaliser la spatialisation : cela peut aller d'un simple panning gauche-droite à l'utilisation 
 de HRTFs, comme le fait la bibliothèque OpenAL-soft. 
 
-\section{Examples}
+\section{Cas d'utilisation}
 Afin d'avoir des possibilités de test de notre système, 
 nous présentons deux cas pratiques d'applications nécessitant 
 de l'écriture de contenus spatiaux.
@@ -116,30 +117,23 @@ et des robots dans le second cas.
 Cette application interactive utilise de la géolocalisation par téléphone.
 Plusieurs sources sonores sont apposées dans un espace, dans lequel les participants
 se déplacent.
+Cet espace virtuel est mappé au monde réel lors du parcours.
+Ce mapping est réalisé en positionnant les zones sur une carte issue d'un service web.
 Le système mesure la distance de chaque participant aux sources, et va jouer les sources
 sonores plus ou moins fort en fonction de cette distance.
-La spatialisation est réalisée par la bibliothèque OpenAL % TODO Cite
+La spatialisation est réalisée par la bibliothèque OpenAL \cite{hiebert_openal_2005}.
+En effet, elle est supportée sur de nombreux appareils mobiles courants.
 
-Il manque un outil simple d'écriture pour disposer les zones dans l'espace.
-De plus, on désire offrir de l'interaction et de l'évolutivité dans les scénarios : 
+Il manque un outil simple d'écriture pour disposer les zones dans l'espace,
+leur associer des sons et des comportements.
+Un des objectifs du projet est d'offrir de l'interaction et de l'évolutivité dans les scénarios : 
 par exemple, après s'être approché d'un point donné, on voudrait pouvoir désactiver
-des points précédents et activer des points suivants. 
-
-Description du scénario : 
-
-On a plusieurs sources sonores dans un espace.
-Plusieurs personnes se déplacent et sont géolocalisées.
-Lorsqu'elles se rapprochent d'une source, elles l'entendent plus fort.
-
-On désire utiliser i-score pour l'écriture de tels scénarios.
-Par la suite, il faut scénariser : par exemple, 
-une fois qu'une zone a été passée on veut activer d'autres zones pour 
-faire un parcours et non une simple balade.
+des points précédents et activer des points suivants, ou avoir des points qui se déplacent. 
 
 \subsection{Example : robots}
 Ce projet consiste en la réalisation d'une chorégraphie de robots musicaux, puis de drones.
-On dispose d'une flotte de robots open-source Metabot\footnote{\url{http://metabot.fr/}}
-Ces robots se contrôlent en vitesse : on écrit sur le port série des 
+On dispose d'une flotte de robots open-source Metabot\footnote{\url{http://metabot.fr/}}.
+Ces robots sont contrôlés en vitesse : on écrit sur le port série des 
 commandes telles que \verb|dx 30| pour indique une vitesse de $\SI{30}{\centi\meter\per\second}$.
 Un logiciel a été conçu pour faire un mapping d'un arbre Minuit vers le port série.
 En parallèle, un logiciel de simulation est développé à l'aide d'OpenFrameworks, qui expose le même arbre Minuit.
