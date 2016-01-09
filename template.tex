@@ -102,7 +102,8 @@ Les messages reçus entre deux trames sont accumulés.
 Enfin, le monde des jeux vidéos dispose aussi d'outils adaptés à l'écriture spatiale :
 la bibliothèque OpenAL a été développée à l'origine pour offrir aux jeux une couche d'abstraction
 permettant de bénéficier de spatialisation simplement en donnant une position et une orientation
-à des sources sonores ponctuelles. Cette position et orientation peuvent évoluer dans le temps.
+à des sources sonores ponctuelles. 
+Cette position et orientation peuvent évoluer dans le temps.
 Par la suite les implémentations sont libres d'utiliser les méthodes qu'elles souhaitent pour
 réaliser la spatialisation : cela peut aller d'un simple panning gauche-droite à l'utilisation
 de HRTFs, comme le fait la bibliothèque OpenAL-soft.
@@ -170,19 +171,31 @@ On veut :
 
 \subsubsection{Choix du modèle}
 Plusieurs modèles ont été envisagés pour écrire des scénarios spatiaux.
-Une première approche s'est portée sur les méthodes de description qualitative de l'espace, telles que RCC-8.
+Une approche repose sur les méthodes de description qualitative de l'espace, telles que RCC-8.
 Cependant de telles méthodes ne s'avèrent pas efficaces si on désire décrire des dispositions précises,
 avec des métriques sur les objets que l'on veut manipuler.
-Par exemple, on peut préciser "A est à l'extérieur de B et lui est tangent, et A et B sont contenus dans C".
-Mais il est plus commode d'écrire "A est un cercle de $1u$ centré en $(3, 3)$ dans une pièce de $5u$, et un pointeur B est situé en $(2, 3)$" ou $u$ est une unité de distance; on peut par la suite obtenir les relations RCC à partir des distances métriques tandis que l'inverse n'est pas possible.
+Par exemple, on peut à l'aide de méthodes qualitatives écrire "A est à l'extérieur de B et lui est tangent, et A et B sont contenus dans C".
+Mais les pratiquent appellent plus souvent une écriture de la forme "A est un cercle de $1u$ centré en $(3, 3)$ dans une pièce de $5u$, et un pointeur B est situé en $(2, 3)$" ou $u$ est une unité de distance; on peut par la suite obtenir les relations RCC à partir des distances métriques tandis que l'inverse n'est pas possible.
+
+Une seconde possibilité est l'approche orientée objet : 
+on dispose d'une classe abstraite représentant une forme.
+Les classes dérivées implémentent des méthodes de dessin et de calcul 
+optimisées pour ces types.
+L'avantage est la possibilité d'avoir des exécutions très rapides dans certains cas.
+Par exemple, calculer la distance entre deux cercles est trivial.
+En revanche,  cette méthode manque doublement de flexibilité : 
+\begin{itemize}
+    \item Il est difficile de rajouter de nouveaux types de calcul, car il faut modifier tous les types pour rajouter le calcul (par exemple un calcul d'aire pour une zone).
+    \item Si un calcul implique deux (ou plus) zones abstraites, on assiste à une explosion combinatoire lorsque l'on désire rajouter une nouvelle zone car le calcul doit alors être défini entre la nouvelle zone et toutes les zones pré-existantes.
+\end{itemize}
 
 Une seconde méthode, permettant un maximum de flexibilité, a été étudiée :
-demander à l'utilisateur de remplir la fonction caractéristique d'une zone en code.
+demander à l'utilisateur de remplir la fonction caractéristique d'une zone à l'aide d'un langage de programmation.
 Par la suite, on peut tester pour chaque point de l'espace son appartenance à la zone,
 en ayant la possibilité de faire des approximations.
 Cela permet notamment d'implémenter des objets spatiaux qui sont difficilement possibles
 à réaliser uniquement de manière mathématique, avec notamment des objets dont la définition contient des boucles ou des conditionnelles.
-En revanche, on perd des possibilités d'analyse par la suite : on n'a en effet pas de forme générale des zones ainsi créées et on ne peut au mieux qu'effectuer des tests entre zones.
+En revanche, on perd des possibilités d'analyse par la suite : on n'a en effet pas de forme générale des zones ainsi créées et on ne peut au mieux qu'effectuer des tests, couteux en temps de calcul, entre zones.
 Il est cependant toujours possible de prendre un échantillon des points de la zone pour appliquer une méthode de maillage telles que la triangulation de Delaunay\cite{nonato2001novel} qui produit un objet sur lequel on peut réaliser quelques calculs.
 Enfin, les performances ne sont pas adaptées à des évolutions rapides en temps réel;
 cela peut marcher en dimension 1 et pour des fonctions avec un nombre relativement important de points à calculer, mais est très lent en dimension 2 et impensable en dimension 3.
@@ -207,7 +220,7 @@ utiliser les coordonnées ainsi obtenues comme bon leur semble.
 Nous offrons dans le logiciel les deux possibilités, mais l'affichage dans le premier cas n'est pas implémenté (le temps sera ceci dit pris en compte lors de l'exécution).
 
 \subsection{Description}
-Approche paramétrique, non focalisée sur le son.
+Approche inspirée de la modélisation géométrique, non focalisée sur le son.
 
 
 On définit des zones par un ensemble d'équations que l'on peut paramétriser - chaque équation est une contrainte.
@@ -222,6 +235,8 @@ Cependant on pourrait imaginer que cette fonction prendrait d'autres valeurs en 
 On affecte chacune de ces dimensions à un espace graphique : x, y, (par la suite z), potentiellement animation ainsi que des bornes potentielles.
 
 Dans ce viewport, on définit des zones par un ensemble d'équations.
+C'est donc une méthode analytique.
+On peut aussi travailler de manière plus libre, par exemple en modifiant des surfaces (nurbs) ou des splines, qui sont néanmoins retraduits de manièer mathématique par la suite.
 Par exemple, $x < y; x + y <= 2 + a$ forme une zone.
 On associe chaque variable de la zone soit à des composants de l'espace défini, soit à des paramètres.
 Un paramètre peut avoir une valeur par défaut, ainsi qu'une adresse présente dans l'arbre de paramètres i-score.
@@ -240,6 +255,9 @@ Ceci nécessite cependant un solveur capable de résoudre des systèmes d'inéquatio
 Un outil potentiel pour cette application est nlopt, qui permet de minimiser des systèmes non-linéaires.
 Il existe aussi des méthodes pour mesurer des distances entre deux zones quelconques.
 Par exemple \cite{elber2008hausdorff}
+
+Une autre approche pour les collisions est d'utiliser les méthodes issues du jeu vidéo, avec 
+des notions de bounding box ou bounding sphere.
 
 Cette information peut ensuite être exposée dans l'arbre i-score, puis être réutilisée
 par la suite pour concevoir d'autres zones, ou bien être par la suite utilisée dans d'autres logiciels.
