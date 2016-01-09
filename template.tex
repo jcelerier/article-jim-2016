@@ -29,26 +29,31 @@ La simple présence de multiples paramètres dans une création multimédia permet d
 un paramètre à un autre.
 
 La plupart des outils permettant un travail spatial sont soit spécifiques à la création de 
-trajectoires pour des sons, dans un cadre musical, soient orientées vers la création de jeu vidéo 
+trajectoires pour des sons, dans un cadre musical, soit orientés vers la création de jeu vidéo 
 ou de formes spécifiques de médias.
 
 Nous cherchons ici des méthodes génériques, permettant de manipuler tout type de données spatiales 
-pour ensuite pouvoir les appliquer aux cas particuliers de la création musicale notamment dans un cadre interactif.
+pour ensuite pouvoir les appliquer aux cas particuliers de la création de scénographies interactif avec des éléments musicaux.
 
 Sera exposé un état de l'art des outils de création spatiale, puis nous présenterons deux modèles, 
 l'un géométrique et l'autre paramétrique, qui permettent de réaliser dans un cadre musical de nouveaux types de compositions, 
 notamment liées aux relations que l'on peut avoir entre plusieurs zones définies géométriquement.
-
-Ce modèle, intégré au séquenceur i-score, sera appliqué à deux études de cas : une chorégraphie de robots, 
-et une application de réalité augmentée audio.
+Ces modèles, intégrés au séquenceur i-score, seront appliqués à deux études de cas : 
+une chorégraphie de robots, et une application de réalité augmentée audio.
 
 Nous discuterons ensuite des évolutions possibles qui sont liées à un typage plus fort des données
-avec lesquelles on travaille : notamment les modes d'édition et de représentation qui peuvent être appliqués,
-ainsi que de la quesiton de la relation au temps d'objets spatiaux en deux dimensions ou plus.
+sur lesquelles on opère : notamment les modes d'édition et de représentation qui peuvent être appliqués,
+ainsi que la la relation au temps d'objets spatiaux en deux dimensions ou plus.
 
 
 \subsection{Existant}
-% TODO un état de l'art plus complet est présent dans le rapport du projet OSSIA.
+Nous présentons ici plusieurs applications opérant principalement dans un domaine 
+spatial, à but créatif.
+Un état de l'art plus complet est présent dans le compte-rendu du projet ANR OSSIA.
+Les thèmes abordés sont l'utilisation de contenus spatiaux en musique, 
+en scénographie, et en jeux vidéos, puis les différentes méthodes d'écriture et de 
+représentation qui existent.
+
 
 Une présentation de l'état actuel de l'écriture spatiale en musique est donnée dans~\cite{fober_les_2015}. Notamment, la question de la notation dans le cadre de partitions impliquant des éléments spatiaux est abordé. % CITER PARTITIONS GRAPHIQUES.
 Ces partitions peuvent être spatiales uniquement dans leur représentation, mais peuvent aussi indiquer des manières d'interpréter dans l'espace, notamment à l'aide de symboles spécialisés~\cite{ellberger_spatialization_2014}. Une taxinomie des possibilités de création dans l'espace en musiques électro-acoustiques est présentée par Bertrand Merlier dans~\cite{merlier_vocabulaire_2006}. Elle est étendue dans l'ouvrage \textit{Vocabulaire de l'espace en musique électro-acoustique\cite{merlier_vocabulaire_2006_book}}.
@@ -61,6 +66,11 @@ Une des problématiques actuelles pour la représentation de l'écriture musicale e
 Une autre question est l'association entre l'aspect graphique et le résultat. Ainsi, des outils tels que HoloEdit et HoloSpat permettent de travailler avec des trajectoires, mais sont extrêmement spécialisés pour des objets audio. C'est notamment du à la nécessité de composer en ayant conscience à chaque instant des fortes contraintes techniques du moyen de restitution de l'?uvre. Il serait intéressant d'utiliser ces trajectoires pour contrôler non pas des sources sonores mais des éléments dans des espaces de paramètres quelconques.
 
 Le logiciel IanniX\cite{jacquemin_iannix_2012} (fig.~\ref{fig.iannix}) dispose aussi de nombreuses possibilités d'écriture spatiale : les partitions sont des ensembles d'éléments graphiques définis paramétriquement ou bien à l'aide d'un langage de programmation dédié, que des curseurs vont parcourir. L'information de position de chaque curseur est envoyée en OSC, ce qui permet l'intégration à d'autres logiciels.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.45\textwidth]{images/iannix.png}
+    \caption{Le séquenceur graphique IanniX, inspiré de l'\oe uvre de Iannis Xenakis.}
+\end{figure}
 
 Une méthode d'écriture de la spatialisation par contraintes est proposée par Olivier Delerue avec le système MusicScpace\cite{delerue_spatialisation_2004}. Cela permet une approche déclarative à l'écriture de partition, en spécifiant des contraintes telles que <<~deux objets ne doivent jamais être à plus de deux mètres l'un de l'autre~>> ou bien <<~l'angle entre deux objets et l'auditeur doit être supérieur à 90 degrés~>>. Les objets peuvent être notamment des sources sonores. Une édition graphique de ces contraintes est proposée, et elles sont représentées en termes de cercles et de segments reliant les objets qu'elles contraignent.
 
@@ -74,6 +84,11 @@ En plus de lieux et de trajectoires, il est possible d'écrire l'interaction dans
 ainsi que la communication entre différents agents.
 Une nouveauté est la possibilité de travailler avec des champs définis mathématiquements. 
 Ces champs peuvent varier dans le temps et être sonifiés par la suite.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.45\textwidth]{images/cosm.png}
+    \caption{Un patch COSM dans Max/MSP.}
+\end{figure}
 
 Une approche de contrôle spatial est possible via le logiciel Blender, qui sert à l'origine à réaliser des images et films de synthèse.
 Blender peut être contrôlé via une API Python et il est notamment possible de déplacer des éléments et tester pour des collisions
@@ -89,6 +104,14 @@ réaliser la spatialisation : cela peut aller d'un simple panning gauche-droite à
 de HRTFs, comme le fait la bibliothèque OpenAL-soft. 
 
 \section{Examples}
+Afin d'avoir des possibilités de test de notre système, 
+nous présentons deux cas pratiques d'applications nécessitant 
+de l'écriture de contenus spatiaux.
+
+Dans les deux cas, on veut écrire une famille de scénarios interactifs
+qui manipulent des types d'objets fixés : des sources sonores virtuelles dans le premier cas
+et des robots dans le second cas.
+ 
 \subsection{Example : sonopluie}
 Cette application interactive utilise de la géolocalisation par téléphone.
 Plusieurs sources sonores sont apposées dans un espace, dans lequel les participants
@@ -114,7 +137,7 @@ une fois qu'une zone a été passée on veut activer d'autres zones pour
 faire un parcours et non une simple balade.
 
 \subsection{Example : robots}
-Ce projet consiste en la réalisation d'une chorégraphie de robots musicaux.
+Ce projet consiste en la réalisation d'une chorégraphie de robots musicaux, puis de drones.
 On dispose d'une flotte de robots open-source Metabot\footnote{\url{http://metabot.fr/}}
 Ces robots se contrôlent en vitesse : on écrit sur le port série des 
 commandes telles que \verb|dx 30| pour indique une vitesse de $\SI{30}{\centi\meter\per\second}$.
@@ -129,14 +152,9 @@ Ce logiciel de simulation permet d'afficher les robots et de détecter les collis
 empêcher qu'elles ne se produisent en pratique, avec des robots coûteux.
 On veut notamment utiliser le rythme de marche des robots pour produire de la musique.
 
-Chaque robot va posséder une trajectoire dans le plan..
-
-
-On conçoit une chorégraphie de robots et drones.
-
-Ils ont chacun une trajectoire qui peut évoluer dans le temps, en fonction de ce qu'il se passe.
-
-Les drones portent des hauts-parleurs tandis que les robot battent un rythme en tapant des pieds.
+Un des problèmes principaux est le contrôle en vitesse des robots : il faut 
+à partir d'une trajectoire décrivant une position, calculer la dérivée
+dans les deux ou trois directions pour l'envoyer aux robots.
 
 \section{Modèle}
 \subsection{Conception}
