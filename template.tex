@@ -169,7 +169,7 @@ On veut :
 \item animer soit via le temps soit via d'autres paramètres (mapping).
 \end{itemize}
 
-\subsubsection{Choix du modèle}
+\subsubsection{Choix d'un modèle pour l'écriture spatiale}
 Plusieurs modèles ont été envisagés pour écrire des scénarios spatiaux.
 Une approche repose sur les méthodes de description qualitative de l'espace, telles que RCC-8.
 Cependant de telles méthodes ne s'avèrent pas efficaces si on désire décrire des dispositions précises,
@@ -189,19 +189,28 @@ En revanche,  cette méthode manque doublement de flexibilité :
     \item Si un calcul implique deux (ou plus) zones abstraites, on assiste à une explosion combinatoire lorsque l'on désire rajouter une nouvelle zone car le calcul doit alors être défini entre la nouvelle zone et toutes les zones pré-existantes.
 \end{itemize}
 
-Une seconde méthode, permettant un maximum de flexibilité, a été étudiée :
-demander à l'utilisateur de remplir la fonction caractéristique d'une zone à l'aide d'un langage de programmation.
+Une troisième possibilité, numérique, et permettant un maximum de flexibilité, a été étudiée :
+on demande à l'utilisateur de remplir la fonction caractéristique d'une zone à l'aide d'un langage de programmation.
 Par la suite, on peut tester pour chaque point de l'espace son appartenance à la zone,
 en ayant la possibilité de faire des approximations.
 Cela permet notamment d'implémenter des objets spatiaux qui sont difficilement possibles
-à réaliser uniquement de manière mathématique, avec notamment des objets dont la définition contient des boucles ou des conditionnelles.
+à réaliser uniquement de manière mathématique, avec notamment des objets dont la définition contient des boucles ou des conditionnelles, voire des facteurs aléatoires.
 En revanche, on perd des possibilités d'analyse par la suite : on n'a en effet pas de forme générale des zones ainsi créées et on ne peut au mieux qu'effectuer des tests, couteux en temps de calcul, entre zones.
 Il est cependant toujours possible de prendre un échantillon des points de la zone pour appliquer une méthode de maillage telles que la triangulation de Delaunay\cite{nonato2001novel} qui produit un objet sur lequel on peut réaliser quelques calculs.
 Enfin, les performances ne sont pas adaptées à des évolutions rapides en temps réel;
-cela peut marcher en dimension 1 et pour des fonctions avec un nombre relativement important de points à calculer, mais est très lent en dimension 2 et impensable en dimension 3.
+cela peut marcher en dimension 1 et pour des fonctions avec un nombre relativement important de points à calculer, mais est lourd en ressources en dimension 2 et quasiment impensable en temps réel dimension 3.
 
-Une troisième question qui se pose est celle de l'interaction entre les zones et le temps.
-En effet, dans des logiciels comme IanniX, on dispose de courbes paramétrisées par des paramètres externes (souvent le temps).
+Enfin, l'utilisation de modèles mathématiques dédiés est possible.
+En général, il s'agit des modèles paramétriques, ou géométriques.
+Les modèles géométriques sont notamment très utilisés dans le domaine 
+de la conception assistée par ordinateur, tandis que les modèles paramétriques 
+sous-tendent la plupart des outils de spatialisation musicale, 
+notamment à l'aide des fonctions spline, ainsi 
+que de nombreux outils pour l'animation et les images de synthèse.
+
+\subsubsection{Dimensions non spatiales}
+Une question qui se pose pour le choix du modèle est celle de l'interaction entre les zones et le temps.
+En effet, dans des logiciels comme IanniX, on dispose de courbes paramétrisées par des paramètres externes ou par une horloge.
 Cette approche permet d'avoir dans une seule vue toute l'information possible.
 Cependant, ici nous pouvons avoir plus d'une dimension de paramétrisation.
 La question de l'affichage d'une variation au cours du temps se pose alors.
