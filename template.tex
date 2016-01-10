@@ -24,12 +24,12 @@
 
 \begin{abstract}
     L'écriture de partitions interactives évolue pour inclure du contenu spatial.
-    En effet, dans de nombreuses pratiques de création, musicales ou scénographiques, un travail sur des paramètres à plusieurs dimensions apparait nécessaires.
+    En effet, dans de nombreuses pratiques de création, musicales ou scénographiques, un travail sur des paramètres à plusieurs dimensions apparaît nécessaires.
     Cela peut être dû à de la spatialisation du son ou à la nécessité de répondre à des contraintes physiques sur une scène.
     Il est possible de définir des sous-espaces utiles pour la définition de ces paramètres dans des zones d'espace : les courbes de trajectoires paramétriques en sont un exemple. 
     Nous présentons les modélisations possibles pour l'écriture de contenu spatial.
     Un modèle mixte est choisi pour l'implémentation dans le séquenceur i-score. 
-    Il offre des moyens d'écriture très généraux ainsi que la possibilité de spécialiser et d'optimiser les cas particuliers lorsque cela s'avère nécessaire.
+    Il offre des moyens d'écriture très généraux ainsi que la possibilité de spécialiser et d'optimiser certains cas lorsque cela s'avère nécessaire.
     Cette implémentation comporte des outils d'édition, de visualisation, ainsi que deux possibles sémantiques d'exécution offrant une forte interopérabilité avec les scénarios interactifs.
 \end{abstract}
 
@@ -46,7 +46,7 @@ ou de formes spécifiques de médias.
 De par leur spécialisation pour des projets donnés, ils ne permettent pas toujours une utilisation facile dans un contexte autre que celui qui a été prévu au départ.
 
 Nous avons ici la démarche inverse : nous cherchons des méthodes génériques, permettant de manipuler tout type de données spatiales
-pour ensuite pouvoir les appliquer aux cas particuliers de la création de scénographies interactif avec des éléments musicaux.
+pour ensuite pouvoir les appliquer aux cas particuliers de la création de scénographies interactives avec des éléments musicaux.
 Cela a pour avantage une plus grande flexibilité, et une moindre nécessité d'utilisation de différents outils.
 C'est au prix de performances non optimales, qui peuvent néanmoins être optimisées par la suite.
 
@@ -65,17 +65,18 @@ Notamment, l'intégration d'un processus spatial à la sémantique d'exécution actu
 Nous présentons ici plusieurs applications opérant principalement dans un domaine
 spatial, à but créatif.
 Une version complète de cet état de l'art est présentée dans le compte-rendu du projet ANR OSSIA.
-Les thèmes abordés sont l'utilisation de contenus spatiaux en musique,
+Les thèmes étudiés sont l'utilisation de contenus spatiaux en musique,
 en scénographie, et en jeux vidéos, puis les différentes méthodes d'écriture et de
 représentation qui existent.
-De même, une présentation de l'état actuel de l'écriture spatiale en musique est donnée dans~\cite{fober_les_2015}. Notamment, la question de la notation dans le cadre de partitions impliquant des éléments spatiaux est abordé.
+De même, une présentation de l'état actuel de l'écriture spatiale en musique est donnée dans~\cite{fober_les_2015}. 
+Notamment, la question de la notation dans le cadre de partitions impliquant des éléments spatiaux est abordée.
 
 Ces partitions peuvent être spatiales uniquement dans leur représentation, mais peuvent aussi indiquer des manières d'interpréter dans l'espace, notamment à l'aide de symboles spécialisés~\cite{ellberger_spatialization_2014}. Une taxinomie des possibilités de création dans l'espace en musiques électro-acoustiques est présentée par Bertrand Merlier dans~\cite{merlier_vocabulaire_2006}. Elle est étendue dans l'ouvrage \textit{Vocabulaire de l'espace en musique électro-acoustique\cite{merlier_vocabulaire_2006_book}}.
 
 Des outils logiciels existent pour ces partitions -- ils sont souvent spécialisés. Par exemple, la bibliothèque ENP\cite{kuuskankare_expressive_2006} permet de concevoir des partitions graphiques à l'aide d'un éditeur lui aussi graphique et d'un langage basé sur LISP.
 
 
-Une des problématiques actuelles pour la représentation de l'écriture musicale est celle du geste, et de son lien avec la partition : comment notamment annoter le geste du musicien avec précision ? Et, inversement, comment à partir d'un geste créer un son correspondant ? Ces questions sont abordées dans la description de Soundstudio 4D\cite{sheridan_soundstudio_2004}, dans le cadre d'un système de conception de trajectoires pour spatialisation à l'aide d'interactions en trois dimensions.
+Une des problématiques actuelles pour la représentation de l'écriture musicale est celle du geste, et de son lien avec la partition : comment annoter le geste du musicien avec précision ? Et, inversement, comment à partir d'un geste créer un son correspondant ? Ces questions sont abordées dans la description de Soundstudio 4D\cite{sheridan_soundstudio_2004}, dans le cadre d'un système de conception de trajectoires pour spatialisation à l'aide d'interactions en trois dimensions.
 
 Une autre question est l'association entre l'aspect graphique et le résultat. Ainsi, des outils tels que HoloEdit et HoloSpat permettent de travailler avec des trajectoires, mais sont orientés vers un travail sur de l'audio. 
 C'est notamment du à la nécessité de composer en ayant conscience à chaque instant des fortes contraintes techniques du moyen de restitution de l'\oe uvre. 
@@ -99,7 +100,7 @@ Un modèle plus complet d'espace en trois dimensions est fourni par COSM\cite{wak
 Implémenté dans Max/MSP, il offre une grande richesse d'écriture mais n'a pas été mis à jour pour les dernières versions de Max.
 En plus de lieux et de trajectoires, il est possible d'écrire l'interaction dans une certaine mesure,
 ainsi que la communication entre différents agents.
-Une nouveauté est la possibilité de travailler avec des champs définis mathématiquements.
+Une nouveauté est la possibilité de travailler avec des champs définis mathématiquement.
 Ces champs peuvent varier dans le temps et être sonifiés par la suite.
 \begin{figure}
     \centering
@@ -124,7 +125,7 @@ réaliser la spatialisation : cela peut aller d'un simple panning gauche-droite à
 de HRTFs, comme le fait la bibliothèque OpenAL-soft.
 
 De manière générale, les moteurs et éditeurs de jeux, tels que Unreal Engine ou Unity offrent des possibilités d'interaction 
-très riches pour dispoer et animer ces sources dans le temps.
+très riches pour disposer et animer ces sources dans le temps.
 
 \section{Cas d'utilisation}
 Afin d'avoir des possibilités de test de notre système,
@@ -156,7 +157,7 @@ des points précédents et activer des points suivants, ou avoir des points qui se
 Ce projet consiste en la réalisation d'une chorégraphie de robots musicaux, puis de drones.
 On dispose d'une flotte de robots open-source Metabot\footnote{\url{http://metabot.fr/}}.
 Ces robots sont contrôlés en vitesse : on écrit sur le port série des
-commandes telles que \verb|dx 5| pour indique une vitesse de $\SI{5}{\centi\meter\per\second}$.
+commandes telles que \verb|dx 5| pour indiquer une vitesse de $\SI{5}{\centi\meter\per\second}$.
 Un logiciel a été conçu pour faire un mapping d'un arbre Minuit vers le port série.
 En parallèle, un logiciel de simulation, présenté en fig.~\ref{fig.metabots} est développé à l'aide d'OpenFrameworks, qui expose le même arbre Minuit.
 \begin{figure}
@@ -185,7 +186,7 @@ Les objectifs pour l'intégration des notions spatiales dans i-score sont :
 \item Une intégration avec l'écosystème existant.
 \item Support de l'animation : Une description fine des évolutions dans le temps (ou en fonction d'autres paramètres). 
 \item La possibilité d'écrire des scènes 2D, 3D basiques potentiellement en utilisant des guides (sources cartographiques, images).
-\item Des performances le plus proche possible du temps réel.
+\item Des performances les plus proches possible du temps réel.
 \end{itemize}
 
 \subsubsection{Modèles pour l'écriture spatiale}
@@ -216,11 +217,11 @@ Par la suite, on peut tester pour chaque point de l'espace son appartenance à la
 en ayant la possibilité de faire des approximations.
 Cela permet notamment d'implémenter des objets spatiaux qui sont difficilement possibles
 à réaliser uniquement de manière mathématique, avec notamment des objets dont la définition contient des boucles ou des conditionnelles, voire des facteurs aléatoires.
-En revanche, on perd des possibilités d'analyse par la suite : on n'a en effet pas de forme générale des zones ainsi créées et on ne peut au mieux qu'effectuer des tests, couteux en temps de calcul, entre zones.
+En revanche, on perd des possibilités d'analyse par la suite : on n'a en effet pas de forme générale des zones ainsi créées et on ne peut au mieux qu'effectuer des tests, coûteux en temps de calcul, entre zones.
 Il est cependant toujours possible de prendre un échantillon des points de la zone pour appliquer une méthode de maillage telles que la triangulation de Delaunay\cite{nonato2001novel} qui produit un objet sur lequel on peut réaliser plusieurs opérations plus simplement.
 Les bibliothèques CGAL\cite{boissonnat2000triangulations} et VTK\cite{schroeder2004visualization} proposent toutes deux des implémentations performantes de cette triangulation.
 Enfin, les performances ne sont pas adaptées à des évolutions rapides en temps réel;
-cela peut marcher en dimension 1 et pour des fonctions avec un nombre relativement important de points à calculer, mais est lourd en ressources en dimension 2 et quasiment impensable en temps réel dimension 3.
+cela peut marcher en dimension 1 et pour des fonctions avec un nombre relativement important de points à calculer, mais est lourd en ressources en dimension 2 et quasiment impensable en temps réel en dimension 3.
 
 Finalement, l'utilisation de modèles mathématiques dédiés est possible.
 En général, il s'agit des modèles paramétriques, ou géométriques.
@@ -241,7 +242,7 @@ Il est aussi possible d'afficher uniquement la trajectoire du centre  (ou d'un p
 Ce n'est pas dans le cas d'une zone définie avec des contraintes très faibles.
 Par exemple, pour un modèle géométrique, défini par $x < 0$, un demi-plan, on ne peut le définir.
 
-Une autre possibilité est d'avoir des boites séparées pour définir les animations.
+Une autre possibilité est d'avoir des boîtes séparées pour définir les animations.
 Cela permet plus de clarté, et permet aussi d'associer une seule trajectoire à
 plusieurs objets plus facilement :
 la trajectoire va écrire sur l'adresse \verb|/trajectoire/position| que
@@ -317,7 +318,7 @@ y_v = y_0
 \end{cases}
 \end{equation}
 
-Sont prévus par la suite des implémentations spécifiques au moins pour les droites, segments, plans et demi-plans, polygones, cercles, sphères, et tores.
+Sont prévues par la suite des implémentations spécifiques au moins pour les droites, segments, plans et demi-plans, polygones, cercles, sphères, et tores.
 
 
 Un paramètre peut être une constante, ou bien être un n\oe ud de l'arbre des paramètres i-score et donc 
@@ -339,7 +340,7 @@ Il est important de noter que la seule équation $y_v = sin(u)$ ne suffit pas.
 En effet, si on suppose qu'on applique la même transformation qu'en~\ref{eq.casedisc}, ici, la variable d'espace $x$ est non-contrainte.
 On a donc $y = k$ avec $k$ une constante à un instant donné.
 Le résultat sera une zone ayant pour forme une droite horizontale qui variera verticalement selon la fonction sinus.
-De la même manière, une zone qui ne contraindrait aucunes des dimensions correspond à l'intégralité de l'espace.
+De la même manière, une zone qui ne contraindrait aucune des dimensions correspond à l'intégralité de l'espace.
 
 L'autre implémentation : 
 \begin{equation}
@@ -391,7 +392,7 @@ Il y a plusieurs types d'automation dans i-score :
     \item Les mappings à une dimension : une fonction de transfert entre deux paramètres $u, v$ : $f : D(u) \rightarrow D(v)$.
     Les automations et mapping à une dimension sont des fonctions définies par partie; chaque partie peut être une fonction vide, un segment de droite, ou bien la fonction $f : x \rightarrow x^k$.
     Des fonctions supplémentaires peuvent être rajoutées par le biais de plug-ins.
-    \item Les automations à deux ou trois dimension : nous utilisons ici la bibliothèque \textit{vtk} pour afficher et éditer une spline à l'écran, à l'aide de l'objet~: ~\\ \verb|vtkSplineWidget|. 
+    \item Les automations à deux ou trois dimensions : nous utilisons ici la bibliothèque \textit{vtk} pour afficher et éditer une spline à l'écran, à l'aide de l'objet~: ~\\ \verb|vtkSplineWidget|. 
     De tels objets sont visibles en fig.~\ref{fig.spline}
 \end{itemize}
 
@@ -463,7 +464,7 @@ qui rendrait ces choix transparents pour l'utilisateur.
 La majeure partie de la complexité de l'implémentation provient
 de la gestion des zones génériques.
 Une tentative d'implémentation pour les calculs génériques sur les zones a été réalisée à l'aide du CAS \textit{GiNaC}~\cite{bauer2002introduction}.
-Cependant, cela ne s'est pas révélé être adapté : en effet la bibliothèque n'est pas thread-safe ce qui empêche de réaliser des calculs déportés sur un autre thread.
+Cependant, cela ne s'est pas révélée être adaptée : en effet la bibliothèque n'est pas thread-safe ce qui empêche de réaliser des calculs déportés sur un autre thread.
 L'implémentation actuelle est donc basée sur le parseur de fonctions mathématiques de la bibliothèque \textit{vtk}~\cite{schroeder2004visualization}.
 D'autres alternatives ont été envisagées : Symbolic C++, Sage, GNU Octave.
 
@@ -490,8 +491,8 @@ L'exécution du processus spatial se déroule de la manière suivante :
 \begin{itemize}
     \item Pour chaque zone dont un des paramètres est défini par une adresse externe, récupérer la valeur actuelle de cette adresse.
     \item Effectuer tous les calculs entre éléments de la zone puis les renvoyer dans l'état.
-    Dans le cas d'un processus générique, ces calculs peuvent prendrent du temps. 
-    Ainsi, un méchanisme de requête - réponse multi-threadé a été implémenté.
+    Dans le cas d'un processus générique, ces calculs peuvent prendre du temps. 
+    Ainsi, un méchanisme de requête / réponse multi-threadé a été implémenté.
     Cela permet de ne pas bloquer toute l'exécution du programme; en revanche le résultat de l'exécution 
     sera potentiellement décalé de plusieurs ticks.
 \end{itemize}
