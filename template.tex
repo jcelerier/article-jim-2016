@@ -110,8 +110,8 @@ de HRTFs, comme le fait la bibliothèque OpenAL-soft.
 
 \section{Cas d'utilisation}
 Afin d'avoir des possibilités de test de notre système,
-nous présentons deux cas pratiques d'applications nécessitant
-de l'écriture de contenus spatiaux.
+deux cas pratiques d'applications nécessitant de l'écriture de contenus spatiaux
+ont été étudiés.
 
 Dans les deux cas, on veut écrire une famille de scénarios interactifs
 qui manipulent des types d'objets fixés : des sources sonores virtuelles dans le premier cas
@@ -161,26 +161,28 @@ dans les deux ou trois directions pour l'envoyer aux robots.
 
 \section{Modèle}
 \subsection{Conception}
-On veut :
+Les objectifs pour l'intégration des notions spatiales dans i-score sont : 
 \begin{itemize}
-\item une intégration avec l'écosystème existant.
-\item Décrire finement des évolutions dans le temps (ou en fonction d'autres paramètres).
-\item pouvoir écrire des scènes 2D, 3D basiques potentiellement en utilisant des guides (GMaps, image).
-\item animer soit via le temps soit via d'autres paramètres (mapping).
+\item Une intégration avec l'écosystème existant.
+\item Support de l'animation : Une description fine des évolutions dans le temps (ou en fonction d'autres paramètres). 
+\item La possibilité d'écrire des scènes 2D, 3D basiques potentiellement en utilisant des guides (sources cartographiques, images).
+\item Des performances le plus proche possible du temps réel.
 \end{itemize}
 
-\subsubsection{Choix d'un modèle pour l'écriture spatiale}
+\subsubsection{Modèles pour l'écriture spatiale}
 Plusieurs modèles ont été envisagés pour écrire des scénarios spatiaux.
-Une approche repose sur les méthodes de description qualitative de l'espace, telles que RCC-8.
+
+Une première possibilité repose sur les méthodes de description qualitative de l'espace, telles que RCC-8\cite{gerevini_qualitative_2002}.
+Elles consistent en l'extension des relations de Allen\cite{allen_towards_1984}, à plus d'une dimension.
 Cependant de telles méthodes ne s'avèrent pas efficaces si on désire décrire des dispositions précises,
 avec des métriques sur les objets que l'on veut manipuler.
 Par exemple, on peut à l'aide de méthodes qualitatives écrire "A est à l'extérieur de B et lui est tangent, et A et B sont contenus dans C".
 Mais les pratiquent appellent plus souvent une écriture de la forme "A est un cercle de $1u$ centré en $(3, 3)$ dans une pièce de $5u$, et un pointeur B est situé en $(2, 3)$" ou $u$ est une unité de distance; on peut par la suite obtenir les relations RCC à partir des distances métriques tandis que l'inverse n'est pas possible.
 
-Une seconde possibilité est l'approche orientée objet : 
+Une seconde possibilité est l'approche orientée objet\cite{strauss1992object} : 
 on dispose d'une classe abstraite représentant une forme.
 Les classes dérivées implémentent des méthodes de dessin et de calcul 
-optimisées pour ces types.
+optimisées pour des formes concrètes : sphère, cube, etc.
 L'avantage est la possibilité d'avoir des exécutions très rapides dans certains cas.
 Par exemple, calculer la distance entre deux cercles est trivial.
 En revanche,  cette méthode manque doublement de flexibilité : 
@@ -196,11 +198,12 @@ en ayant la possibilité de faire des approximations.
 Cela permet notamment d'implémenter des objets spatiaux qui sont difficilement possibles
 à réaliser uniquement de manière mathématique, avec notamment des objets dont la définition contient des boucles ou des conditionnelles, voire des facteurs aléatoires.
 En revanche, on perd des possibilités d'analyse par la suite : on n'a en effet pas de forme générale des zones ainsi créées et on ne peut au mieux qu'effectuer des tests, couteux en temps de calcul, entre zones.
-Il est cependant toujours possible de prendre un échantillon des points de la zone pour appliquer une méthode de maillage telles que la triangulation de Delaunay\cite{nonato2001novel} qui produit un objet sur lequel on peut réaliser quelques calculs.
+Il est cependant toujours possible de prendre un échantillon des points de la zone pour appliquer une méthode de maillage telles que la triangulation de Delaunay\cite{nonato2001novel} qui produit un objet sur lequel on peut réaliser plusieurs opérations plus simplement.
+Les bibliothèques CGAL\cite{boissonnat2000triangulations} et VTK\cite{schroeder2004visualization} proposent toutes deux des implémentations performantes de cette triangulation.
 Enfin, les performances ne sont pas adaptées à des évolutions rapides en temps réel;
 cela peut marcher en dimension 1 et pour des fonctions avec un nombre relativement important de points à calculer, mais est lourd en ressources en dimension 2 et quasiment impensable en temps réel dimension 3.
 
-Enfin, l'utilisation de modèles mathématiques dédiés est possible.
+Finalement, l'utilisation de modèles mathématiques dédiés est possible.
 En général, il s'agit des modèles paramétriques, ou géométriques.
 Les modèles géométriques sont notamment très utilisés dans le domaine 
 de la conception assistée par ordinateur, tandis que les modèles paramétriques 
@@ -211,13 +214,13 @@ que de nombreux outils pour l'animation et les images de synthèse.
 \subsubsection{Dimensions non spatiales}
 Une question qui se pose pour le choix du modèle est celle de l'interaction entre les zones et le temps.
 En effet, dans des logiciels comme IanniX, on dispose de courbes paramétrisées par des paramètres externes ou par une horloge.
-Cette approche permet d'avoir dans une seule vue toute l'information possible.
-Cependant, ici nous pouvons avoir plus d'une dimension de paramétrisation.
+Cette approche permet d'avoir dans une seule vue toute l'information possible : on dessine la courbe pour un intervalle inclus dans l'ensemble de paramétrisation.
+Cependant, l'objectif des processus spatiaux est de posséder plus d'une dimension de paramétrisation.
 La question de l'affichage d'une variation au cours du temps se pose alors.
-On peut penser à afficher un dégradé qui serait complètement opaque pour le t donné, et serait de plus en plus transparent lorsque l'on s'en éloigne; un exemple d'affichage d'animation d'objet 3D au cours du temps est par exemple donné dans~\cite{casas_4d_2013}.
-Ou bien uniquement afficher la trajectoire du centre de l'objet au cours du temps, mais cela nécessite de pouvoir la calculer.
+On peut penser à afficher un dégradé qui serait complètement opaque pour une valeur de paramètre donné, et serait de plus en plus transparent lorsque l'on s'en éloigne; un exemple d'affichage d'animation d'objet 3D au cours du temps est par exemple donné dans~\cite{casas_4d_2013}.
+Il est aussi possible d'afficher uniquement la trajectoire du centre  (ou d'un point donné) de l'objet au cours du temps, mais cela nécessite de pouvoir la calculer.
 Ce n'est pas dans le cas d'une zone définie avec des contraintes très faibles.
-Par exemple, pour une zone définie par $x < 0$, un demi-plan, on ne peut le définir.
+Par exemple, pour un modèle géométrique, défini par $x < 0$, un demi-plan, on ne peut le définir.
 
 Une autre possibilité est d'avoir des boites séparées pour définir les animations.
 Cela permet plus de clarté, et permet aussi d'associer une seule trajectoire à
@@ -226,55 +229,119 @@ la trajectoire va écrire sur l'adresse \verb|/trajectoire/position| que
 les zones spatiales iront chercher à chaque tick d'horloge; elles peuvent par la suite
 utiliser les coordonnées ainsi obtenues comme bon leur semble.
 
-Nous offrons dans le logiciel les deux possibilités, mais l'affichage dans le premier cas n'est pas implémenté (le temps sera ceci dit pris en compte lors de l'exécution).
+\subsubsection{Espaces non cartésiens}
+Une considération importante est le support des objets définis autrement 
+que dans le système de coordonées cartésiennes.
+Le système le plus courant sera les coordonées polaires, 
+mais la question des espaces sur des types de paramètres autres a aussi été posée : 
+par exemple, un travail sur des espaces colorimétriques demanderait aussi 
+des outils adaptés car la conversion entre plusieurs de ces espaces, comme $\mathrm{RVB}$ et $\mathrm{L}^*\mathrm{a}^*\mathrm{b}^*$ est souvent non-linéaire.
 
-\subsection{Description}
-Approche inspirée de la modélisation géométrique, non focalisée sur le son.
+\subsection{Processus spatiaux dans i-score}
+Nous choisissons d'utiliser plusieurs des modèles exposés précédemment.
+Le c\oe ur de l'approche repose sur un modèle mixte, 
+géométrique et orienté objet pour la définition de 
+scènes spatiales, ainsi que sur des processus représentant des objets 
+paramétriques, en raison de leur practicité pour l'écriture de trajectoires, 
+très courantes dans les domaines d'application ciblés.
 
+Il n'y a pas de focalisation directe sur le son : les processus opèrent toujours 
+sur des données numériques quelconques.
 
-On définit des zones par un ensemble d'équations que l'on peut paramétriser - chaque équation est une contrainte.
+\subsubsection{Processus Espace}
+Dans le premier cas, on définit une classe abstraite de zone, 
+qui contient une liste d'équations et d'inéquations. 
+Ces équations et inéquations servent à contraindre la zone.
+Par exemple, on peut donner l'équation cartésienne d'un cercle, 
+ou d'une parabole.
+ 
+De là, il est possible d'offrir un comportement générique 
+pour l'affichage et les relations entre plusieurs zones, mais 
+il est aussi possible de spécialiser la classe de zone à des fins d'optimisations.
 
-Processus d'espace : possède un viewport.
-Un viewport possède des dimensions. Ces dimensions peuvent être spatiales, et il peut y avoir une dimension temporelle.
-% Problème : représentation du domaine de paramétrisation - ce qu'on ne fait pas ici.
+Ces zones sont contenues dans un processus Espace.
+Le processus Espace consiste en : 
+\begin{itemize}
+    \item Une liste de dimensions bornées.
+    \item Une liste de zones.
+    \item Une liste d'opérations entre zones.
+    \item Une fenêtre (\textit{viewport}).
+\end{itemize}
+ 
+Lorsque la définition d'une zone est donnée, on sépare en 
+deux ses paramètres. 
+Par exemple, dans le cas de l'équation d'un disque : 
+\begin{equation}
+(x_v - x_0)^2 + (y_v - y_0)^2 \leq r^2
+\end{equation}
+ 
+On permet à l'utilisateur d'attribuer à chaque inconnue, $x_v, y_v, x_0, y_0, r$, soit une dimension, soit un 
+paramètre.
+Les zones prédéfinies par héritage offrent une décomposition simple par défaut.
+Actuellement, seulement disque et pointeur sont offerts par défaut.
 
-La dimension temporelle est en fait une dimension de mapping pour l'exécution : (citer article OSSIA)
-la fonction d'exécution de i-score prend le temps en entrée, et sort un état.
-Cependant on pourrait imaginer que cette fonction prendrait d'autres valeurs en argument, on aurait ainsi un mapping simple à plusieurs dimensions.
-On affecte chacune de ces dimensions à un espace graphique : x, y, (par la suite z), potentiellement animation ainsi que des bornes potentielles.
+Le pointeur correspond à : 
 
-Dans ce viewport, on définit des zones par un ensemble d'équations.
-C'est donc une méthode analytique.
-On peut aussi travailler de manière plus libre, par exemple en modifiant des surfaces (nurbs) ou des splines, qui sont néanmoins retraduits de manièer mathématique par la suite.
-Par exemple, $x < y; x + y <= 2 + a$ forme une zone.
-On associe chaque variable de la zone soit à des composants de l'espace défini, soit à des paramètres.
-Un paramètre peut avoir une valeur par défaut, ainsi qu'une adresse présente dans l'arbre de paramètres i-score.
+\begin{equation}
+\begin{cases}
+x_v = x_0 \\
+y_v = y_0
+\end{cases}
+\end{equation}
 
-Le logiciel fournit aussi des zones par défaut, pour lesquelles un rendu plus propre peut être offert, en utilisant les primitives du moteur de rendu graphique (Qt).
-Les zones possibles sont cercle, pointeur. % TODO les autres
-Sinon, le rendu est actuellement fait par pixellisation / voxelisation. %TODO  parler d'autres méthodes
-Comme cette opération est couteuse, dans ce cas les zones n'évoluent pas en temps réel avec le changement des paramètres et s'affichent avec leur valeur par défaut.
+Un paramètre peut être une constante, ou bien être un n\oe ud de l'arbre des paramètres i-score et donc 
+provenir d'une source externe : OSC, MIDI, etc.
+Cela permet l'interactivité : il est possible de mapper des capteurs externes à des positions, ou à n'importe quel autre paramètre.
+Il est aussi possible d'utiliser l'écoulement du temps à l'exécution pour faire de l'animation spatiale.
 
-Enfin, on peut définir des calculs de relations entre les différentes zones.
-Par exemple, on peut obtenir l'information de collision entre zones.
+Enfin, on peut dans une certaine mesure définir des objets paramétriques : 
+\begin{equation}
+\begin{cases}
+x_v = u \\
+y_v = sin(u)
+\end{cases}
+\end{equation}
+avec $u$ un paramètre externe, ce paramètre pouvant être le temps.
+Cependant dans un tel cas, le processus ne considère qu'un point à la fois car le fonctionnement est par contraintes.
+Une autre approche paramétrique plus adaptée aux besoins courants de l'écriture spatiale est décrite en section~\ref{section.parametric}.
+ 
+Ensuite, on peut définir des calculs de relations entre les différentes zones.
+Par exemple, il est possible d'obtenir l'information de collision entre zones.
 Pour le cas du pointeur on va simplement évaluer les valeurs actuelles des informations de dimension par rapport aux autres zones, ce qui est une opération très rapide.
 De même pour les zones de types connus : il est possible d'exhiber des calculs spécialisés pour chaque relation entre deux types de zones.
-Enfin, pour deux zones génériques, non typées, nous pouvons chercher pour l'existance de solutions au système composé de l'ensemble de leurs équations.
+Enfin, pour des cas impliquant une zones générique, non typée, nous pouvons chercher pour l'existance de solutions au système composé de l'ensemble de leurs équations.
 Ceci nécessite cependant un solveur capable de résoudre des systèmes d'inéquations.
-Un outil potentiel pour cette application est nlopt, qui permet de minimiser des systèmes non-linéaires.
-Il existe aussi des méthodes pour mesurer des distances entre deux zones quelconques.
-Par exemple \cite{elber2008hausdorff}
+Un outil potentiel pour cette application est nlopt~\cite{johnson2014nlopt}, qui permet de minimiser des systèmes non-linéaires.
 
 Une autre approche pour les collisions est d'utiliser les méthodes issues du jeu vidéo, avec 
 des notions de bounding box ou bounding sphere.
+Des moteurs physiques tels que Bullet ou Open Dynamics Engine\cite{boeing2007evaluation} pourront par la suite être utilisés à cette fin.
 
-Cette information peut ensuite être exposée dans l'arbre i-score, puis être réutilisée
-par la suite pour concevoir d'autres zones, ou bien être par la suite utilisée dans d'autres logiciels.
+Le résultat des calculs peut ensuite être exposé dans l'arbre i-score, puis être réutilisé
+par la suite pour concevoir d'autres zones, ou bien en tant que sortie appliquée à un autre logiciel ou matériel.
 
 i-score étant un environnement ouvert, il est aussi possible de sortir des contraintes du langage mathématique pour les calculs.
 En effet, un processus Javascript est offert : il permet de réaliser des opérations complexes à chaque tick d'horloge.
+Il est alors possible de récupérer des informations d'un processus spatial, de les traiter en Javascript, puis de réutiliser 
+leur résultat au tick suivant.
+Les automations sont utilisables de la même manière.
 
-De la même manière, on peut utiliser les automations à une, deux, ou trois dimensions pour modifier les zones lors de l'exécution.
+
+% Un viewport possède des dimensions. Ces dimensions peuvent être spatiales, et il peut y avoir une dimension temporelle.
+% Problème : représentation du domaine de paramétrisation - ce qu'on ne fait pas ici.
+
+% La dimension temporelle est en fait une dimension de mapping pour l'exécution : (citer article OSSIA)
+% la fonction d'exécution de i-score prend le temps en entrée, et sort un état.
+% Cependant on pourrait imaginer que cette fonction prendrait d'autres valeurs en argument, on aurait ainsi un mapping simple à plusieurs dimensions.
+% VISUALISATION On affecte chacune de ces dimensions à un espace graphique : x, y, (par la suite z), potentiellement animation ainsi que des bornes potentielles.
+
+Dans ce viewport, on définit des zones par un ensemble d'équations.
+C'est donc une méthode analytique.
+% PERSPECTIVES On peut aussi travailler de manière plus libre, par exemple en modifiant des surfaces (nurbs) ou des splines, qui sont néanmoins retraduits de manièer mathématique par la suite.
+
+% RENDU Le logiciel fournit des zones par défaut, pour lesquelles un rendu plus propre peut être offert, en utilisant les primitives du moteur de rendu graphique (Qt).
+% RENDU Sinon, le rendu est actuellement fait par pixellisation / voxelisation. %TODO  parler d'autres méthodes
+Comme cette opération est couteuse, dans ce cas les zones n'évoluent pas en temps réel avec le changement des paramètres et s'affichent avec leur valeur par défaut.
 
 
 % donner example danseurs.
@@ -377,6 +444,7 @@ Mais par la suite, un modèle de calcul plus complet sera nécessaire pour rendre 
 qui peuvent exister entre différents processus.
 
 \subsubsection{Automations multi-dimensionnelles}
+\label{section.parametric}
 Il y a plusieurs types d'automation dans i-score :
 \begin{itemize}
     \item Les automations à une dimension : une fonction de transfert du temps $t$ vers un paramètre $u$ : $f : t \in [0; 1] \rightarrow D(u)$ ou $D$ est le domaine de définition tel que décrit dans %CITE i-score 2014
