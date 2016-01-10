@@ -324,7 +324,7 @@ Un état est un ensemble de messages qui peuvent être envoyés par réseau, comme u
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.30\textwidth]{images/arc1.png}
-    \caption{Processus spatial au début. La courbe d'automtion est mappée au paramètre $c$ de l'équation de la zone triangulaire.}
+    \caption{Processus spatial au début. La courbe d'automation est mappée au paramètre $c$ de l'équation de la zone triangulaire.}
 \end{figure}
 
 \begin{figure}[h]
@@ -336,9 +336,14 @@ L'exécution du processus spatial se déroule de la manière suivante :
 \begin{itemize}
     \item Pour chaque zone dont un des paramètres est défini par une adresse externe, récupérer la valeur actuelle de cette adresse.
     \item Effectuer tous les calculs entre éléments de la zone puis les renvoyer dans l'état.
+    Dans le cas d'un processus générique, ces calculs peuvent prendrent du temps. 
+    Ainsi, un méchanisme de requête - réponse mutli-threadé a été implémenté.
+    Cela permet de ne pas bloquer toute l'exécution du programme; en revanche le résultat de l'exécution 
+    sera potentiellement décalé de plusieurs ticks.
 \end{itemize}
 
 Ainsi, s'il y a rétroaction, elle se fait au tick d'après.
+
 
 Une autre sémantique est possible :
 i-score dispose d'un arbre de paramètres interne qu'il est aussi possible de manipuler.
