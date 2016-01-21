@@ -64,7 +64,6 @@ Notamment, l'intégration d'un processus spatial à la sémantique d'exécution actu
 \subsection{Existant}
 Nous présentons ici plusieurs applications opérant principalement dans un domaine
 spatial, à but créatif.
-Une version complète de cet état de l'art est présentée dans le compte-rendu du projet ANR OSSIA.
 Les thèmes étudiés sont l'utilisation de contenus spatiaux en musique,
 en scénographie, et en jeux vidéos, puis les différentes méthodes d'écriture et de
 représentation qui existent.
@@ -158,7 +157,7 @@ Ce projet consiste en la réalisation d'une chorégraphie de robots musicaux, puis
 On dispose d'une flotte de robots open-source Metabot\footnote{\url{http://metabot.fr/}}.
 Ces robots sont contrôlés en vitesse : on écrit sur le port série des
 commandes telles que \verb|dx 5| pour indiquer une vitesse de $\SI{5}{\centi\meter\per\second}$.
-Un logiciel a été conçu pour faire un mapping d'un arbre Minuit vers le port série.
+Un logiciel a été conçu pour faire un mapping d'un arbre Minuit\footnote{Minuit~\cite{de2011jamoma} est un protocole de communication basé sur OSC permettant la découverte via réseau des paramètres contrôlables d'un logiciel multimédia.} vers le port série.
 En parallèle, un logiciel de simulation, présenté en fig.~\ref{fig.metabots} est développé à l'aide d'OpenFrameworks, qui expose le même arbre Minuit.
 \begin{figure}
     \centering
@@ -255,6 +254,7 @@ Le système le plus courant sera les coordonées polaires,
 mais la question des espaces sur des types de paramètres autres a aussi été posée : 
 par exemple, un travail sur des espaces colorimétriques demanderait aussi 
 des outils adaptés car la conversion entre plusieurs de ces espaces, comme $\mathrm{RVB}$ et $\mathrm{L}^*\mathrm{a}^*\mathrm{b}^*$ est souvent non-linéaire.
+Pour ce faire, il est possible d'utiliser des outils tels que ceux fournis par la bibliothèque Jamoma~\cite{de2011jamoma}, offrant notamment des types de données de haut-niveau dans la \textit{DataspaceLib}.
 
 \subsection{Processus spatiaux dans i-score}
 Nous choisissons d'utiliser plusieurs des modèles exposés précédemment.
@@ -548,7 +548,7 @@ C'est important pour avoir un rendu fluide à l'exécution.
 Le nombre d'images par seconde du processus spatial sera potentiellement faible, mais il n'y aura pas de blocage
 de l'interface graphique pendant le rendu.
 
-D'autres méthodes sont à étudier, par exemple en utilisant des méthodes de triangulation qui ont été évoquées plus tôt.
+D'autres méthodes sont à étudier, par exemple en utilisant des algorithmes de triangulation qui ont été évoquées plus tôt.
 Cela aurait l'avantage de produire un format de données que les cartes graphiques peuvent consommer beaucoup plus aisément.
 
 Enfin, la question de l'affichage pour des dimensions non-spatiales, telles que le temps ou une échelle de couleur, 
@@ -582,7 +582,7 @@ font la majorité des logiciels d'images de synthèse, ou bien y avoir accès depui
 L'écriture spatiale dans un cadre scénographique ou musical 
 présente de nombreux choix en terme de modélisation, d'implémentation, 
 et de représentation.
-Nous avons présenté un extrait d'état de l'art des outils d'écriture spatiale 
+Nous avons présenté un état de l'art des outils d'écriture spatiale 
 dans ces domaines, dont une version plus complète est présente dans le rapport du projet de recherche OSSIA.
 Par la suite, les différentes méthodes pour aboutir à une écriture spatiale précise sont 
 présentées et discutées.
