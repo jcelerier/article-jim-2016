@@ -24,7 +24,7 @@
 
 \begin{abstract}
     L'écriture de partitions interactives évolue pour inclure du contenu spatial.
-    En effet, dans de nombreuses pratiques de création, musicales ou scénographiques, un travail sur des paramètres à plusieurs dimensions apparaît nécessaires.
+    En effet, dans de nombreuses pratiques de création, musicales ou scénographiques, un travail sur des paramètres à plusieurs dimensions apparaît nécessaire.
     Cela peut être dû à de la spatialisation du son ou à la nécessité de répondre à des contraintes physiques sur une scène.
     Il est possible de définir des sous-espaces utiles pour la définition de ces paramètres dans des zones d'espace : les courbes de trajectoires paramétriques en sont un exemple. 
     Nous présentons les modélisations possibles pour l'écriture de contenu spatial.
@@ -36,8 +36,8 @@
 \section{Introduction}
 Les pratiques de création multimédia incluent par définition des composantes spatiales.
 Celles-ci peuvent se manifester dès qu'un des types de donnée manipulé possède plus d'une dimension.
-La simple présence de multiples paramètres dans une création multimédia permet d'avoir une notion d'espace dans lequel on mappe
-un paramètre à un autre.
+La simple présence de multiples paramètres dans une création multimédia permet d'avoir une notion d'espace dans lequel on met en correspondance
+un paramètre avec un autre.
 Il est donc possible de définir de manière géométrique de nombreux éléments courants avec lesquels les compositeurs travaillent.
 
 Cependant, la plupart des outils permettant un travail d'écriture spatiale sont soit spécifiques à la création de
@@ -48,7 +48,7 @@ De par leur spécialisation pour des projets donnés, ils ne permettent pas toujou
 Nous avons ici la démarche inverse : nous cherchons des méthodes génériques, permettant de manipuler tout type de données spatiales
 pour ensuite pouvoir les appliquer aux cas particuliers de la création de scénographies interactives avec des éléments musicaux.
 Cela a pour avantage une plus grande flexibilité, et une moindre nécessité d'utilisation de différents outils.
-C'est au prix de performances non optimales, qui peuvent néanmoins être optimisées par la suite.
+Cependant, c'est au prix de performances non optimales, qui peuvent néanmoins être optimisées par la suite.
 
 Sera exposé un état de l'art des outils de création spatiale, puis nous présenterons deux modèles,
 l'un géométrique et l'autre paramétrique, qui permettent de réaliser différents types de compositions,
@@ -78,7 +78,7 @@ Des outils logiciels existent pour ces partitions -- ils sont souvent spécialisé
 
 Une des problématiques actuelles pour la représentation de l'écriture musicale est celle du geste, et de son lien avec la partition : comment annoter le geste du musicien avec précision ? Et, inversement, comment à partir d'un geste créer un son correspondant ? Ces questions sont abordées dans la description de Soundstudio 4D\cite{sheridan_soundstudio_2004}, dans le cadre d'un système de conception de trajectoires pour spatialisation à l'aide d'interactions en trois dimensions.
 
-Une autre question est l'association entre l'aspect graphique et le résultat. Ainsi, des outils tels que HoloEdit et HoloSpat permettent de travailler avec des trajectoires, mais sont orientés vers un travail sur de l'audio. 
+Une autre question est l'association entre l'aspect graphique et le résultat. Ainsi, des outils tels que Holo-Edit et Holo-Spat~\cite{cabaud2002controle} permettent de travailler avec des trajectoires, mais sont orientés vers un travail sur de l'audio. 
 C'est notamment du à la nécessité de composer en ayant conscience à chaque instant des fortes contraintes techniques du moyen de restitution de l'\oe uvre. 
 
 Le logiciel IanniX\cite{jacquemin_iannix_2012} (fig.~\ref{fig.iannix}) dispose aussi de nombreuses possibilités d'écriture spatiale : les partitions sont des ensembles d'éléments graphiques définis paramétriquement ou bien à l'aide d'un langage de programmation dédié, que des curseurs vont parcourir. L'information de position de chaque curseur est envoyée en OSC, ce qui permet l'intégration à d'autres logiciels, ainsi que des compositions par feedback.
@@ -90,9 +90,9 @@ Le logiciel IanniX\cite{jacquemin_iannix_2012} (fig.~\ref{fig.iannix}) dispose a
 \end{figure}
 
 
-Une méthode d'écriture de la spatialisation par contraintes est proposée par Olivier Delerue avec le système MusicSpace\cite{delerue_spatialisation_2004}. Cela permet une approche déclarative de l'écriture de partition, en spécifiant des contraintes telles que <<~deux objets ne doivent jamais être à plus de deux mètres l'un de l'autre~>> ou bien <<~l'angle entre deux objets et l'auditeur doit être supérieur à 90 degrés~>>. Les objets peuvent être notamment des sources sonores. Une édition graphique de ces contraintes est proposée, et elles sont représentées en termes de cercles et de segments reliant les objets qu'elles contraignent.
+Une méthode d'écriture de la spatialisation par contraintes est proposée par Olivier Delerue dans MusicSpace\cite{delerue_spatialisation_2004}. Cela permet une approche déclarative de l'écriture de partition, en spécifiant des contraintes telles que <<~deux objets ne doivent jamais être à plus de deux mètres l'un de l'autre~>> ou bien <<~l'angle entre deux objets et l'auditeur doit être supérieur à 90 degrés~>>. Les objets peuvent être notamment des sources sonores. Une édition graphique de ces contraintes est proposée, et elles sont représentées en termes de cercles et de segments reliant les objets qu'elles contraignent.
 
-Des données spatiales peuvent aussi être utilisées directement pour créer des mappings sonores. C'est le cas notamment de la bibliothèque Topos\cite{naveda_topos_2014}, qui permet de capter le mouvement de danseurs et d'en extraire des informations pouvant être utiles pour la conception de pièces de musique interactives. Une fois que le mouvement du danseur est capturé via un périphérique externe, il devient possible d'extraire des informations telles que le volume occupé par le danseur, sa vitesse, ou bien diverses mesures relatives à l'évolution de deux ou quatres points dans le temps, comme l'instabilité ou les collisions entre différentes parties du corps. Ces données peuvent ensuite être réutilisées dans Pure Data pour de la génération de musique.
+Des données spatiales peuvent aussi être utilisées directement pour créer des mises en correspondance (\textit{mappings}) sonores. C'est le cas notamment de la bibliothèque Topos\cite{naveda_topos_2014}, qui permet de capter le mouvement de danseurs et d'en extraire des informations pouvant être utiles pour la conception de pièces de musique interactives. Une fois que le mouvement du danseur est capturé via un périphérique externe, il devient possible d'extraire des informations telles que le volume occupé par le danseur, sa vitesse, ou bien diverses mesures relatives à l'évolution de deux ou quatres points dans le temps, comme l'instabilité ou les collisions entre différentes parties du corps. Ces données peuvent ensuite être réutilisées dans Pure Data pour de la génération de musique.
 
 Enfin, il convient de noter la richesse pour ce qui est des modes d'entrée et d'interaction. Par exemple, il existe plusieurs possibilités de composition musicale à l'aide de tables interactives comme la Reactable\cite{kaltenbranner_reactable:_2006} et différentes approches dérivées qui peuvent être spécifiquement axées sur la spatialisation du son\cite{sasamoto_controlling_2013}.
 
@@ -110,8 +110,8 @@ Ces champs peuvent varier dans le temps et être sonifiés par la suite.
 \end{figure}
 
 Une approche de contrôle spatial est possible via le logiciel Blender, qui sert à l'origine à réaliser des images et films de synthèse.
-Blender a déjà été utilisé à d'autres occasions pour de la spatialisation de son\cite{olaiz20093d}.
-Blender peut être contrôlé via une API Python et il est notamment possible de déplacer des éléments et tester pour des collisions
+Blender a déjà été utilisé à d'autres occasions pour de la spatialisation de son~\cite{olaiz20093d} et de la simulation acoustique~\cite{brink2006verse}.
+Blender peut être contrôlé via une API Python et il est notamment possible de déplacer des éléments et tester la présence de collisions
 ou d'autres propriétés géométriques. Néanmoins, cela se fait à la vitesse de son moteur d'exécution qui est fixée à 60 Hz.
 Les messages reçus entre deux trames sont accumulés.
 
@@ -121,7 +121,7 @@ permettant de bénéficier de spatialisation simplement en donnant une position et
 à des sources sonores ponctuelles. 
 Cette position et orientation peuvent évoluer dans le temps.
 Par la suite les implémentations sont libres d'utiliser les méthodes qu'elles souhaitent pour
-réaliser la spatialisation : cela peut aller d'un simple panning gauche-droite à l'utilisation
+réaliser la spatialisation : cela peut aller d'une simple panoramique gauche-droite à l'utilisation
 de HRTFs, comme le fait la bibliothèque OpenAL-soft.
 
 De manière générale, les moteurs et éditeurs de jeux, tels que Unreal Engine ou Unity offrent des possibilités d'interaction 
@@ -197,7 +197,7 @@ Elles consistent en l'extension des relations de Allen\cite{allen_towards_1984},
 Cependant de telles méthodes ne s'avèrent pas efficaces si on désire décrire des dispositions précises,
 avec des métriques sur les objets que l'on veut manipuler.
 Par exemple, on peut à l'aide de méthodes qualitatives écrire "A est à l'extérieur de B et lui est tangent, et A et B sont contenus dans C".
-Mais les pratiquent appellent plus souvent une écriture de la forme "A est un cercle de $1u$ centré en $(3, 3)$ dans une pièce de $5u$, et un pointeur B est situé en $(2, 3)$" ou $u$ est une unité de distance; on peut par la suite obtenir les relations RCC à partir des distances métriques tandis que l'inverse n'est pas possible.
+Mais les pratiques appellent plus souvent une écriture de la forme "A est un cercle de $1u$ centré en $(3, 3)$ dans une pièce de $5u$, et un pointeur B est situé en $(2, 3)$" ou $u$ est une unité de distance; on peut par la suite obtenir les relations RCC à partir des distances métriques tandis que l'inverse n'est pas possible.
 
 Une seconde possibilité est l'approche orientée objet\cite{strauss1992object} : 
 on dispose d'une classe abstraite représentant une forme.
@@ -243,11 +243,10 @@ Ce n'est pas dans le cas d'une zone définie avec des contraintes très faibles.
 Par exemple, pour un modèle géométrique, défini par $x < 0$, un demi-plan, on ne peut le définir.
 
 Une autre possibilité est d'avoir des boîtes séparées pour définir les animations.
-Cela permet plus de clarté, et permet aussi d'associer une seule trajectoire à
-plusieurs objets plus facilement :
-la trajectoire va écrire sur l'adresse \verb|/trajectoire/position| que
-les zones spatiales iront chercher à chaque tick d'horloge; elles peuvent par la suite
-utiliser les coordonnées ainsi obtenues comme bon leur semble.
+Cela permet plus de clarté, et autorise à associer une seule trajectoire à
+plusieurs objets plus facilement : 
+La boîte contenant la trajectoire va écrire à chaque tic d'horloge sur une adresse OSC. 
+Les zones spatiales peuvent ensuite aller chercher la valeur de cette adresse; l'auteur peut utiliser ces coordonnées dans l'écriture de l'interactivité de ces zones.
 
 \subsubsection{Espaces non cartésiens}
 Une considération importante est le support des objets définis autrement 
@@ -295,17 +294,17 @@ Pour les examples qui suivent, on se place dans un espace à deux dimensions $x, 
 Par exemple, dans le cas de l'équation d'un disque : 
 \begin{equation}
 \label{eq.disc}
-(x_v - x_0)^2 + (y_v - y_0)^2 \leq r^2
+(u - x_0)^2 + (v - y_0)^2 \leq r^2
 \end{equation}
  
-On permet à l'utilisateur d'attribuer à chaque inconnue, $x_v, y_v, x_0, y_0, r$, soit une dimension, soit un 
+On permet à l'utilisateur d'attribuer à chaque inconnue, $u, v, x_0, y_0, r$, soit une dimension, soit un 
 paramètre.
 Les zones prédéfinies par héritage offrent une décomposition simple par défaut.
 Par exemple, pour le disque : 
 \begin{equation}\label{eq.casedisc}
 \begin{cases}
-    x \rightarrow x_v\\
-    y \rightarrow y_v
+    x \rightarrow u\\
+    y \rightarrow v
 \end{cases}
 \end{equation}
 
@@ -313,8 +312,8 @@ Actuellement, les primitives prédéfinies sont disque et pointeur.
 Le pointeur correspond à : 
 \begin{equation}
 \begin{cases}
-x_v = x_0 \\
-y_v = y_0
+u = x_0 \\
+v = y_0
 \end{cases}
 \end{equation}
 
@@ -329,14 +328,14 @@ Il est aussi possible d'utiliser l'écoulement du temps à l'exécution pour faire 
 Enfin, on peut dans une certaine mesure définir des objets paramétriques : 
 \begin{equation}
 \begin{cases}
-x_v = u \\
-y_v = sin(u)
+u = t \\
+v = sin(t)
 \end{cases}
 \end{equation}
-avec $u$ un paramètre externe, ce paramètre pouvant être le temps.
+avec $t$ un paramètre externe, pouvant être le temps.
 Cependant dans un tel cas, le processus ne considère qu'un point à la fois car le fonctionnement est par contraintes.
 Une autre approche paramétrique plus adaptée aux besoins courants de l'écriture spatiale est décrite en section~\ref{section.parametric}.
-Il est important de noter que la seule équation $y_v = sin(u)$ ne suffit pas. 
+Il est important de noter que la seule équation $v = sin(t)$ ne suffit pas. 
 En effet, si on suppose qu'on applique la même transformation qu'en~\ref{eq.casedisc}, ici, la variable d'espace $x$ est non-contrainte.
 On a donc $y = k$ avec $k$ une constante à un instant donné.
 Le résultat sera une zone ayant pour forme une droite horizontale qui variera verticalement selon la fonction sinus.
@@ -344,7 +343,7 @@ De la même manière, une zone qui ne contraindrait aucune des dimensions correspo
 
 L'autre implémentation : 
 \begin{equation}
-y_v = sin(x_v)
+v = sin(u)
 \end{equation}
 est entièrement statique car elle ne dépend pas de paramètres externes. 
  
@@ -354,24 +353,25 @@ sous-classée pour gérer des cas soit très courants, soit ne pouvant s'exprimer s
 Par exemple, il est possible d'obtenir l'information de collision entre zones.
 Pour le cas du pointeur on va simplement évaluer les valeurs actuelles des informations de dimension par rapport aux autres zones, ce qui est une opération très rapide.
 De même pour les zones de types connus : il est possible d'exhiber des calculs spécialisés pour chaque relation entre deux types de zones.
-Enfin, pour des cas impliquant une zones générique, non typée, nous pouvons chercher pour l'existance de solutions au système composé de l'ensemble de leurs équations.
+Enfin, pour des cas impliquant une zone générique, non typée, nous pouvons chercher l'existence de solutions au système composé de l'ensemble de leurs équations.
 Ceci nécessite cependant un solveur capable de résoudre des systèmes d'inéquations.
 Un outil potentiel pour cette application est \textit{nlopt}~\cite{johnson2014nlopt}, qui permet de minimiser des systèmes non-linéaires.
 
 Une autre approche pour les collisions est d'utiliser les méthodes issues du jeu vidéo, avec 
-des notions de bounding box ou bounding sphere.
+des notions de cube englobant ou sphère englobante.
+De nombreuses approches plus perfectionnées pour la gestion des collisions sont présentées pour référence dans \cite{lin1998collision}.
 Des moteurs physiques tels que \textit{Bullet} ou \textit{Open Dynamics Engine}\cite{boeing2007evaluation} 
 pourront par la suite être utilisés à cette fin.
 
-Le résultat des calculs est ensuite exposé dans l'arbre i-score, puis être réutilisé
-par la suite pour concevoir d'autres zones, ou bien en tant que sortie appliquée à un autre logiciel ou matériel.
+Le résultat des calculs est ensuite exposé dans l'arbre i-score, pour être réutilisé
+par la suite afin de concevoir d'autres zones, ou bien en tant que sortie appliquée à un autre logiciel ou matériel.
 
 i-score étant un environnement ouvert, il est aussi possible de sortir des contraintes du langage mathématique pour les calculs.
-En effet, un processus Javascript est offert : il permet de réaliser des opérations complexes à chaque tick d'horloge.
+En effet, un processus Javascript est offert : il permet de réaliser des opérations complexes à chaque tic d'horloge.
 Il est alors possible de récupérer des informations d'un processus spatial, de les traiter en Javascript, puis de réutiliser 
-leur résultat au tick suivant.
+leur résultat au tic suivant.
 Les automations sont utilisables de la même manière.
-Néanmoins, à terme, un modèle de calcul permettant du chaînage dans un seul tick sera nécessaire.
+Néanmoins, à terme, un modèle de calcul permettant du chaînage dans un seul tic sera nécessaire.
 
 \subsubsection{Automations multi-dimensionnelles}
 \label{section.parametric}
@@ -379,7 +379,7 @@ Néanmoins, à terme, un modèle de calcul permettant du chaînage dans un seul tick
 \begin{figure}
     \centering
     \includegraphics[scale=0.3]{images/spline.png}
-    \caption{Une spline 3D dans i-score. On affiche actuellement la courbe dans le panneau inférieur en raison d'une limitation de l'implémentation du panneau central.}
+    \caption{Une spline 3D dans i-score.}
     \label{fig.spline}
 \end{figure}
 En plus du processus Espace, des possibilités d'écriture 
@@ -492,12 +492,12 @@ L'exécution du processus spatial se déroule de la manière suivante :
     \item Pour chaque zone dont un des paramètres est défini par une adresse externe, récupérer la valeur actuelle de cette adresse.
     \item Effectuer tous les calculs entre éléments de la zone puis les renvoyer dans l'état.
     Dans le cas d'un processus générique, ces calculs peuvent prendre du temps. 
-    Ainsi, un méchanisme de requête / réponse multi-threadé a été implémenté.
+    Ainsi, un mécanisme de requête / réponse sur plusieurs fils d'exécution a été implémenté.
     Cela permet de ne pas bloquer toute l'exécution du programme; en revanche le résultat de l'exécution 
-    sera potentiellement décalé de plusieurs ticks.
+    sera potentiellement décalé de plusieurs tics.
 \end{itemize}
 
-Ainsi, s'il y a rétroaction, elle se fait au tick d'après.
+Ainsi, s'il y a rétroaction, elle se fait au tic d'après.
 Deux étapes d'exécution sont présentées en fig.~\ref{fig.space1} et fig.~\ref{fig.space2}.
 
 Une autre sémantique est possible :
@@ -624,7 +624,7 @@ Les auteurs tiennent à remercier les élèves ayant
 réalisé le logiciel de simulation pour Metabots : 
 Maxime Paillassa et Akané Levy.
 Ces travaux sont issus du projet de recherche OSSIA, 
-financé par le projet ANR-12-COORD-0024.
+financé par l'Agence Nationale de la Recherche sous la référence ANR-12-COORD-0024.
 \bibliographystyle{plain}
 \bibliography{document} % or
 \end{document}
