@@ -466,7 +466,7 @@ de la gestion des zones génériques.
 Une tentative d'implémentation pour les calculs génériques sur les zones a été réalisée à l'aide du CAS \textit{GiNaC}~\cite{bauer2002introduction}.
 Cependant, cela ne s'est pas révélée être adaptée : en effet la bibliothèque n'est pas thread-safe ce qui empêche de réaliser des calculs déportés sur un autre thread.
 L'implémentation actuelle est donc basée sur le parseur de fonctions mathématiques de la bibliothèque \textit{vtk}~\cite{schroeder2004visualization}.
-D'autres alternatives ont été envisagées : Symbolic C++, Sage, GNU Octave.
+D'autres alternatives ont été envisagées : SymbolicC++\cite{tan2012symbolicc++}, GNU Octave\cite{eaton1997gnu}, Sage\footnote{\url{http://www.sagemath.org/}}.
 
 \subsection{Sémantique d'exécution du processus Espace}
 La sémantique générale d'exécution d'i-score est donnée dans \cite{celerier_ossia:_2015}.
@@ -483,8 +483,8 @@ Un état est un ensemble de messages qui peuvent être envoyés par réseau, comme u
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.30\textwidth]{images/arc2.png}
-    \caption{Processus spatial durant l'exécution. Il est possible de récupérer l'information de collision entre le disque et la zone pour déclencher des évènements ailleurs dans i-score.}
+    \includegraphics[width=0.30\textwidth]{images/arc3.png}
+    \caption{Processus spatial durant l'exécution. $c$ a augmenté, et la zone triangulaire est mise à jour en conséquence. Il est possible de récupérer l'information de collision entre le disque et la zone pour déclencher des évènements ailleurs dans i-score.}
     \label{fig.space2}
 \end{figure}
 L'exécution du processus spatial se déroule de la manière suivante :
