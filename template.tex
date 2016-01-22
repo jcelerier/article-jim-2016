@@ -143,8 +143,6 @@ Cet espace virtuel est mappé au monde réel lors du parcours.
 Ce mapping est réalisé en positionnant les zones sur une carte issue d'un service web.
 Le système mesure la distance de chaque participant aux sources, et va jouer les sources
 sonores plus ou moins fort en fonction de cette distance.
-La spatialisation est réalisée par la bibliothèque OpenAL \cite{hiebert_openal_2005}.
-En effet, elle est supportée sur de nombreux appareils mobiles courants.
 
 Il manque un outil simple d'écriture pour disposer les zones dans l'espace,
 leur associer des sons et des comportements.
@@ -152,6 +150,36 @@ Un des objectifs du projet est d'offrir de l'interaction et de l'évolutivité dan
 par exemple, après s'être approché d'un point donné, on voudrait pouvoir désactiver
 des points précédents et activer des points suivants, ou avoir des points qui se déplacent.
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.45\textwidth]{images/sonopluie.png}
+    \caption{Un scénario de type Sonopluie}
+    \label{fig.sonopluie}
+\end{figure}
+
+Un scénario d'example, tel qu'implémenté dans i-score, consiste en : 
+\begin{itemize}
+    \item Une source de géolocalisation exposée dans un arbre Minuit.
+    \item Un moteur audio gérant la spatialisation via positionnement de sources.
+    Nous utilisons ici la bibliothèque OpenAL \cite{hiebert_openal_2005}, 
+    dans son implémentation \verb|OpenAL-soft|.
+    En effet, elle est supportée sur de nombreux appareils mobiles courants. 
+    Elle aussi est implémentée en Minuit.
+    \item Un projet i-score qui consiste en : 
+    \begin{itemize}
+        \item Une boucle principale contenant l'application complète.
+        \item Dans cette boucle, un processus Espace ou sont instanciées les zones sous 
+        forme de disque. Pour cet exemple il y a trois zones. Ce processus est détaillé dans la partie suivante.
+        \item Un nombre de pointeurs statiques est alloué à l'avance. 
+        Leur position correspond à celle des sources de géolocalisation.
+        \item On va réaliser deux tests : distance au centre d'une zone, collision.
+        La collision va servir à activer le son, et la distance à contrôler un dosage d'effet, par exemple une réverbération.
+        \item Cette boucle contient aussi un scénario muni de plusieurs contraintes temporelles.
+        Ces contraintes ont pour mission d'animer une des zones en la déplaçant au cours du temps, et d'activer la troisième zone uniquement quand les deux premières ont été visitées.
+    \end{itemize}
+\end{itemize}
+
+Ce scénario est visible en figure \ref{fig.sonopluie}.
 \subsection{Example : robots}
 Ce projet consiste en la réalisation d'une chorégraphie de robots musicaux, puis de drones.
 On dispose d'une flotte de robots open-source Metabot\footnote{\url{http://metabot.fr/}}.
@@ -173,11 +201,13 @@ Chaque robot va posséder une trajectoire dans le plan.
 Cette trajectoire pourra potentiellement changer en fonction des choix du metteur en scène,
 ou bien du comportement des autres robots : par exemple, si un robot tombe en panne en face d'un autre,
 un changement de trajectoire doit être opéré (ou bien le robot doit s'arrêter).
+Pour ce faire, un autre logiciel est présent sur le réseau : ce logiciel détecte à chaque instant la position de chaque robot et l'expose via Minuit. 
+L'auteur peut donc utiliser cette information pour prévoir des cas d'urgence, comme mettre fin au spectacle gracieusement si trop de robots tombent en panne.
 
 Un des problèmes principaux est le contrôle en vitesse des robots : il faut
 à partir d'une trajectoire décrivant une position, calculer la dérivée
 dans les deux ou trois directions pour l'envoyer aux robots.
-
+Dans l'attente d'un modèle de calcul plus complet et générique, cela peut être fait dans le processus qui gère des trajectoires.
 \section{Modèle}
 \subsection{Conception}
 Les objectifs pour l'intégration des notions spatiales dans i-score sont : 
