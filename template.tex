@@ -12,15 +12,31 @@
 \usepackage{microtype}
 
 \title{Outils d'écriture spatiale pour les partitions interactives}
-
+    \makeatletter
+    \let\@fnsymbol\@arabic
+    \makeatother
 
 \threeauthors
-  {Jean-Michaël Celerier} {Blue Yeti , LaBRI\\ jcelerie@labri.fr}
-  {Myriam Desainte-Catherine} {LaBRI \\ myriam@labri.fr}
-  {Jean-Michel Couturier} {Blue Yeti \\ jmc@blueyeti.fr}
+  {Jean-Michaël Celerier} {LaBRI$^1$, Blue Yeti$^4$\\ \thanks{1. Univ. Bordeaux, LaBRI, UMR 5800, F-33400 Talence, France.}jcelerie@labri.fr}
+  {Myriam Desainte-Catherine} {LaBRI$^{1,2}$, INRIA$^3$\thanks{2. CNRS, LaBRI, UMR 5800, F-33400 Talence, France.}\thanks{3. INRIA, F-33400 Talence, France.}\\myriam@labri.fr}
+  {Jean-Michel Couturier} {Blue Yeti$^4$\thanks{4. Blue Yeti, Saint-Georges de Didonne, F-17110 France.}\\jmc@blueyeti.fr}
 
 \begin{document}
+    
+   % \author[1,2,3]{Jaime Arias\thanks{Electronic address: \texttt{jaime.arias@inria.fr}; Corresponding author}}
+   % \author[1,2,4]{Jean-Micha\"el Celerier}
+   % \author[1,2,3]{Myriam Desainte-Catherine}
+    
+    
+   % \affil[1]{Univ. Bordeaux, LaBRI, UMR 5800, F-33400 Talence, France.}
+   % \affil[2]{CNRS, LaBRI, UMR 5800, F-33400 Talence, France.}
+   % \affil[3]{INRIA, F-33400 Talence, France.}
+   % \affil[4]{Blue Yeti, F-17110 France.}
 \maketitle
+%\footnote{\label{affil1} Univ. Bordeaux, LaBRI, UMR 5800, F-33400 Talence, France.}
+%\footnote{\label{affil2}CNRS, LaBRI, UMR 5800, F-33400 Talence, France.}
+%\footnote{\label{affil3}INRIA, F-33400 Talence, France.}
+%\footnote{\label{affil4}Blue Yeti, F-17110 France.}
 
 \begin{abstract}
     L'écriture de partitions interactives évolue pour inclure du contenu spatial.
@@ -70,7 +86,7 @@ représentation qui existent.
 Une présentation exhaustive de l'état actuel de l'écriture spatiale en musique est donnée dans~\cite{fober_les_2015}. 
 Notamment, la question de la notation dans le cadre de partitions impliquant des éléments spatiaux y est abordée.
 
-Ces partitions, graphiques, peuvent être spatiales uniquement dans leur représentation, mais peuvent aussi indiquer des manières d'interpréter dans l'espace, notamment à l'aide de symboles spécialisés~\cite{ellberger_spatialization_2014}. Une taxinomie des possibilités de création dans l'espace en musiques électro-acoustiques est présentée par Bertrand Merlier dans~\cite{merlier_vocabulaire_2006}. Elle est étendue dans l'ouvrage \textit{Vocabulaire de l'espace en musique électro-acoustique\cite{merlier_vocabulaire_2006_book}}.
+Ces partitions, graphiques, peuvent être spatiales uniquement dans leur représentation, mais peuvent aussi indiquer des manières d'interpréter dans l'espace, notamment à l'aide de symboles spécialisés~\cite{ellberger_spatialization_2014}. Une taxinomie des possibilités de création dans l'espace en musiques électro-acoustiques est présentée par Bertrand Merlier, notamment dans l'ouvrage \textit{Vocabulaire de l'espace en musique électro-acoustique\cite{merlier_vocabulaire_2006_book}}.
 
 Des outils logiciels existent pour ces partitions -- ils sont souvent spécialisés. Par exemple, la bibliothèque ENP\cite{kuuskankare_expressive_2006} permet de concevoir des partitions graphiques à l'aide d'un éditeur lui aussi graphique et d'un langage basé sur LISP.
 
@@ -78,7 +94,7 @@ Des outils logiciels existent pour ces partitions -- ils sont souvent spécialisé
 Une des problématiques actuelles pour la représentation de l'écriture musicale est celle du geste, et de son lien avec la partition : comment annoter le geste du musicien avec précision ? Et, inversement, comment à partir d'un geste créer un son correspondant ? Ces questions sont abordées dans la description de Soundstudio 4D\cite{sheridan_soundstudio_2004}, dans le cadre d'un système de conception de trajectoires pour spatialisation à l'aide d'interactions en trois dimensions.
 
 Une autre question est l'association entre l'aspect graphique et le résultat. Ainsi, des outils tels que Holo-Edit et Holo-Spat~\cite{cabaud2002controle} permettent de travailler avec des trajectoires, mais sont orientés vers un travail sur de l'audio. 
-C'est dû à la nécessité de composer en ayant conscience à chaque instant des fortes contraintes techniques du moyen de restitution de l'\oe uvre. 
+C'est dû à la nécessité de composer en ayant conscience à chaque instant des fortes contraintes techniques du moyen de restitution de l'\oe uvre; par exemple, la configuration de hauts-parleurs pourra être fixée par l'auditorium et l'artiste doit alors travailler avec. 
 
 Le logiciel IanniX\cite{jacquemin_iannix_2012} (fig.~\ref{fig.iannix}) dispose aussi de nombreuses possibilités d'écriture spatiale : les partitions sont des ensembles d'éléments graphiques définis paramétriquement ou bien à l'aide d'un langage de programmation dédié, que des curseurs vont parcourir. L'information de position de chaque curseur est envoyée en OSC, ce qui permet l'intégration à d'autres logiciels, ainsi que des compositions par feedback.
 \begin{figure}
@@ -93,7 +109,7 @@ Une méthode d'écriture de la spatialisation par contraintes est proposée par Oli
 
 Des données spatiales peuvent aussi être utilisées directement pour créer des mises en correspondance (\textit{mappings}) sonores. C'est le cas de la bibliothèque Topos\cite{naveda_topos_2014}, qui permet de capter le mouvement de danseurs et d'en extraire des informations pouvant être utiles pour la conception de pièces de musique interactives. Une fois que le mouvement du danseur est capturé via un périphérique externe, il devient possible d'extraire des informations telles que le volume occupé par le danseur, sa vitesse, ou bien diverses mesures relatives à l'évolution de deux ou quatres points dans le temps, comme l'instabilité ou les collisions entre différentes parties du corps. Ces données peuvent ensuite être réutilisées dans Pure Data pour de la génération de musique.
 
-Enfin, il convient de noter la richesse pour ce qui est des modes d'entrée et d'interaction. Par exemple, il existe plusieurs possibilités de composition musicale à l'aide de tables interactives comme la Reactable\cite{kaltenbranner_reactable:_2006} et différentes approches dérivées qui peuvent être spécifiquement axées sur la spatialisation du son\cite{sasamoto_controlling_2013}.
+Enfin, il convient de noter la richesse pour ce qui est des modes d'entrée et d'interaction. Par exemple, il existe plusieurs possibilités de composition musicale à l'aide de tables interactives comme la Reactable\cite{kaltenbranner_reactable:_2006} et différentes approches dérivées qui peuvent être spécifiquement axées sur la spatialisation du son\cite{sasamoto_controlling_2013}. On notera aussi ShapeTape\cite{grossman_interface_2003}, un ruban déformable qui permet d'obtenir sa torsion en 32 points pour reconstruire la courbe en 3D dans un logiciel. Un vocabulaire de mouvements possibles (torsions, étirements, poussées, \dots) est défini par les auteurs.
 
 Un modèle plus complet d'espace en trois dimensions est fourni par COSM\cite{wakefield_cosm:_2011}, en fig.~\ref{fig.cosm}.
 Implémenté dans Max/MSP, il offre une grande richesse d'écriture mais n'a pas été mis à jour pour les dernières versions de Max.
@@ -511,34 +527,34 @@ D'autres alternatives ont été envisagées : SymbolicC++\cite{tan2012symbolicc++},
 La sémantique générale d'exécution d'i-score est donnée dans \cite{celerier_ossia:_2015}.
 Nous rappelons simplement qu'i-score permet d'ordonnancer temporellement des processus qui peuvent être définis dans des plug-ins.
 Lors de la lecture, une horloge globale va demander récursivement à tous les processus du scénario qui sont en cours d'exécution quel est leur état actuel.
-Un état est un ensemble de messages qui peuvent être envoyés par réseau, comme une cue.
+Un état est un ensemble de messages qui peuvent être envoyés par réseau, comme un rappel (\textit{cue}).
 
+Ainsi, s'il y a rétroaction, elle se fait au tic d'après.
+Deux étapes d'exécution sont présentées en fig.~\ref{fig.space1} et fig.~\ref{fig.space2}.
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.30\textwidth]{images/arc1.png}
-    \caption{Processus spatial au début. La courbe d'automation est mappée au paramètre $c$ de l'équation de la zone triangulaire.}
+    \caption{Processus spatial à $t = 0\si{\second}$. La courbe d'automation est appliquée au paramètre $c$ de l'équation de la zone triangulaire.}
     \label{fig.space1}
 \end{figure}
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.30\textwidth]{images/arc3.png}
-    \caption{Processus spatial durant l'exécution. $c$ a augmenté, et la zone triangulaire est mise à jour en conséquence. Il est possible de récupérer l'information de collision entre le disque et la zone pour déclencher des évènements ailleurs dans i-score.}
+    \caption{Processus spatial durant l'exécution, à $t = 10\si{\second}$. $c$ a augmenté, et la zone triangulaire est mise à jour en conséquence. Il est possible de récupérer l'information de collision entre le disque et la zone pour déclencher des évènements ailleurs dans i-score.}
     \label{fig.space2}
 \end{figure}
 L'exécution du processus spatial se déroule de la manière suivante :
 \begin{itemize}
     \item Pour chaque zone dont un des paramètres est défini par une adresse externe, récupérer la valeur actuelle de cette adresse.
     \item Effectuer tous les calculs entre éléments de la zone puis les renvoyer dans l'état.
-    Dans le cas d'un processus générique, ces calculs peuvent prendre du temps. 
-    Ainsi, un mécanisme de requête / réponse sur plusieurs fils d'exécution a été implémenté.
-    Cela permet de ne pas bloquer toute l'exécution du programme; en revanche le résultat de l'exécution 
-    sera potentiellement décalé de plusieurs tics.
 \end{itemize}
 
-Ainsi, s'il y a rétroaction, elle se fait au tic d'après.
-Deux étapes d'exécution sont présentées en fig.~\ref{fig.space1} et fig.~\ref{fig.space2}.
-
+Dans le cas d'un processus générique, ces calculs peuvent prendre du temps. 
+Ainsi, un mécanisme de requête / réponse sur plusieurs fils d'exécution a été implémenté.
+Cela permet de ne pas bloquer toute l'exécution du programme; en revanche le résultat de l'exécution 
+sera décalé de plusieurs tics.
+Si le processeur est surchargé, les requêtes sont ignorées pour éviter un blocage complet de l'application.~\\~\\
 Une autre sémantique est possible :
 i-score dispose d'un arbre de paramètres interne qu'il est aussi possible de manipuler.
 Les processus peuvent exposer des paramètres de contrôle à cet arbre, qui sont
@@ -551,11 +567,7 @@ les paramètres $x_0, y_0, r$ sont exposés dans l'arbre interne.
 De même, les résultats des calculs définis sont exposés.
 Il est possible de configurer le processus pour que les calculs enregistrés soient
 réalisés à la réception d'un message sur le n\oe ud correspondant,
-et mis à jour dans leurs n\oe uds respectifs.
-
-La première sémantique permet d'avoir une visualisation à l'exécution, tandis que la seconde
-permet d'avoir une visualisation à l'édition, en permettant le maintien des contraintes
-décrites par l'auteur.
+et mis à jour dans leurs n\oe uds respectifs.~\\
 
 Cette question, qui est fondamentalement la différence entre 
 un mode \textit{push} et un mode \textit{pull}, se pose aussi pour les autres objets d'i-score.
@@ -569,7 +581,7 @@ et des mises en correspondances complexes.
 Actuellement, il est possible de réaliser des calculs chaînés à la main, en créant des
 adresses spécifiques et en ordonnant les processus : l'exécution de ces calculs est globale.
 Mais par la suite, un modèle de calcul plus complet sera nécessaire pour rendre manifeste les liens
-qui peuvent exister entre différents processus.
+qui peuvent exister entre différents processus, à la manière d'environnements tels que OpenMusic\cite{bresson_openmusic:_2011}, Max/MSP ou PureData.
 
 
 \subsection{Rendu}
@@ -591,7 +603,7 @@ D'autres méthodes sont à étudier, par exemple en utilisant des algorithmes de tr
 Cela aurait l'avantage de produire un format de données que les cartes graphiques peuvent consommer beaucoup plus aisément.
 
 Enfin, la question de l'affichage pour des dimensions non-spatiales, telles que le temps ou une échelle de couleur, 
-reste ouverte.
+reste ouverte. 
 
 \subsection{Édition}
 La création d'objets se fait actuellement par un panneau de configuration.
@@ -615,7 +627,7 @@ On applique les transformations aux variables d'espace de l'objet.
 \end{itemize}
 
 On peut ensuite contrôler ces transformations à la souris, à l'aide d'outils, comme le 
-font la majorité des logiciels d'images de synthèse, ou bien y avoir accès depuis l'arbre de paramètres.
+font la majorité des logiciels d'images de synthèse et de jeux vidéo, ou bien y avoir accès depuis l'arbre de paramètres.
 
 \section{Conclusion}
 L'écriture spatiale dans un cadre scénographique ou musical 
