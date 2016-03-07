@@ -11,7 +11,7 @@
 \usepackage{hyperref}
 \usepackage{microtype}
 
-\title{Outils d'écriture spatiale pour les partitions interactives}
+\title{OUTILS D'ÉCRITURE SPATIALE POUR LES PARTITIONS INTERACTIVES}
     \makeatletter
     \let\@fnsymbol\@arabic
     \makeatother
@@ -104,10 +104,11 @@ Des outils logiciels existent pour ces partitions -- ils sont souvent spécialisé
 
 Une des problématiques actuelles pour la représentation de l'écriture musicale est celle du geste, et de son lien avec la partition : comment annoter le geste du musicien avec précision ? Et, inversement, comment à partir d'un geste créer un son correspondant ? Ces questions sont abordées dans la description de Soundstudio 4D~\cite{sheridan_soundstudio_2004}, dans le cadre d'un système de conception de trajectoires pour spatialisation à l'aide d'interactions en trois dimensions.
 
-Une autre question est l'association entre l'aspect graphique et le résultat. Ainsi, des outils tels que Holo-Edit et Holo-Spat~\cite{cabaud2002controle} permettent de travailler avec des trajectoires, mais sont orientés vers un travail sur de l'audio. 
+Une autre question est l'association entre l'aspect graphique et le résultat. 
+Ainsi, des outils tels que Holo-Edit et Holo-Spat~\cite{cabaud2002controle} permettent de travailler avec des trajectoires, mais ciblent spécifiquement la manipulation et spatialisation du son. 
 C'est dû à la nécessité de composer en ayant conscience à chaque instant des fortes contraintes techniques du moyen de restitution de l'\oe uvre; par exemple, la configuration de hauts-parleurs pourra être fixée par l'auditorium et l'artiste doit alors travailler avec. 
 
-Le logiciel IanniX~\cite{jacquemin_iannix_2012} (fig.~\ref{fig.iannix}) dispose aussi de nombreuses possibilités d'écriture spatiale : les partitions sont des ensembles d'éléments graphiques définis paramétriquement ou bien à l'aide d'un langage de programmation dédié, que des curseurs vont parcourir. L'information de position de chaque curseur est envoyée en OSC, ce qui permet l'intégration à d'autres logiciels, ainsi que des compositions par feedback.
+Le logiciel IanniX~\cite{jacquemin_iannix_2012} (fig.~\ref{fig.iannix}) dispose aussi de nombreuses possibilités d'écriture spatiale : les partitions sont des ensembles d'éléments graphiques définis paramétriquement ou bien à l'aide d'un langage de programmation dédié, que des curseurs vont parcourir. L'information de position de chaque curseur est envoyée en OSC, ce qui permet l'intégration à d'autres logiciels, ainsi que des compositions par rétroaction : les paramètres émis par OSC peuvent modifier la structure du scénario durant l'exécution.
 \begin{figure}
     \centering
     \includegraphics[width=0.45\textwidth]{images/iannix.png}
@@ -198,7 +199,7 @@ Un scénario d'exemple, tel qu'implémenté dans i-score, consiste en :
     \item Un projet i-score qui consiste en : 
     \begin{itemize}
         \item Une boucle principale contenant l'application complète.
-        \item Dans cette boucle, un processus Espace ou sont instanciées les zones sous 
+        \item Dans cette boucle, un processus Espace où sont instanciées les zones sous 
         forme de disque. Pour cet exemple il y a trois zones. Ce processus est détaillé dans la partie suivante.
         \item Un nombre de pointeurs statiques est alloué à l'avance. 
         Leur position correspond à celle des sources de géolocalisation.
@@ -532,7 +533,7 @@ qui rendrait ces choix transparents pour l'utilisateur.
 \section{Implémentation}
 La majeure partie de la complexité de l'implémentation provient
 de la gestion des zones génériques.
-Une tentative d'implémentation pour les calculs génériques sur les zones a été réalisée à l'aide du CAS \textit{GiNaC}~\cite{bauer2002introduction}.
+Une tentative d'implémentation pour les calculs génériques sur les zones a été réalisée à l'aide du CAS\footnote{Computer Algebra System, système de calcul formel en français, est un type de logiciel permettant de réaliser du calcul symbolique.} \textit{GiNaC}~\cite{bauer2002introduction}.
 Cependant, cela ne s'est pas révélé être adapté : en effet la bibliothèque n'est pas thread-safe ce qui empêche de réaliser des calculs déportés sur un autre fil d'exécution.
 L'implémentation actuelle est donc basée sur le parseur de fonctions mathématiques de la bibliothèque \textit{vtk}~\cite{schroeder2004visualization}.
 D'autres alternatives ont été envisagées : SymbolicC++~\cite{tan2012symbolicc++}, GNU Octave~\cite{eaton1997gnu}, Sage\footnote{\url{http://www.sagemath.org/}}.
@@ -573,7 +574,7 @@ Une autre sémantique est possible :
 i-score dispose d'un arbre de paramètres interne qu'il est aussi possible de manipuler.
 Les processus peuvent exposer des paramètres de contrôle à cet arbre, qui sont
 disponibles à l'édition.
-i-score est donc introspectible depuis son interface graphique.
+i-score est donc introspectable depuis son interface graphique.
 Notamment, le processus spatial expose les valeurs des paramètres
 présents pour chacune des zones.
 Par exemple, pour un disque dont l'équation a été vue en~\ref{eq.disc},
@@ -601,12 +602,12 @@ qui peuvent exister entre différents processus, à la manière d'environnements te
 \subsection{Rendu}
 On affecte chacune des dimensions de l'espace à une dimension fixée de la zone graphique : $x$, $y$ pour l'instant avec pour objectif du fonctionnement en 3D.
 
-L'affichage se fait de manière spécialisée pour les types connus : cela permet d'utiliser les primitives
- de la bibliothèque Qt à des fins d'optimisation.
-Pour les types génériques, on réalise pour l'instant une sur-pixelisation, en évaluant la formule pour 
+L'affichage se fait de manière spécialisée pour les objets connus fixé à l'avance, comme cercle, pointeur, \dots. 
+Cela permet d'utiliser les primitives de la bibliothèque Qt à des fins d'optimisation lors de la phase d'édition.
+Pour les objets génériques, on réalise pour l'instant une sur-pixellisation, en évaluant la formule pour 
 plusieurs points et en plaçant un rectangle si le point vérifie toutes les contraintes.
 
-Comme c'est une opération lourde, chaque zone de ce type effectue le rendu dans un thread séparé.
+Comme c'est une opération lourde, chaque zone de ce type effectue le rendu dans un fil d'exécution séparé.
 Lorsqu'un calcul termine, les rectangles ainsi calculés sont envoyés à la bibliothèque d'affichage.
 
 C'est important pour avoir un rendu fluide à l'exécution.
