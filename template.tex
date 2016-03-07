@@ -88,7 +88,7 @@ que les modes de manipulation et de rendu.
 Notamment, l'intégration d'un processus spatial à la sémantique d'exécution actuelle de i-score est discutée.
 
 
-\subsection{Existant}
+\section{Existant}
 Nous présentons ici plusieurs applications opérant principalement dans un domaine
 spatial, à but créatif.
 Les thèmes étudiés sont d'abord l'utilisation de contenus spatiaux en musique,
@@ -97,32 +97,30 @@ représentation qui existent.
 Une présentation exhaustive de l'état actuel de l'écriture spatiale en musique est donnée dans~\cite{fober_les_2015}. 
 Notamment, la question de la notation dans le cadre de partitions impliquant des éléments spatiaux y est abordée.
 
-Ces partitions, graphiques, peuvent être spatiales uniquement dans leur représentation, mais peuvent aussi indiquer des manières d'interpréter dans l'espace, notamment à l'aide de symboles spécialisés~\cite{ellberger_spatialization_2014}. Une taxinomie des possibilités de création dans l'espace en musiques électro-acoustiques est présentée par Bertrand Merlier, notamment dans l'ouvrage \textit{Vocabulaire de l'espace en musique électro-acoustique\cite{merlier_vocabulaire_2006_book}}.
+Ces partitions, graphiques, peuvent être spatiales uniquement dans leur représentation, mais peuvent aussi indiquer des manières d'interpréter dans l'espace, notamment à l'aide de symboles spécialisés~\cite{ellberger_spatialization_2014}. Une taxinomie des possibilités de création dans l'espace en musiques électro-acoustiques est présentée par Bertrand Merlier, notamment dans l'ouvrage \textit{Vocabulaire de l'espace en musique électro-acoustique~\cite{merlier_vocabulaire_2006_book}}.
 
-Des outils logiciels existent pour ces partitions -- ils sont souvent spécialisés. Par exemple, la bibliothèque ENP\cite{kuuskankare_expressive_2006} permet de concevoir des partitions graphiques à l'aide d'un éditeur lui aussi graphique et d'un langage basé sur LISP.
+Des outils logiciels existent pour ces partitions -- ils sont souvent spécialisés. Par exemple, la bibliothèque ENP~\cite{kuuskankare_expressive_2006} permet de concevoir des partitions graphiques à l'aide d'un éditeur lui aussi graphique et d'un langage basé sur LISP.
 
 
-Une des problématiques actuelles pour la représentation de l'écriture musicale est celle du geste, et de son lien avec la partition : comment annoter le geste du musicien avec précision ? Et, inversement, comment à partir d'un geste créer un son correspondant ? Ces questions sont abordées dans la description de Soundstudio 4D\cite{sheridan_soundstudio_2004}, dans le cadre d'un système de conception de trajectoires pour spatialisation à l'aide d'interactions en trois dimensions.
+Une des problématiques actuelles pour la représentation de l'écriture musicale est celle du geste, et de son lien avec la partition : comment annoter le geste du musicien avec précision ? Et, inversement, comment à partir d'un geste créer un son correspondant ? Ces questions sont abordées dans la description de Soundstudio 4D~\cite{sheridan_soundstudio_2004}, dans le cadre d'un système de conception de trajectoires pour spatialisation à l'aide d'interactions en trois dimensions.
 
 Une autre question est l'association entre l'aspect graphique et le résultat. Ainsi, des outils tels que Holo-Edit et Holo-Spat~\cite{cabaud2002controle} permettent de travailler avec des trajectoires, mais sont orientés vers un travail sur de l'audio. 
 C'est dû à la nécessité de composer en ayant conscience à chaque instant des fortes contraintes techniques du moyen de restitution de l'\oe uvre; par exemple, la configuration de hauts-parleurs pourra être fixée par l'auditorium et l'artiste doit alors travailler avec. 
 
-Le logiciel IanniX\cite{jacquemin_iannix_2012} (fig.~\ref{fig.iannix}) dispose aussi de nombreuses possibilités d'écriture spatiale : les partitions sont des ensembles d'éléments graphiques définis paramétriquement ou bien à l'aide d'un langage de programmation dédié, que des curseurs vont parcourir. L'information de position de chaque curseur est envoyée en OSC, ce qui permet l'intégration à d'autres logiciels, ainsi que des compositions par feedback.
+Le logiciel IanniX~\cite{jacquemin_iannix_2012} (fig.~\ref{fig.iannix}) dispose aussi de nombreuses possibilités d'écriture spatiale : les partitions sont des ensembles d'éléments graphiques définis paramétriquement ou bien à l'aide d'un langage de programmation dédié, que des curseurs vont parcourir. L'information de position de chaque curseur est envoyée en OSC, ce qui permet l'intégration à d'autres logiciels, ainsi que des compositions par feedback.
 \begin{figure}
-    \label{fig.iannix}
     \centering
     \includegraphics[width=0.45\textwidth]{images/iannix.png}
     \caption{Le séquenceur graphique IanniX, inspiré de l'\oe uvre de Iannis Xenakis.}
+    \label{fig.iannix}
 \end{figure}
 
 
-Une méthode d'écriture de la spatialisation par contraintes est proposée par Olivier Delerue dans MusicSpace\cite{delerue_spatialisation_2004}. Cela permet une approche déclarative de l'écriture de partition, en spécifiant des contraintes telles que <<~deux objets ne doivent jamais être à plus de deux mètres l'un de l'autre~>> ou bien <<~l'angle entre deux objets et l'auditeur doit être supérieur à 90 degrés~>>. Les objets peuvent être notamment des sources sonores. Une édition graphique de ces contraintes est proposée, et elles sont représentées en termes de cercles et de segments reliant les objets qu'elles contraignent.
+Une méthode d'écriture de la spatialisation par contraintes est proposée par Olivier Delerue dans MusicSpace~\cite{delerue_spatialisation_2004}. Cela permet une approche déclarative de l'écriture de partition, en spécifiant des contraintes telles que <<~deux objets ne doivent jamais être à plus de deux mètres l'un de l'autre~>> ou bien <<~l'angle entre deux objets et l'auditeur doit être supérieur à 90 degrés~>>. Les objets peuvent être notamment des sources sonores. Une édition graphique de ces contraintes est proposée, et elles sont représentées en termes de cercles et de segments reliant les objets qu'elles contraignent.
 
-Des données spatiales peuvent aussi être utilisées directement pour créer des mises en correspondance (\textit{mappings}) sonores. C'est le cas de la bibliothèque Topos\cite{naveda_topos_2014}, qui permet de capter le mouvement de danseurs et d'en extraire des informations pouvant être utiles pour la conception de pièces de musique interactives. Une fois que le mouvement du danseur est capturé via un périphérique externe, il devient possible d'extraire des informations telles que le volume occupé par le danseur, sa vitesse, ou bien diverses mesures relatives à l'évolution de deux ou quatres points dans le temps, comme l'instabilité ou les collisions entre différentes parties du corps. Ces données peuvent ensuite être réutilisées dans Pure Data pour de la génération de musique.
+Des données spatiales peuvent aussi être utilisées directement pour créer des mises en correspondance (\textit{mappings}) sonores. C'est le cas de la bibliothèque Topos~\cite{naveda_topos_2014}, qui permet de capter le mouvement de danseurs et d'en extraire des informations pouvant être utiles pour la conception de pièces de musique interactives. Une fois que le mouvement du danseur est capturé via un périphérique externe, il devient possible d'extraire des informations telles que le volume occupé par le danseur, sa vitesse, ou bien diverses mesures relatives à l'évolution de deux ou quatres points dans le temps, comme l'instabilité ou les collisions entre différentes parties du corps. Ces données peuvent ensuite être réutilisées dans Pure Data pour de la génération de musique.
 
-Enfin, il convient de noter la richesse pour ce qui est des modes d'entrée et d'interaction. Par exemple, il existe plusieurs possibilités de composition musicale à l'aide de tables interactives comme la Reactable\cite{kaltenbranner_reactable:_2006} et différentes approches dérivées qui peuvent être spécifiquement axées sur la spatialisation du son\cite{sasamoto_controlling_2013}. On notera aussi ShapeTape\cite{grossman_interface_2003}, un ruban déformable qui permet d'obtenir sa torsion en 32 points pour reconstruire la courbe en 3D dans un logiciel. Un vocabulaire de mouvements possibles (torsions, étirements, poussées, \dots) est défini par les auteurs.
-
-Un modèle plus complet d'espace en trois dimensions est fourni par COSM\cite{wakefield_cosm:_2011}, en fig.~\ref{fig.cosm}.
+Un modèle plus complet d'espace en trois dimensions est fourni par COSM~\cite{wakefield_cosm:_2011}, en fig.~\ref{fig.cosm}.
 Implémenté dans Max/MSP, il offre une grande richesse d'écriture mais n'a pas été mis à jour pour les dernières versions de Max.
 En plus de lieux et de trajectoires, il est possible d'écrire l'interaction dans une certaine mesure,
 ainsi que la communication entre différents agents.
@@ -141,7 +139,7 @@ Blender peut être contrôlé via une API Python et il est notamment possible de dé
 ou d'autres propriétés géométriques. Néanmoins, cela se fait à la vitesse de son moteur d'exécution qui est fixée à 60 Hz.
 Les messages reçus entre deux trames sont accumulés.
 
-Enfin, le monde des jeux vidéos dispose aussi d'outils adaptés à l'écriture spatiale :
+Le monde des jeux vidéos dispose aussi d'outils adaptés à l'écriture spatiale :
 l'interface OpenAL a été développée à l'origine pour offrir aux jeux une couche d'abstraction
 permettant de bénéficier de spatialisation simplement en donnant une position et une orientation
 à des sources sonores ponctuelles. 
@@ -153,6 +151,11 @@ de HRTFs, comme le fait la bibliothèque OpenAL-soft.
 De manière générale, les moteurs et éditeurs de jeux, tels que Unreal Engine ou Unity offrent des possibilités d'interaction 
 très riches pour disposer et animer ces sources dans le temps.
 
+Enfin, il existe de nombreuses alternatives aux traditionnels claviers, souris, joysticks pour les modes et périphériques d'entrée et d'interaction permettant de décrire des données spatiales dans le monde physique. 
+Par exemple, il existe plusieurs possibilités de composition musicale à l'aide de tables interactives comme la Reactable~\cite{kaltenbranner_reactable:_2006} et différentes approches dérivées qui peuvent être spécifiquement axées sur la spatialisation du son~\cite{sasamoto_controlling_2013}.
+On notera aussi ShapeTape~\cite{grossman_interface_2003}, un ruban déformable qui permet d'obtenir sa torsion en 32 points pour reconstruire la courbe en 3D dans un logiciel.
+Un vocabulaire de mouvements possibles (torsions, étirements, poussées, \dots) est défini par les auteurs.
+
 \section{Cas d'utilisation}
 Afin d'avoir des possibilités de test de notre système,
 deux cas pratiques d'applications nécessitant de l'écriture de contenus spatiaux
@@ -162,7 +165,7 @@ Dans les deux cas, on veut écrire une famille de scénarios interactifs
 qui manipulent des types d'objets fixés : des sources sonores virtuelles dans le premier cas
 et des robots dans le second cas.
 
-\subsection{Example : Sonopluie}
+\subsection{Exemple : Sonopluie}
 Cette application interactive utilise de la géolocalisation par téléphone.
 Plusieurs sources sonores sont apposées dans un espace, dans lequel les participants
 se déplacent.
@@ -184,11 +187,11 @@ des points précédents et activer des points suivants, ou avoir des points qui se
     \label{fig.sonopluie}
 \end{figure}
 
-Un scénario d'example, tel qu'implémenté dans i-score, consiste en : 
+Un scénario d'exemple, tel qu'implémenté dans i-score, consiste en : 
 \begin{itemize}
     \item Une source de géolocalisation exposée dans un arbre Minuit.
     \item Un moteur audio gérant la spatialisation via positionnement de sources.
-    Nous utilisons ici la bibliothèque OpenAL \cite{hiebert_openal_2005}, 
+    Nous utilisons ici la bibliothèque OpenAL~\cite{hiebert_openal_2005}, 
     dans son implémentation \verb|OpenAL-soft|.
     En effet, elle est supportée sur de nombreux appareils mobiles courants. 
     Elle aussi est implémentée en Minuit.
@@ -207,7 +210,7 @@ Un scénario d'example, tel qu'implémenté dans i-score, consiste en :
 \end{itemize}
 
 Ce scénario est visible en figure \ref{fig.sonopluie}.
-\subsection{Example : robots}
+\subsection{Exemple : robots}
 Ce projet consiste en la réalisation d'une chorégraphie de robots musicaux, puis de drones.
 On dispose d'une flotte de robots open-source Metabot\footnote{\url{http://metabot.fr/}}.
 Ces robots sont contrôlés en vitesse : on écrit sur le port série des
@@ -248,14 +251,14 @@ Les objectifs pour l'intégration des notions spatiales dans i-score sont :
 \subsubsection{Modèles pour l'écriture spatiale}
 Plusieurs modèles ont été envisagés pour écrire des scénarios spatiaux.
 
-Une première possibilité repose sur les méthodes de description qualitative de l'espace, telles que RCC-8\cite{gerevini_qualitative_2002}.
-Elles consistent en l'extension des relations de Allen\cite{allen_towards_1984}, à plus d'une dimension.
+Une première possibilité repose sur les méthodes de description qualitative de l'espace, telles que RCC-8~\cite{gerevini_qualitative_2002}.
+Elles consistent en l'extension des relations de Allen~\cite{allen_towards_1984}, à plus d'une dimension.
 Cependant de telles méthodes ne s'avèrent pas efficaces si on désire décrire des dispositions précises,
 avec des métriques sur les objets que l'on veut manipuler.
 Par exemple, on peut à l'aide de méthodes qualitatives écrire "A est à l'extérieur de B et lui est tangent, et A et B sont contenus dans C".
 Mais les pratiques appellent plus souvent une écriture de la forme "A est un cercle de $1u$ centré en $(3, 3)$ dans une pièce de $5u$, et un pointeur B est situé en $(2, 3)$" ou $u$ est une unité de distance; on peut par la suite obtenir les relations RCC à partir des relations métriques tandis que l'inverse n'est pas possible.
 
-Une seconde possibilité est l'approche orientée objet\cite{strauss1992object} : 
+Une seconde possibilité est l'approche orientée objet~\cite{strauss1992object} : 
 on dispose d'une classe abstraite représentant une forme.
 Les classes dérivées implémentent des méthodes de dessin et de calcul 
 optimisées pour des formes concrètes : sphère, cube, etc.
@@ -274,8 +277,8 @@ en ayant la possibilité de faire des approximations.
 Cela permet d'implémenter des objets spatiaux qui sont difficilement possibles
 à réaliser uniquement de manière mathématique, avec des objets dont la définition contient des boucles ou des conditionnelles, voire des facteurs aléatoires.
 En revanche, on perd des possibilités d'analyse par la suite : on n'a en effet pas de forme générale des zones ainsi créées et on ne peut au mieux qu'effectuer des tests, coûteux en temps de calcul, entre zones.
-Il est cependant toujours possible de prendre un échantillon des points de la zone pour appliquer une méthode de maillage telles que la triangulation de Delaunay\cite{nonato2001novel} qui produit un objet sur lequel on peut réaliser plusieurs opérations plus simplement.
-Les bibliothèques CGAL\cite{boissonnat2000triangulations} et VTK\cite{schroeder2004visualization} proposent toutes deux des implémentations performantes de cette triangulation.
+Il est cependant toujours possible de prendre un échantillon des points de la zone pour appliquer une méthode de maillage telles que la triangulation de Delaunay~\cite{nonato2001novel} qui produit un objet sur lequel on peut réaliser plusieurs opérations plus simplement.
+Les bibliothèques CGAL~\cite{boissonnat2000triangulations} et VTK~\cite{schroeder2004visualization} proposent toutes deux des implémentations performantes de cette triangulation.
 Enfin, les performances ne sont pas adaptées à des évolutions rapides en temps réel : c'est le cas de la géométrie dynamique.
 cela peut marcher en dimension 1 et pour des fonctions avec un nombre relativement important de points à calculer, mais est lourd en ressources en dimension 2 et quasiment impensable sur un CPU en temps réel en dimension 3.
 
@@ -425,8 +428,8 @@ Un outil potentiel pour cette application est \textit{nlopt}~\cite{johnson2014nl
 
 Une autre approche pour les collisions est d'utiliser les méthodes issues du jeu vidéo, avec 
 des notions de cube englobant ou sphère englobante.
-De nombreuses approches plus perfectionnées pour la gestion des collisions sont présentées pour référence dans \cite{lin1998collision}.
-Des moteurs physiques tels que \textit{Bullet} ou \textit{Open Dynamics Engine}\cite{boeing2007evaluation} 
+De nombreuses approches plus perfectionnées pour la gestion des collisions sont présentées pour référence dans~\cite{lin1998collision}.
+Des moteurs physiques tels que \textit{Bullet} ou \textit{Open Dynamics Engine}~\cite{boeing2007evaluation} 
 pourront par la suite être utilisés à cette fin.
 
 Le résultat des calculs est ensuite exposé dans l'arbre i-score, pour être réutilisé
@@ -532,10 +535,10 @@ de la gestion des zones génériques.
 Une tentative d'implémentation pour les calculs génériques sur les zones a été réalisée à l'aide du CAS \textit{GiNaC}~\cite{bauer2002introduction}.
 Cependant, cela ne s'est pas révélé être adapté : en effet la bibliothèque n'est pas thread-safe ce qui empêche de réaliser des calculs déportés sur un autre fil d'exécution.
 L'implémentation actuelle est donc basée sur le parseur de fonctions mathématiques de la bibliothèque \textit{vtk}~\cite{schroeder2004visualization}.
-D'autres alternatives ont été envisagées : SymbolicC++\cite{tan2012symbolicc++}, GNU Octave\cite{eaton1997gnu}, Sage\footnote{\url{http://www.sagemath.org/}}.
+D'autres alternatives ont été envisagées : SymbolicC++~\cite{tan2012symbolicc++}, GNU Octave~\cite{eaton1997gnu}, Sage\footnote{\url{http://www.sagemath.org/}}.
 
 \subsection{Sémantique d'exécution du processus Espace}
-La sémantique générale d'exécution d'i-score est donnée dans \cite{celerier_ossia:_2015}.
+La sémantique générale d'exécution d'i-score est donnée dans~\cite{celerier_ossia:_2015}.
 Nous rappelons simplement qu'i-score permet d'ordonnancer temporellement des processus qui peuvent être définis dans des plug-ins.
 Lors de la lecture, une horloge globale va demander récursivement à tous les processus du scénario qui sont en cours d'exécution quel est leur état actuel.
 Un état est un ensemble de messages qui peuvent être envoyés par réseau, comme un rappel (\textit{cue}).
@@ -592,7 +595,7 @@ et des mises en correspondances complexes.
 Actuellement, il est possible de réaliser des calculs chaînés à la main, en créant des
 adresses spécifiques et en ordonnant les processus : l'exécution de ces calculs est globale.
 Mais par la suite, un modèle de calcul plus complet sera nécessaire pour rendre manifeste les liens
-qui peuvent exister entre différents processus, à la manière d'environnements tels que OpenMusic\cite{bresson_openmusic:_2011}, Max/MSP ou PureData.
+qui peuvent exister entre différents processus, à la manière d'environnements tels que OpenMusic~\cite{bresson_openmusic:_2011}, Max/MSP ou PureData.
 
 
 \subsection{Rendu}
@@ -633,7 +636,7 @@ On applique les transformations aux variables d'espace de l'objet.
      y' = x \sin \theta + y \cos \theta
 	 \end{cases}
     \]
-    Une formule générale de la rotation en $n$ dimensions est donnée dans \cite{aguilera2004general} et pourra être 
+    Une formule générale de la rotation en $n$ dimensions est donnée dans~\cite{aguilera2004general} et pourra être 
     appliquée par la suite.
 \end{itemize}
 
