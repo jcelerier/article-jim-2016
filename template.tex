@@ -1,13 +1,13 @@
 \documentclass{article}
 \usepackage{jim,amsmath}
-\usepackage[latin1]{inputenc}
+%\usepackage[latin1]{inputenc}
 \usepackage[francais]{babel}
 \usepackage[T1]{fontenc}
 %\usepackage{pxfonts}
 \usepackage{graphicx}
 \usepackage{acronym}
 \usepackage{siunitx}
-
+\usepackage{listings}
 \usepackage{hyperref}
 \usepackage{microtype}
 
@@ -94,6 +94,17 @@ spatial, à but créatif.
 Les thèmes étudiés sont d'abord l'utilisation de contenus spatiaux en musique,
 en scénographie, et en jeux vidéos, ainsi que les différentes méthodes d'écriture et de
 représentation qui existent.
+
+\subsection{Contexte}
+Les développements réalisés sont intégrés au séquenceur i-score et en concordance avec les études menées sur l'interopérabilité durant les projets ANR Virage et OSSIA.
+Le projet OSSIA a abouti à la création de modèles graphiques et opérationnels pour les partitions interactives, ainsi que d'une interface de programmation ayant pour but de permettre l'écriture de scénarios interactifs, et spécifier la communication avec les objets et logiciels avec lesquels i-score interagit.
+
+i-score est bâti selon une architecture modulaire à base de plug-ins écrits en C++.
+Les processus temporels, qui décrivent les opérations et messages qui vont être envoyés à chaque tick d'horloge, peuvent être implémentés en tant que plug-ins. 
+Il est donc aisé d'en rajouter pour avoir de nouveaux comportements dans le logiciel, à l'édition comme à l'exécution d'un scénario. 
+C'est l'approche qui est suivie pour les outils présentés dans cet article.
+
+\subsection{Partitions musicales spatiales et graphiques}
 Une présentation exhaustive de l'état actuel de l'écriture spatiale en musique est donnée dans~\cite{fober_les_2015}. 
 Notamment, la question de la notation dans le cadre de partitions impliquant des éléments spatiaux y est abordée.
 
@@ -116,7 +127,7 @@ Le logiciel IanniX~\cite{jacquemin_iannix_2012} (fig.~\ref{fig.iannix}) dispose 
     \label{fig.iannix}
 \end{figure}
 
-
+\subsection{Modélisation de l'espace}
 Une méthode d'écriture de la spatialisation par contraintes est proposée par Olivier Delerue dans MusicSpace~\cite{delerue_spatialisation_2004}. Cela permet une approche déclarative de l'écriture de partition, en spécifiant des contraintes telles que <<~deux objets ne doivent jamais être à plus de deux mètres l'un de l'autre~>> ou bien <<~l'angle entre deux objets et l'auditeur doit être supérieur à 90 degrés~>>. Les objets peuvent être notamment des sources sonores. Une édition graphique de ces contraintes est proposée, et elles sont représentées en termes de cercles et de segments reliant les objets qu'elles contraignent.
 
 Des données spatiales peuvent aussi être utilisées directement pour créer des mises en correspondance (\textit{mappings}) sonores. C'est le cas de la bibliothèque Topos~\cite{naveda_topos_2014}, qui permet de capter le mouvement de danseurs et d'en extraire des informations pouvant être utiles pour la conception de pièces de musique interactives. Une fois que le mouvement du danseur est capturé via un périphérique externe, il devient possible d'extraire des informations telles que le volume occupé par le danseur, sa vitesse, ou bien diverses mesures relatives à l'évolution de deux ou quatres points dans le temps, comme l'instabilité ou les collisions entre différentes parties du corps. Ces données peuvent ensuite être réutilisées dans Pure Data pour de la génération de musique.
@@ -152,6 +163,7 @@ de HRTFs, comme le fait la bibliothèque OpenAL-soft.
 De manière générale, les moteurs et éditeurs de jeux, tels que Unreal Engine ou Unity offrent des possibilités d'interaction 
 très riches pour disposer et animer ces sources dans le temps.
 
+\subsection{Interfaces homme-machine pour le spatial}
 Enfin, il existe de nombreuses alternatives aux traditionnels claviers, souris, joysticks pour les modes et périphériques d'entrée et d'interaction permettant de décrire des données spatiales dans le monde physique. 
 Par exemple, il existe plusieurs possibilités de composition musicale à l'aide de tables interactives comme la Reactable~\cite{kaltenbranner_reactable:_2006} et différentes approches dérivées qui peuvent être spécifiquement axées sur la spatialisation du son~\cite{sasamoto_controlling_2013}.
 On notera aussi ShapeTape~\cite{grossman_interface_2003}, un ruban déformable qui permet d'obtenir sa torsion en 32 points pour reconstruire la courbe en 3D dans un logiciel.
@@ -166,11 +178,38 @@ Dans les deux cas, on veut écrire une famille de scénarios interactifs
 qui manipulent des types d'objets fixés : des sources sonores virtuelles dans le premier cas
 et des robots dans le second cas.
 
+\begin{figure}
+	\begin{lstlisting}
+/audio
+      /volume [float:  0 - 1]
+      /pan    [int: -100 - 100]
+/video
+      /play
+      /pause
+      /color  [float: 0 - 360]	
+	\end{lstlisting}
+	\caption{Un exemple d'arbre Minuit pour une application simple. On place entre crochets le type et les bornes acceptées du paramètre. Les messages \lstinline|/video/play| et \lstinline|/video/pause| sont semblables à des appels de fonction.}
+	\label{fig.minuit}	
+\end{figure}
+
+En concordance avec les objectifs d'interopérabilité de l'environnement i-score, le protocole Minuit~\cite{de2011jamoma} est utilisé pour les cas présentés.
+Il s'agit d'un protocole de communication basé sur la norme OSC permettant la découverte via réseau des paramètres contrôlables d'un logiciel multimédia.
+Les paramètres sont organisés en arbre, qui correspondent au modèle d'objet de l'application distante.
+Un exemple d'un tel arbre est montré en fig.~\ref{fig.minuit}.
+
+L'utilisation de Minuit nous permet d'accéder automatiquement aux paramètres des applications d'exemple depuis i-score, puis de les scénariser.
+
 \subsection{Exemple : Sonopluie}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.45\textwidth]{images/sonopluie.png}
+	\caption{Un scénario de type Sonopluie}
+	\label{fig.sonopluie}
+\end{figure}
 Cette application interactive utilise de la géolocalisation par téléphone.
 Plusieurs sources sonores sont apposées dans un espace, dans lequel les participants
 se déplacent.
-Cet espace virtuel est mappé au monde réel lors du parcours.
+Cet espace virtuel est mis en correspondance avec le monde réel lors du parcours.
 La mise en correspondance est réalisée en positionnant les zones sur une carte issue d'un service web.
 Le système mesure la distance de chaque participant aux sources, et va jouer les sources
 sonores plus ou moins fort en fonction de cette distance.
@@ -180,13 +219,6 @@ leur associer des sons et des comportements.
 Un des objectifs du projet est d'offrir de l'interaction et de l'évolutivité dans les scénarios :
 par exemple, après s'être approché d'un point donné, on voudrait pouvoir désactiver
 des points précédents et activer des points suivants, ou avoir des points qui se déplacent.
-
-\begin{figure}
-    \centering
-    \includegraphics[width=0.45\textwidth]{images/sonopluie.png}
-    \caption{Un scénario de type Sonopluie}
-    \label{fig.sonopluie}
-\end{figure}
 
 Un scénario d'exemple, tel qu'implémenté dans i-score, consiste en : 
 \begin{itemize}
@@ -216,7 +248,7 @@ Ce projet consiste en la réalisation d'une chorégraphie de robots musicaux, puis
 On dispose d'une flotte de robots open-source Metabot\footnote{\url{http://metabot.fr/}}.
 Ces robots sont contrôlés en vitesse : on écrit sur le port série des
 commandes telles que \verb|dx 5| pour indiquer une vitesse de $\SI{5}{\centi\meter\per\second}$.
-Un logiciel a été conçu pour faire une mise en correspondance d'un arbre Minuit\footnote{Minuit~\cite{de2011jamoma} est un protocole de communication basé sur OSC permettant la découverte via réseau des paramètres contrôlables d'un logiciel multimédia.} vers le port série.
+Un logiciel a été conçu pour faire une mise en correspondance d'un arbre Minuit vers le port série.
 En parallèle, un logiciel de simulation, présenté en fig.~\ref{fig.metabots} est développé à l'aide d'OpenFrameworks, qui expose le même arbre Minuit.
 \begin{figure}
     \centering
@@ -448,8 +480,8 @@ Néanmoins, à terme, un modèle de calcul permettant du chaînage dans un seul tic 
 
 \begin{figure}
     \centering
-    \includegraphics[scale=0.3]{images/spline.png}
-    \caption{Une spline 3D dans i-score.}
+    \includegraphics[scale=0.3]{images/iscore-3D.png}
+    \caption{Deux automations 3D et une automation traditionnelle dans i-score. À chaque tic d'horloge, la position entre 0 et 1 du temps d'exécution de la contrainte parente sera appliqué à la position correspondante dans l'automation.}
     \label{fig.spline}
 \end{figure}
 En plus du processus Espace, des possibilités d'écriture 
