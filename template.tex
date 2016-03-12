@@ -18,37 +18,8 @@
 
 \author{\emph{Jean-Michaël Celerier} \\ Univ. Bordeaux, LaBRI, UMR 5800, F-33400 Talence, France. \\  Blue Yeti, F-17110 France. \\ jcelerie@labri.fr \and \emph{Myriam Desainte-Catherine} \\ Univ. Bordeaux, LaBRI, UMR 5800, F-33400 Talence, France. \\ CNRS, LaBRI, UMR 5800, F-33400 Talence, France. \\  INRIA, F-33400 Talence, France. \\ myriam@labri.fr \and \emph{Jean-Michel Couturier} \\ Blue Yeti, F-17110 France. \\ jmc@blueyeti.fr}
 
-%\threeauthors
-%  {Jean-Michaël Celerier} {
-%      \small Univ. Bordeaux, LaBRI, UMR 5800, F-33400 Talence, France \\
-%      \small Blue Yeti, F-17110 France  \\
-%      \small jcelerie@labri.fr  }
-%  {Myriam Desainte-Catherine} {
-%      \small Univ. Bordeaux, LaBRI, UMR 5800, F-33400 Talence, France.\\
-%      \small CNRS, LaBRI, UMR 5800, F-33400 Talence, France.\\
-%      \small INRIA, F-33400 Talence, France.\\
-%      \small  myriam@labri.fr}
-%  {Jean-Michel Couturier} {
-%      \small Blue Yeti, F-17110 France.\\
-%      \small jmc@blueyeti.fr}
-
 \begin{document}
-    
-   % \author[1,2,3]{Jaime Arias\thanks{Electronic address: \texttt{jaime.arias@inria.fr}; Corresponding author}}
-   % \author[1,2,4]{Jean-Micha\"el Celerier}
-   % \author[1,2,3]{Myriam Desainte-Catherine}
-    
-    
-   % \affil[1]{Univ. Bordeaux, LaBRI, UMR 5800, F-33400 Talence, France.}
-   % \affil[2]{CNRS, LaBRI, UMR 5800, F-33400 Talence, France.}
-   % \affil[3]{INRIA, F-33400 Talence, France.}
-   % \affil[4]{Blue Yeti, F-17110 France.}
    {\tiny \maketitle}
-%\footnote{\label{affil1} Univ. Bordeaux, LaBRI, UMR 5800, F-33400 Talence, France.}
-%\footnote{\label{affil2}CNRS, LaBRI, UMR 5800, F-33400 Talence, France.}
-%\footnote{\label{affil3}INRIA, F-33400 Talence, France.}
-%\footnote{\label{affil4}Blue Yeti, F-17110 France.}
-
 \begin{abstract}
     L'écriture de partitions interactives évolue pour inclure du contenu spatial.
     En effet, dans de nombreuses pratiques de création, musicales ou scénographiques, un travail sur des paramètres à plusieurs dimensions apparaît nécessaire.
@@ -155,7 +126,7 @@ Le monde des jeux vidéos dispose aussi d'outils adaptés à l'écriture spatiale :
 l'interface OpenAL a été développée à l'origine pour offrir aux jeux une couche d'abstraction
 permettant de bénéficier de spatialisation simplement en donnant une position et une orientation
 à des sources sonores ponctuelles. 
-Cette position et orientation peuvent évoluer dans le temps.
+Ces positions et orientations peuvent évoluer dans le temps, mais cela doit être fait programmatiquement : il n'y a pas de notion de trajectoire.
 Par la suite les implémentations sont libres d'utiliser les méthodes qu'elles souhaitent pour
 réaliser la spatialisation : cela peut aller d'une simple panoramique gauche-droite à l'utilisation
 de HRTFs, comme le fait la bibliothèque OpenAL-soft.
@@ -178,14 +149,24 @@ Dans les deux cas, on veut écrire une famille de scénarios interactifs
 qui manipulent des types d'objets fixés : des sources sonores virtuelles dans le premier cas
 et des robots dans le second cas.
 
+On rappelle que les scénarios interactifs dans le cadre d'i-score consistent en un agencement des éléments suivants : 
+\begin{itemize}
+    \item Des contraintes temporelles, horizontales, qui représentent une durée pouvant être fixe ou dépendante d'un évènement extérieur.
+    \item Des n\oe uds temporels, verticaux, qui relient et synchronisent des contraintes temporelles entre elles.
+    \item Des processus contenus dans les contraintes temporelles : courbe d'automation, mapping, exécution de scripts Javascript, boucle, \dots
+    \item Un scénario est un agencement de contraintes et de n\oe{}uds temporels. 
+    Étant lui-même un processus, cela permet d'implémenter une forme de hiérarchie illimitée.
+\end{itemize}
+D'autres éléments de syntaxe sont présents mais sortent du cadre de cet article.
+
 \begin{figure}
 	\begin{lstlisting}
 /audio
       /volume [float:  0 - 1]
       /pan    [int: -100 - 100]
 /video
-      /play
-      /pause
+      /play   [impulse]
+      /pause  [impulse]
       /color  [float: 0 - 360]	
 	\end{lstlisting}
 	\caption{Un exemple d'arbre Minuit pour une application simple. On place entre crochets le type et les bornes acceptées du paramètre. Les messages \lstinline|/video/play| et \lstinline|/video/pause| sont semblables à des appels de fonction.}
@@ -203,7 +184,7 @@ L'utilisation de Minuit nous permet d'accéder automatiquement aux paramètres des
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.45\textwidth]{images/sonopluie.png}
-	\caption{Un scénario de type Sonopluie}
+	\caption{Un scénario i-score de type Sonopluie}
 	\label{fig.sonopluie}
 \end{figure}
 Cette application interactive utilise de la géolocalisation par téléphone.
@@ -312,8 +293,8 @@ Cela permet d'implémenter des objets spatiaux qui sont difficilement possibles
 En revanche, on perd des possibilités d'analyse par la suite : on n'a en effet pas de forme générale des zones ainsi créées et on ne peut au mieux qu'effectuer des tests, coûteux en temps de calcul, entre zones.
 Il est cependant toujours possible de prendre un échantillon des points de la zone pour appliquer une méthode de maillage telles que la triangulation de Delaunay~\cite{nonato2001novel} qui produit un objet sur lequel on peut réaliser plusieurs opérations plus simplement.
 Les bibliothèques CGAL~\cite{boissonnat2000triangulations} et VTK~\cite{schroeder2004visualization} proposent toutes deux des implémentations performantes de cette triangulation.
-Enfin, les performances ne sont pas adaptées à des évolutions rapides en temps réel : c'est le cas de la géométrie dynamique.
-cela peut marcher en dimension 1 et pour des fonctions avec un nombre relativement important de points à calculer, mais est lourd en ressources en dimension 2 et quasiment impensable sur un CPU en temps réel en dimension 3.
+Enfin, les performances ne sont pas adaptées à des évolutions de la géométrie en temps réel : 
+l'approche fonctionne correctement en dimension 1 et pour des fonctions avec un nombre relativement important de points à calculer, mais est lourde en ressources en dimension 2 et quasiment impensable sur un CPU en temps réel en dimension 3.
 
 Finalement, l'utilisation de modèles mathématiques dédiés est possible.
 En général, il s'agit des modèles paramétriques, ou géométriques.
@@ -565,7 +546,7 @@ qui rendrait ces choix transparents pour l'utilisateur.
 \section{Implémentation}
 La majeure partie de la complexité de l'implémentation provient
 de la gestion des zones génériques.
-Une tentative d'implémentation pour les calculs génériques sur les zones a été réalisée à l'aide du CAS\footnote{Computer Algebra System, système de calcul formel en français, est un type de logiciel permettant de réaliser du calcul symbolique.} \textit{GiNaC}~\cite{bauer2002introduction}.
+Une tentative d'implémentation pour les calculs génériques sur les zones a été réalisée à l'aide du CAS\footnote{Computer Algebra System (système de calcul formel) : un type de logiciel permettant de réaliser du calcul symbolique.} \textit{GiNaC}~\cite{bauer2002introduction}.
 Cependant, cela ne s'est pas révélé être adapté : en effet la bibliothèque n'est pas thread-safe ce qui empêche de réaliser des calculs déportés sur un autre fil d'exécution.
 L'implémentation actuelle est donc basée sur le parseur de fonctions mathématiques de la bibliothèque \textit{vtk}~\cite{schroeder2004visualization}.
 D'autres alternatives ont été envisagées : SymbolicC++~\cite{tan2012symbolicc++}, GNU Octave~\cite{eaton1997gnu}, Sage\footnote{\url{http://www.sagemath.org/}}.
