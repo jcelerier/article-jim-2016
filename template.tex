@@ -342,10 +342,10 @@ Il n'y a pas de focalisation directe sur le son : les processus opèrent toujours
 sur des données numériques quelconques.
 
 \subsubsection{Processus Espace}
-Dans le premier cas, on définit une classe abstraite de zone, 
+L'approche est la suivante : on définit une classe abstraite de zone, 
 qui contient une liste d'équations et d'inéquations. 
-Ces équations et inéquations servent à contraindre la zone.
-Par exemple, on peut donner l'équation cartésienne d'un cercle, 
+Ces équations et inéquations servent à contraindre la zone en donnant son domaine de validité.
+Par exemple, on peut donner l'équation cartésienne d'un disque, 
 ou d'une parabole.
  
 De là, il est possible d'offrir un comportement générique 
@@ -371,27 +371,17 @@ Par exemple, dans le cas de l'équation d'un disque :
 (u - x_0)^2 + (v - y_0)^2 \leq r^2
 \end{equation}
  
-On permet à l'utilisateur d'attribuer à chaque inconnue, $u, v, x_0, y_0, r$, soit une dimension, soit un 
+On permet d'attribuer à chaque inconnue, $u, v, x_0, y_0, r$, soit une dimension, soit un 
 paramètre.
-Les zones prédéfinies par héritage offrent une décomposition simple par défaut.
+Les zones prédéfinies par héritage, actuellement disque et pointeur, offrent une décomposition cohérente par défaut.
 Ainsi, pour le disque, on utilise comme dimensions : 
 \begin{equation}\label{eq.casedisc}
 \begin{cases}
-    x \rightarrow u\\
-    y \rightarrow v
-\end{cases}
-\end{equation}.
-
-L'utilisateur peut par la suite utiliser pour les paramètres une application de la forme : ~\\
-\begin{equation}
-\begin{cases}
-10.0 \rightarrow x_0\\
-10.0 \rightarrow y_0\\
-\verb|/adresse/OSC| \rightarrow r_0
+    u = x\\
+    v = y
 \end{cases}
 \end{equation}
 
-Actuellement, les primitives prédéfinies sont disque et pointeur. 
 Le pointeur correspond à : 
 \begin{equation}
 \begin{cases}
@@ -400,8 +390,18 @@ v = y_0
 \end{cases}
 \end{equation}
 
-Sont prévues par la suite des implémentations spécifiques au moins pour les droites, segments, plans et demi-plans, polygones, cercles, sphères, et tores.
+Il faut ensuite définir les paramètres restants, en utilisant soit des 
+valeurs numériques fixées, soit un n\oe ud de l'arbre, soit l'écoulement du temps $t$ entre 0 et 1 de la contrainte temporelle parente au processus Espace.
+Par exemple, dans le cas du disque : 
+\begin{equation}
+\begin{cases}
+10.0 \rightarrow x_0\\
+\verb|t| \rightarrow y_0\\
+\verb|/adresse/OSC| \rightarrow r_0
+\end{cases}
+\end{equation}
 
+Sont prévues par la suite des implémentations spécifiques au moins pour les droites, segments, plans et demi-plans, polygones, cercles, sphères, et tores.
 
 Un paramètre peut être une constante, ou bien être un n\oe ud de l'arbre des paramètres i-score et donc 
 provenir d'une source externe : OSC, MIDI, etc.
@@ -424,7 +424,7 @@ On a donc $y = k$ avec $k$ une constante à un instant donné.
 Le résultat sera une zone ayant pour forme une droite horizontale qui variera verticalement selon la fonction sinus.
 De la même manière, une zone qui ne contraindrait aucune des dimensions correspond à l'intégralité de l'espace.
 
-En revanche, l'objet défini par : 
+En revanche, l'objet défini par la seule équation : 
 \begin{equation}
 v = sin(u)
 \end{equation}
@@ -461,7 +461,7 @@ Néanmoins, à terme, un modèle de calcul permettant du chaînage dans un seul tic 
 
 \begin{figure}
     \centering
-    \includegraphics[scale=0.3]{images/iscore-3D.png}
+    \includegraphics[width=0.45\textwidth]{images/iscore-3D-2.png}
     \caption{Deux automations 3D et une automation traditionnelle dans i-score. À chaque tic d'horloge, la position entre 0 et 1 du temps d'exécution de la contrainte parente sera appliqué à la position correspondante dans l'automation.}
     \label{fig.spline}
 \end{figure}
