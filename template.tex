@@ -551,6 +551,20 @@ Cependant, cela ne s'est pas révélé être adapté : en effet la bibliothèque n'est
 L'implémentation actuelle est donc basée sur le parseur de fonctions mathématiques de la bibliothèque \textit{vtk}~\cite{schroeder2004visualization}.
 D'autres alternatives ont été envisagées : SymbolicC++~\cite{tan2012symbolicc++}, GNU Octave~\cite{eaton1997gnu}, Sage\footnote{\url{http://www.sagemath.org/}}.
 
+\subsection{Écriture et spécification}
+L'approche d'i-score est fondamentalement graphique et visuelle.
+Le logiciel fournit donc des possibilités de manipulation à la souris standard : 
+\begin{itemize}
+    \item Dans le cas du processus Espace, la création se fait en deux phases : 
+    \begin{itemize}
+        \item Spécification des zones et association des paramètres de zones à des paramètres de l'arbre. Cela est fait depuis une fenêtre séparée qui permet de donner des formules sous forme textuelle.
+        \item Translation, mise à l'échelle et rotation via des outils comme on peut en trouver dans les logiciels d'édition et de modélisation standards. 
+        Cela est fait directement dans l'interface de i-score.
+    \end{itemize}
+    \item Dans le cas des automations en 3D, on manipule des poignées pour modifier la spline dans l'interface de i-score. Dans la figure~\ref{fig.spline}, ce sont les petites sphères blanches.
+    Là encore, déplacement et rotations sont possibles.
+\end{itemize}
+
 \subsection{Sémantique d'exécution du processus Espace}
 La sémantique générale d'exécution d'i-score est donnée dans~\cite{celerier_ossia:_2015}.
 Nous rappelons simplement qu'i-score permet d'ordonnancer temporellement des processus qui peuvent être définis dans des plug-ins.
