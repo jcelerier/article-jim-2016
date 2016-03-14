@@ -82,6 +82,7 @@ Notamment, la question de la notation dans le cadre de partitions impliquant des
 Ces partitions, graphiques, peuvent être spatiales uniquement dans leur représentation, mais peuvent aussi indiquer des manières d'interpréter dans l'espace, notamment à l'aide de symboles spécialisés~\cite{ellberger_spatialization_2014}. Une taxinomie des possibilités de création dans l'espace en musiques électro-acoustiques est présentée par Bertrand Merlier, notamment dans l'ouvrage \textit{Vocabulaire de l'espace en musique électro-acoustique~\cite{merlier_vocabulaire_2006_book}}.
 
 Des outils logiciels existent pour ces partitions -- ils sont souvent spécialisés. Par exemple, la bibliothèque ENP~\cite{kuuskankare_expressive_2006} permet de concevoir des partitions graphiques à l'aide d'un éditeur lui aussi graphique et d'un langage basé sur LISP.
+De même, le logiciel OpenMusic~\cite{bresson_spatial_2012} permet de générer, de représenter, et de modifier des trajectoires dans un même patch, et offre une intégration poussée avec les mécanismes standards de spatialisation audio comme SpatDIF. Il est de plus posible de mapper ces trajectoires à des moteurs de synthèse pour générer des textures riches.
 
 
 Une des problématiques actuelles pour la représentation de l'écriture musicale est celle du geste, et de son lien avec la partition : comment annoter le geste du musicien avec précision ? Et, inversement, comment à partir d'un geste créer un son correspondant ? Ces questions sont abordées dans la description de Soundstudio 4D~\cite{sheridan_soundstudio_2004}, dans le cadre d'un système de conception de trajectoires pour spatialisation à l'aide d'interactions en trois dimensions.
@@ -209,21 +210,21 @@ Un scénario d'exemple, tel qu'implémenté dans i-score, consiste en :
     dans son implémentation \verb|OpenAL-soft|.
     En effet, elle est supportée sur de nombreux appareils mobiles courants. 
     Elle aussi est implémentée en Minuit.
-    \item Un projet i-score qui consiste en : 
+    \item Un projet i-score, visible en fig.~\ref{fig.sonopluie}. 
+    Il consiste en : 
     \begin{itemize}
-        \item Une boucle principale contenant l'application complète.
-        \item Dans cette boucle, un processus Espace où sont instanciées les zones sous 
-        forme de disque. Pour cet exemple il y a trois zones. Ce processus est détaillé dans la partie suivante.
+        \item Une boucle principale, intitulée \texttt{Sonopluie}, contenant l'application complète.
+        \item Dans le motif (\texttt{Loop Pattern}) de cette boucle, un processus Espace où sont instanciées les zones sous 
+        forme de disque. Pour cet exemple il y a trois zones : les disques blancs. Ce processus est détaillé dans la partie suivante.
         \item Un nombre de pointeurs statiques est alloué à l'avance. 
         Leur position correspond à celle des sources de géolocalisation.
         \item On va réaliser deux tests : distance au centre d'une zone, collision.
         La collision va servir à activer le son, et la distance à contrôler un dosage d'effet, par exemple une réverbération.
-        \item Cette boucle contient aussi un scénario muni de plusieurs contraintes temporelles.
+        \item Cette boucle contient aussi un scénario muni de plusieurs contraintes temporelles (en pointillés bleus sur la figure).
         Ces contraintes ont pour mission d'animer une des zones en la déplaçant au cours du temps, et d'activer la troisième zone uniquement quand les deux premières ont été visitées.
     \end{itemize}
 \end{itemize}
 
-Ce scénario est visible en figure \ref{fig.sonopluie}.
 \subsection{Exemple : robots}
 Ce projet consiste en la réalisation d'une chorégraphie de robots musicaux, puis de drones.
 On dispose d'une flotte de robots open-source Metabot\footnote{\url{http://metabot.fr/}}.
@@ -296,7 +297,8 @@ En revanche, on perd des possibilités d'analyse par la suite : on n'a en effet p
 Il est cependant toujours possible de prendre un échantillon des points de la zone pour appliquer une méthode de maillage telles que la triangulation de Delaunay~\cite{nonato2001novel} qui produit un objet sur lequel on peut réaliser plusieurs opérations plus simplement.
 Les bibliothèques CGAL~\cite{boissonnat2000triangulations} et VTK~\cite{schroeder2004visualization} proposent toutes deux des implémentations performantes de cette triangulation.
 Enfin, les performances ne sont pas adaptées à des évolutions de la géométrie en temps réel : 
-l'approche fonctionne correctement en dimension 1 et pour des fonctions avec un nombre relativement important de points à calculer, mais est lourde en ressources en dimension 2 et quasiment impensable sur un CPU en temps réel en dimension 3.
+l'approche fonctionne correctement en dimension 1 et pour des fonctions avec un nombre relativement important de points à calculer, mais est lourde en ressources en dimension 2 et quasiment impensable sur un CPU en temps réel en dimension 3. 
+Des approches utilisant des cartes graphiques pour réaliser certains calculs géométriques existent néanmoins~\cite{hoff2001fast} et pourraient offrir de bien meilleurs performances dans certains cas.
 
 Finalement, l'utilisation de modèles mathématiques dédiés est possible.
 En général, il s'agit des modèles paramétriques, ou géométriques.
@@ -470,7 +472,7 @@ Néanmoins, à terme, un modèle de calcul permettant du chaînage dans un seul tic 
 \begin{figure}
     \centering
     \includegraphics[width=0.45\textwidth]{images/iscore-3D-2.png}
-    \caption{Deux automations 3D et une automation traditionnelle dans i-score. À chaque tic d'horloge, la position entre 0 et 1 du temps d'exécution de la contrainte parente sera appliqué à la position correspondante dans l'automation.}
+    \caption{Deux automations 3D et une automation traditionnelle dans i-score. À chaque tic d'horloge, la position entre 0 et 1 du temps d'exécution de la contrainte parente sera appliqué à la position correspondante dans l'automation. La position d'exécution est affichée en vert en haut.}
     \label{fig.spline}
 \end{figure}
 En plus du processus Espace, des possibilités d'écriture 
@@ -670,8 +672,9 @@ On applique les transformations aux variables d'espace de l'objet.
      y' = x \sin \theta + y \cos \theta
 	 \end{cases}
     \]
-    Une formule générale de la rotation en $n$ dimensions est donnée dans~\cite{aguilera2004general} et pourra être 
-    appliquée par la suite.
+    \item Plus généralement, on peut encoder ces transformations affines dans une matrice de transformation que l'on peut appliquer aux zones par la suite.
+    Une formule générale de la rotation en $n$ dimensions est donnée dans~\cite{aguilera2004general} et pourra être appliquée par la suite.
+    En effet, le calcul des termes de cette matrice est non-trivial contrairement aux cas de la translation et de la mise à l'échelle.
 \end{itemize}
 
 On peut ensuite contrôler ces transformations à la souris, à l'aide d'outils, comme le 
@@ -722,8 +725,8 @@ notamment en permettant une intégration avec des logiciels dédiés
 Les auteurs tiennent à remercier les élèves ayant
 réalisé le logiciel de simulation pour Metabots : 
 Maxime Paillassa et Akané Levy.
-Ces travaux sont issus du projet de recherche OSSIA, 
-financé par l'Agence Nationale de la Recherche sous la référence ANR-12-COORD-0024.
+Ces travaux sont issus du projet de recherche OSSIA (ANR-12-COORD-0024), 
+financé par l'Agence Nationale de la Recherche, et du contrat CIFRE 1181-2014 financé par l'Association Nationale de la Recherche et de la Technologie et la société Blue Yeti.
 \bibliographystyle{plain}
 \bibliography{document} % or
 \end{document}
