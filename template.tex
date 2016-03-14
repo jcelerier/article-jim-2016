@@ -184,7 +184,7 @@ L'utilisation de Minuit nous permet d'accéder automatiquement aux paramètres des
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.45\textwidth]{images/sonopluie.png}
-	\caption{Un scénario i-score de type Sonopluie : l'écran contient une boucle dont le motif consiste en deux processus simultanés, un processus Scénario qui gère la logique, et un processus Espace qui gère les objets spatiaux (ici trois disques).}
+	\caption{Un scénario i-score de type Sonopluie : l'écran contient une boucle dont le motif consiste en deux processus simultanés, un processus Scénario qui gère la logique et contient une automation \texttt{DeplaceZone2.x} qui va déplacer une des zones au fil du temps, et un processus Espace qui gère les objets spatiaux (ici trois disques).}
 	\label{fig.sonopluie}
 \end{figure}
 Cette application interactive utilise de la géolocalisation par téléphone.
@@ -251,7 +251,7 @@ L'auteur peut donc utiliser cette information pour prévoir des cas d'urgence, co
 Un des problèmes principaux est le contrôle en vitesse des robots : il faut
 à partir d'une trajectoire décrivant une position, calculer la dérivée
 dans les deux ou trois directions pour l'envoyer aux robots.
-Dans l'attente d'un modèle de calcul plus complet et générique, cela peut être fait dans le processus qui gère des trajectoires.
+Dans l'attente d'un modèle de calcul plus complet et générique, le processus permettant d'écrire des trajectoires via des splines, qui sera décrit en \ref{section.parametric}, permet de choisir si les données envoyées par le réseau correspondront au triplet de positions $x, y, z$ ou bien de vitesse $dx, dy, dz$ qui sera obtenu par dérivation.
 \section{Modèle}
 \subsection{Conception}
 Les objectifs pour l'intégration des notions spatiales dans i-score sont : 
@@ -280,7 +280,9 @@ L'avantage est la possibilité d'avoir des exécutions très rapides dans certains 
 Par exemple, calculer la distance entre deux cercles est trivial.
 En revanche,  cette méthode manque doublement de flexibilité : 
 \begin{itemize}
-    \item Il est difficile de rajouter de nouveaux types de calculs, car il faut modifier tous les types pour rajouter le calcul (par exemple un calcul d'aire pour une zone).
+    \item Il est difficile de rajouter de nouveaux types de calculs, car il faut modifier tous les types pour rajouter le calcul.
+    Par exemple, si on veut implémenter un calcul d'aire, il faut que chaque sous-type possède une méthode \verb|calculAire()|.
+    Pour un calcul de périmètre, chaque type devrait à nouveau implémenter une méthode, etc.
     \item Si un calcul implique deux (ou plus) zones abstraites, on assiste à une explosion combinatoire lorsque l'on désire rajouter une nouvelle zone car le calcul doit alors être défini entre la nouvelle zone et toutes les zones pré-existantes.
 \end{itemize}
 
@@ -310,7 +312,8 @@ En effet, dans des logiciels comme IanniX, on dispose de courbes paramétrisées p
 Cette approche permet d'avoir dans une seule vue toute l'information possible : on dessine la courbe pour un intervalle inclus dans l'ensemble de paramétrisation.
 Cependant, l'objectif des processus spatiaux est de posséder plus d'une dimension de paramétrisation.
 La question de l'affichage d'une variation au cours du temps se pose alors.
-On peut penser à afficher un dégradé qui serait complètement opaque pour une valeur de paramètre donné, et serait de plus en plus transparent lorsque l'on s'en éloigne; un exemple d'affichage d'animation d'objet 3D au cours du temps est par exemple donné dans~\cite{casas_4d_2013}.
+On peut penser à afficher un dégradé qui serait complètement opaque pour une valeur de paramètre donné, et serait de plus en plus transparent lorsque la valeur du paramètre s'éloigne de celle qui est choisie pour référence lors du renduu.
+Un exemple d'affichage d'animation d'objet 3D dans différents états au cours du temps est par exemple donné dans~\cite{casas_4d_2013}.
 Il est aussi possible d'afficher uniquement la trajectoire du centre  (ou d'un point donné) de l'objet au cours du temps, mais cela nécessite de pouvoir la calculer.
 Ce n'est pas possible dans le cas d'une zone définie avec des contraintes très faibles.
 Par exemple, pour un modèle géométrique, défini par $x < 0$, un demi-plan, on ne peut le définir.
@@ -342,6 +345,11 @@ Il n'y a pas de focalisation directe sur le son : les processus opèrent toujours
 sur des données numériques quelconques.
 
 \subsubsection{Processus Espace}
+L'objectif est de fournir un processus qui permettra de décrire des scènes spatiales, composées d'éléments qui pourront interagir entre eux et avec des sources de données extérieures.
+Ces éléments peuvent être issus de paramètres quelconques : on peut par exemple définir un cercle dont le diamètre correspondra à chaque instant la distance de deux danseurs sur scène, s'il y a un capteur qui fournit cette information par réseau. 
+On peut ensuite utiliser la distance de ce cercle à une droite pour déclencher des évènements interactifs dans i-score lorsqu'un certain seuil est passé.
+Il sera donc possible d'avoir différentes scènes qui se suivent dans une même partition, et qui représentent des agencements d'objets et mappings distincts.
+
 L'approche est la suivante : on définit une classe abstraite de zone, 
 qui contient une liste d'équations et d'inéquations. 
 Ces équations et inéquations servent à contraindre la zone en donnant son domaine de validité.
@@ -555,14 +563,12 @@ D'autres alternatives ont été envisagées : SymbolicC++~\cite{tan2012symbolicc++}
 L'approche d'i-score est fondamentalement graphique et visuelle.
 Le logiciel fournit donc des possibilités de manipulation à la souris standard : 
 \begin{itemize}
-    \item Dans le cas du processus Espace, la création se fait en deux phases : 
-    \begin{itemize}
-        \item Spécification des zones et association des paramètres de zones à des paramètres de l'arbre. Cela est fait depuis une fenêtre séparée qui permet de donner des formules sous forme textuelle.
-        \item Translation, mise à l'échelle et rotation via des outils comme on peut en trouver dans les logiciels d'édition et de modélisation standards. 
-        Cela est fait directement dans l'interface de i-score.
-    \end{itemize}
+    \item Dans le cas du processus Espace, la création se fait en spécifiant des zones et en associant des paramètres de zones à des paramètres de l'arbre. 
+    Cela est fait depuis une fenêtre séparée de l'interface principale qui permet de donner des formules sous forme textuelle ainsi que d'afficher les zones existantes.
+    Par la suite, un travail d'ergonomie sera effectué pour offrir des raccourcis simples pour les tâches qui s'avèreront être les plus courantes. 
+    Par exemple, du drag'n'drop serait envisageable.
     \item Dans le cas des automations en 3D, on manipule des poignées pour modifier la spline dans l'interface de i-score. Dans la figure~\ref{fig.spline}, ce sont les petites sphères blanches.
-    Là encore, déplacement et rotations sont possibles.
+    Il est possible de déplacer la spline à la souris, ainsi que de changer le point de vue (zoom, rotation, position de la caméra).
 \end{itemize}
 
 \subsection{Sémantique d'exécution du processus Espace}
